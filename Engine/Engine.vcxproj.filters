@@ -4,17 +4,10 @@
     <Filter Include="通用">
       <UniqueIdentifier>c1d49136-8211-4be9-a4af-8c09472e48e6</UniqueIdentifier>
     </Filter>
-    <Filter Include="资产">
-      <UniqueIdentifier>0317185f-c039-4b9a-b6c3-127e3920944c</UniqueIdentifier>
-      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
-    </Filter>
-	<Filter Include="内容">
-      <UniqueIdentifier>e36da7c9-d6dc-4b31-a4de-d880a93a0993</UniqueIdentifier>
-    </Filter>
     <ClInclude Include="Common\DirectXHelper.h">
       <Filter>通用</Filter>
     </ClInclude>
-	<ClInclude Include="Common\StepTimer.h">
+    <ClInclude Include="Common\StepTimer.h">
       <Filter>通用</Filter>
     </ClInclude>
     <ClInclude Include="Common\DeviceResources.h">
@@ -23,7 +16,7 @@
     <ClCompile Include="Common\DeviceResources.cpp">
       <Filter>通用</Filter>
     </ClCompile>
-	<ClInclude Include="Content\Sample3DSceneRenderer.h">
+    <ClInclude Include="Content\Sample3DSceneRenderer.h">
       <Filter>内容</Filter>
     </ClInclude>
     <ClInclude Include="Content\SampleFpsTextRenderer.h">
@@ -32,13 +25,13 @@
     <ClInclude Include="Content\ShaderStructures.h">
       <Filter>内容</Filter>
     </ClInclude>
-	<ClCompile Include="Content\Sample3DSceneRenderer.cpp">
+    <ClCompile Include="Content\Sample3DSceneRenderer.cpp">
       <Filter>内容</Filter>
     </ClCompile>
     <ClCompile Include="Content\SampleFpsTextRenderer.cpp">
       <Filter>内容</Filter>
     </ClCompile>
-	<FxCompile Include="Content\SamplePixelShader.hlsl">
+    <FxCompile Include="Content\SamplePixelShader.hlsl">
       <Filter>内容</Filter>
     </FxCompile>
     <FxCompile Include="Content\SampleVertexShader.hlsl">
@@ -62,5 +55,48 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>资产</Filter>
     </Image>
+    <Filter Include="资产">
+      <UniqueIdentifier>0317185f-c039-4b9a-b6c3-127e3920944c</UniqueIdentifier>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
+    </Filter>
+    <Filter Include="内容">
+      <UniqueIdentifier>e36da7c9-d6dc-4b31-a4de-d880a93a0993</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{376f025e-06b0-4be7-a4ae-0e0f30c53326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pass">
+      <UniqueIdentifier>{350cf596-1adb-4710-b676-6001dbd03cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{623a36db-2384-4961-98ac-7c1c2e2a22c3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="EngineMain.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Resource\ShaderLoad.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="App.h" />
+    <ClInclude Include="EngineMain.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Resource\ShaderLoad.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>资产</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine_TemporaryKey.pfx" />
   </ItemGroup>
 </Project>

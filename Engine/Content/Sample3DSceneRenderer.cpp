@@ -183,8 +183,8 @@ void Sample3DSceneRenderer::Render()
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
 {
 	// 通过异步方式加载着色器。
-	auto loadVSTask = DX::ReadDataAsync(L"SampleVertexShader.cso");
-	auto loadPSTask = DX::ReadDataAsync(L"SamplePixelShader.cso");
+	auto loadVSTask = DX::ReadDataAsync(L"SampleVertexShader.cso");// 加L表示转化为宽字符，Unicode是宽字符的一种，所以要加L。
+	auto loadPSTask = DX::ReadDataAsync(L"SamplePixelShader.cso");// VS编译时会自动将HLSL文件编译成.cso文件，所以这里加载cso就足够了
 
 	// 加载顶点着色器文件之后，创建着色器和输入布局。
 	auto createVSTask = loadVSTask.then([this](const std::vector<byte>& fileData) {
