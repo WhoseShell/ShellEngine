@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "BaseLoader.h"
 
-
+using namespace DX;
 using namespace Microsoft::WRL;
 using namespace Windows::Storage;
 using namespace Windows::Storage::FileProperties;
@@ -10,12 +10,12 @@ using namespace Windows::Storage::Streams;
 using namespace Windows::Foundation;
 using namespace Windows::ApplicationModel;
 
-DX::BaseLoader::BaseLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice)
+BaseLoader::BaseLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice)
 {
 	m_d3dDevice = d3dDevice;
 }
 
-Platform::Array<byte>^ DX::BaseLoader::ReadData(Platform::String ^ filename)
+Platform::Array<byte>^ BaseLoader::ReadData(Platform::String ^ filename)
 {
 	CREATEFILE2_EXTENDED_PARAMETERS extendedParams = { 0 };
 	extendedParams.dwSize = sizeof(CREATEFILE2_EXTENDED_PARAMETERS);

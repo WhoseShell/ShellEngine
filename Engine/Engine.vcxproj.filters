@@ -82,6 +82,12 @@
     <ClCompile Include="Resource\BaseLoader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\TextureLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\DDSTextureLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -91,6 +97,12 @@
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\BaseLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\TextureLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\DDSTextureLoader.h">
       <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>
