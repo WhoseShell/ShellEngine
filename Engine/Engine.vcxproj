@@ -260,6 +260,8 @@
     <ClInclude Include="Content\Sample3DSceneRenderer.h" />
     <ClInclude Include="Content\SampleFpsTextRenderer.h" />
     <ClInclude Include="Content\ShaderStructures.h" />
+    <ClInclude Include="Game\Scene\Sample3DScene.h" />
+    <ClInclude Include="Pass\Sample3DPass.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource\BaseLoader.h" />
     <ClInclude Include="Resource\BasicMath.h" />
@@ -276,6 +278,8 @@
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="Content\SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Content\Sample3DSceneRenderer.cpp" />
+    <ClCompile Include="Game\Scene\Sample3DScene.cpp" />
+    <ClCompile Include="Pass\Sample3DPass.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

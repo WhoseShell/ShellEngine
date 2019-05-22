@@ -15,9 +15,9 @@ namespace DX
 		MainLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice);
 		int CreateConstantBuffer(unsigned int bufferSize);
 		
-		ShaderLoader			* m_shaderLoader;
-		TextureLoader			* m_textureLoader;
-		MeshLoader				* m_meshLoader;
+		std::unique_ptr<ShaderLoader>			 m_shaderLoader;
+		std::unique_ptr<TextureLoader>			 m_textureLoader;
+		std::unique_ptr<MeshLoader>			     m_meshLoader;
 
 		Microsoft::WRL::ComPtr<ID3D11Buffer>                m_constantBuffer[MaxCbufferNum];
 

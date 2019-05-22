@@ -6,9 +6,9 @@ using namespace DX;
 
 MainLoader::MainLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice):m_d3dDevice(d3dDevice), constantBufferCount(0)
 {
-	m_shaderLoader = new ShaderLoader(d3dDevice);
-	m_textureLoader = new TextureLoader(d3dDevice);
-	m_meshLoader = new MeshLoader(d3dDevice);
+	m_shaderLoader = std::unique_ptr<ShaderLoader>( new ShaderLoader(d3dDevice));
+	m_textureLoader = std::unique_ptr<TextureLoader>(new TextureLoader(d3dDevice));
+	m_meshLoader = std::unique_ptr<MeshLoader>(new MeshLoader(d3dDevice));
 }
 
 int MainLoader::CreateConstantBuffer(unsigned int bufferSize)
