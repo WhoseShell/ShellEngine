@@ -1,15 +1,15 @@
 #pragma once
 #include <ppltasks.h>
+#include "BaseLoader.h"
 #include "..\Common\DeviceResources.h"
 
 namespace DX
 {
 #define MaxShaderNum 20
 
-	class ShaderLoad
+	class ShaderLoader : public BaseLoader
 	{
 	public:
-		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		Microsoft::WRL::ComPtr<ID3D11VertexShader>	allVertexShader[MaxShaderNum];
 		Microsoft::WRL::ComPtr<ID3D11PixelShader>	allPixelShader[MaxShaderNum];
 		Microsoft::WRL::ComPtr<ID3D11InputLayout>	allInputLayout[MaxShaderNum];
@@ -19,12 +19,13 @@ namespace DX
 		int pixelShaderLoadCount;
 
 	public:
-		ShaderLoad(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+		ShaderLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice);
 
-		void LoadVertexShader(const std::wstring& filename);
+		int LoadVertexShader(_In_ Platform::String^ filename);
 
-		void LoadPiexelShader(const std::wstring& filename);
-
+		int LoadPiexelShader(_In_ Platform::String^ filename);
+		
+		bool LoadPSandVS(_In_ Platform::String^ VSfilename, _In_ Platform::String^ PSfilename, std::vector<int>& count);
 	};
 	
 }

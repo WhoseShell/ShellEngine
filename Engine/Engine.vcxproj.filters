@@ -76,7 +76,10 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Resource\ShaderLoad.cpp">
+    <ClCompile Include="Resource\ShaderLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\BaseLoader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,7 +87,10 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Resource\ShaderLoad.h">
+    <ClInclude Include="Resource\ShaderLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BaseLoader.h">
       <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>
