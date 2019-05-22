@@ -88,6 +88,12 @@
     <ClCompile Include="Resource\DDSTextureLoader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\MeshLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\BasicShapes.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -103,6 +109,15 @@
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\DDSTextureLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\MeshLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BasicMath.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BasicShapes.h">
       <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>

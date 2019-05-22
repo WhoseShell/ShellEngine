@@ -262,7 +262,10 @@
     <ClInclude Include="Content\ShaderStructures.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource\BaseLoader.h" />
+    <ClInclude Include="Resource\BasicMath.h" />
+    <ClInclude Include="Resource\BasicShapes.h" />
     <ClInclude Include="Resource\DDSTextureLoader.h" />
+    <ClInclude Include="Resource\MeshLoader.h" />
     <ClInclude Include="Resource\ShaderLoader.h" />
     <ClInclude Include="Resource\TextureLoader.h" />
   </ItemGroup>
@@ -283,7 +286,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Resource\BaseLoader.cpp" />
+    <ClCompile Include="Resource\BasicShapes.cpp" />
     <ClCompile Include="Resource\DDSTextureLoader.cpp" />
+    <ClCompile Include="Resource\MeshLoader.cpp" />
     <ClCompile Include="Resource\ShaderLoader.cpp" />
     <ClCompile Include="Resource\TextureLoader.cpp" />
   </ItemGroup>
