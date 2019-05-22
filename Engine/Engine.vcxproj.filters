@@ -94,6 +94,9 @@
     <ClCompile Include="Resource\BasicShapes.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\MainLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -118,6 +121,9 @@
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\BasicShapes.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\MainLoader.h">
       <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,6 +6,8 @@
 using namespace Microsoft::WRL;
 using namespace DX;
 
+MeshLoader::MeshLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice):BaseLoader(d3dDevice){}
+
 void MeshLoader::LoadMesh(
 	Platform::String ^ filename, 
 	ID3D11Buffer ** vertexBuffer, 

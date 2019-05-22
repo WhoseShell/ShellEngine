@@ -6,6 +6,8 @@ namespace DX
 {
 	class MeshLoader : public BaseLoader
 	{
+	public:
+		MeshLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice);
 	protected:
 		void LoadMesh(
 			_In_ Platform::String^ filename,
