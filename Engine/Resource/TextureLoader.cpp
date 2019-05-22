@@ -8,7 +8,13 @@ using namespace Microsoft::WRL;
 
 TextureLoader::TextureLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice) : BaseLoader(d3dDevice){}
 
-void TextureLoader::CreateTexture(bool decodeAsDDS, byte * data, uint32 dataSize, ID3D11Texture2D ** texture, ID3D11ShaderResourceView ** textureView, Platform::String ^ debugName)
+void TextureLoader::CreateTexture(
+	bool decodeAsDDS, 
+	byte * data, 
+	uint32 dataSize, 
+	ID3D11Texture2D ** texture, 
+	ID3D11ShaderResourceView ** textureView, 
+	Platform::String ^ debugName)
 {
 	ComPtr<ID3D11ShaderResourceView> shaderResourceView;
 	ComPtr<ID3D11Texture2D> texture2D;
@@ -169,7 +175,10 @@ void TextureLoader::CreateTexture(bool decodeAsDDS, byte * data, uint32 dataSize
 	}
 }
 
-void TextureLoader::LoadTexture(Platform::String ^ filename, ID3D11Texture2D ** texture, ID3D11ShaderResourceView ** textureView)
+void TextureLoader::LoadTexture(
+	Platform::String ^ filename, 
+	ID3D11Texture2D ** texture, 
+	ID3D11ShaderResourceView ** textureView)
 {
 	Platform::Array<byte>^ textureData = ReadData(filename);
 

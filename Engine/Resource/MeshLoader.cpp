@@ -6,7 +6,12 @@
 using namespace Microsoft::WRL;
 using namespace DX;
 
-void MeshLoader::LoadMesh(Platform::String ^ filename, ID3D11Buffer ** vertexBuffer, ID3D11Buffer ** indexBuffer, uint32 * vertexCount, uint32 * indexCount)
+void MeshLoader::LoadMesh(
+	Platform::String ^ filename, 
+	ID3D11Buffer ** vertexBuffer, 
+	ID3D11Buffer ** indexBuffer, 
+	uint32 * vertexCount, 
+	uint32 * indexCount)
 
 {
 	Platform::Array<byte>^ meshData = ReadData(filename);
@@ -20,7 +25,13 @@ void MeshLoader::LoadMesh(Platform::String ^ filename, ID3D11Buffer ** vertexBuf
 		filename
 	);
 }
-void MeshLoader::CreateMesh(byte * meshData, ID3D11Buffer ** vertexBuffer, ID3D11Buffer ** indexBuffer, uint32 * vertexCount, uint32 * indexCount, Platform::String ^ debugName)
+void MeshLoader::CreateMesh(
+	byte * meshData, 
+	ID3D11Buffer ** vertexBuffer, 
+	ID3D11Buffer ** indexBuffer, 
+	uint32 * vertexCount, 
+	uint32 * indexCount, 
+	Platform::String ^ debugName)
 {
 	// The first 4 bytes of the BasicMesh format define the number of vertices in the mesh.
 	uint32 numVertices = *reinterpret_cast<uint32*>(meshData);
