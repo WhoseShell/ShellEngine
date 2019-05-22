@@ -1,7 +1,7 @@
 #pragma once
 #include <ppltasks.h>
 #include "BaseLoader.h"
-#include "..\Common\DeviceResources.h"
+
 
 namespace DX
 {
