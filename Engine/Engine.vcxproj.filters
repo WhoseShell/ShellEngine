@@ -74,6 +74,9 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{fbfcfc30-eec1-46b1-a922-2d80c24ec81d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Controller">
+      <UniqueIdentifier>{37017bc9-f0e8-4b53-bf60-671037a4aaa4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -105,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\Sample3DScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Pass\BasePass.cpp">
+      <Filter>Pass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\Sample3DScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Pass\BasePass.h">
+      <Filter>Pass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

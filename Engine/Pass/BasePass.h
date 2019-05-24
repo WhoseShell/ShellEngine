@@ -1,15 +1,21 @@
 #pragma once
 #include "..\Common\DeviceResources.h"
 #include "..\Resource\MainLoader.h"
-#include "BasePass.h"
+
 namespace Engine
 {
-	class Sample3DPass : public BasePass
+	class BasePass
 	{
 	public:
-		Sample3DPass(
+		BasePass(
 			const std::shared_ptr<DX::DeviceResources>& deviceResources, 
 			const std::shared_ptr<DX::MainLoader>& mainLoader
 		);
+
+	protected:
+		std::shared_ptr<DX::DeviceResources> m_deviceResources;
+		std::shared_ptr<DX::MainLoader> m_mainLoader;
+		
 	};
+	
 }
