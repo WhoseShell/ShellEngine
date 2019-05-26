@@ -4,21 +4,22 @@
 
 using namespace DX;
 
-ShaderLoader::ShaderLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice) : BaseLoader(d3dDevice), vertexShaderLoadCount(0), pixelShaderLoadCount(0){	};
-//https://docs.microsoft.com/zh-cn/windows/uwp/gaming/creating-shaders-and-drawing-primitives
-int ShaderLoader::LoadVertexShader(_In_ Platform::String^ filename, _In_reads_opt_(layoutDescNumElements) D3D11_INPUT_ELEMENT_DESC layoutDesc[], _In_ uint32 layoutDescNumElements, _Out_opt_ Microsoft::WRL::ComPtr<ID3D11InputLayout> layout)
+ShaderLoader::ShaderLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice) : BaseLoader(d3dDevice), vertexShaderLoadCount(0), pixelShaderLoadCount(0)
 {
-	if (vertexShaderLoadCount == MaxShaderNum) //shader达到加载上限则返回
-	{
-		return -1;
-	}
+
+};
+//https://docs.microsoft.com/zh-cn/windows/uwp/gaming/creating-shaders-and-drawing-primitives
+int ShaderLoader::LoadVertexShader(_In_ Platform::String^ filename, _In_reads_opt_(layoutDescNumElements) D3D11_INPUT_ELEMENT_DESC layoutDesc[], _In_ uint32 layoutDescNumElements)
+{
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> vs;
+	allVertexShader.push_back(vs);
 	Platform::Array<byte>^ bytecode = ReadData(filename);
 	DX::ThrowIfFailed(
 		m_d3dDevice->CreateVertexShader(
 			bytecode->Data,
 			bytecode->Length,
 			nullptr,
-			&allVertexShader[vertexShaderLoadCount]
+			&(allVertexShader[vertexShaderLoadCount])
 		)
 	);
 
@@ -35,10 +36,9 @@ int ShaderLoader::LoadVertexShader(_In_ Platform::String^ filename, _In_reads_op
 
 int ShaderLoader::LoadPiexelShader(_In_ Platform::String^ filename)
 {
-	if (pixelShaderLoadCount == MaxShaderNum) //shader达到加载上限则返回
-	{
-		return -1;
-	}
+	Microsoft::WRL::ComPtr<ID3D11PixelShader> ps;
+	allPixelShader.push_back(ps);
+
 	Platform::Array<byte>^ bytecode = ReadData(filename);
 	
 		DX::ThrowIfFailed(
@@ -58,16 +58,15 @@ bool DX::ShaderLoader::LoadPSandVS(
 	_In_ Platform::String^ PSfilename, 
 	_In_reads_opt_(layoutDescNumElements) D3D11_INPUT_ELEMENT_DESC layoutDesc[], 
 	_In_ uint32 layoutDescNumElements, 
-	_Out_opt_ Microsoft::WRL::ComPtr<ID3D11InputLayout> layout, 
 	std::vector<int>& count)
 {
 	if (vertexShaderLoadCount == MaxShaderNum || pixelShaderLoadCount == MaxShaderNum)
 	{
 		return false;
 	}
-	count[0] = ShaderLoader::LoadVertexShader(VSfilename,  layoutDesc, layoutDescNumElements, layout);
-	count[1] = ShaderLoader::LoadPiexelShader(PSfilename);
-
+	count.push_back(ShaderLoader::LoadVertexShader(VSfilename,  layoutDesc, layoutDescNumElements));
+	count.push_back(ShaderLoader::LoadPiexelShader(PSfilename));
+	count.push_back(count.at(1));
 	return true;
 }
 
@@ -77,6 +76,9 @@ void ShaderLoader::CreateInputLayout(
 	D3D11_INPUT_ELEMENT_DESC * layoutDesc, 
 	uint32 layoutDescNumElements)
 {
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> ia;
+	allInputLayout.push_back(ia);
+
 	if (layoutDesc == nullptr)
 	{
 		// If no input layout is specified, use the BasicVertex layout.

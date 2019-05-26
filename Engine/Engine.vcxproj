@@ -263,10 +263,11 @@
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\Sample3DScene.h" />
     <ClInclude Include="Pass\BasePass.h" />
-    <ClInclude Include="Pass\BaseRenderer.h" />
     <ClInclude Include="Pass\Sample3DPass.h" />
-    <ClInclude Include="Pass\SampleRenderer.h" />
+    <ClInclude Include="Pass\ShaderStruct.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Renderer\BaseRenderer.h" />
+    <ClInclude Include="Renderer\SampleRenderer.h" />
     <ClInclude Include="Resource\BaseLoader.h" />
     <ClInclude Include="Resource\BasicMath.h" />
     <ClInclude Include="Resource\BasicShapes.h" />
@@ -285,9 +286,7 @@
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\Sample3DScene.cpp" />
     <ClCompile Include="Pass\BasePass.cpp" />
-    <ClCompile Include="Pass\BaseRenderer.cpp" />
     <ClCompile Include="Pass\Sample3DPass.cpp" />
-    <ClCompile Include="Pass\SampleRenderer.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -298,6 +297,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Renderer\BaseRenderer.cpp" />
+    <ClCompile Include="Renderer\SampleRenderer.cpp" />
     <ClCompile Include="Resource\BaseLoader.cpp" />
     <ClCompile Include="Resource\BasicShapes.cpp" />
     <ClCompile Include="Resource\DDSTextureLoader.cpp" />

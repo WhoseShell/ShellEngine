@@ -15,7 +15,8 @@ EngineMain::EngineMain(const std::shared_ptr<DX::DeviceResources>& deviceResourc
 	m_deviceResources->RegisterDeviceNotify(this);
 
 	// TODO: 将此替换为应用程序内容的初始化。
-	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
+	//m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
+	m_customSceneRenderer = std::unique_ptr<Sample3DScene>(new Sample3DScene(m_deviceResources));
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 
@@ -37,7 +38,8 @@ EngineMain::~EngineMain()
 void EngineMain::CreateWindowSizeDependentResources() 
 {
 	// TODO: 将此替换为应用程序内容的与大小相关的初始化。
-	m_sceneRenderer->CreateWindowSizeDependentResources();
+	//m_sceneRenderer->CreateWindowSizeDependentResources();
+	m_customSceneRenderer->CreateWindowSizeDependentResources();
 }
 
 // 每帧更新一次应用程序状态。
@@ -47,7 +49,8 @@ void EngineMain::Update()
 	m_timer.Tick([&]()
 	{
 		// TODO: 将此替换为应用程序内容的更新函数。
-		m_sceneRenderer->Update(m_timer);
+		//m_sceneRenderer->Update(m_timer);
+		m_customSceneRenderer->Update(m_timer);
 		m_fpsTextRenderer->Update(m_timer);
 	});
 }
@@ -78,7 +81,8 @@ bool EngineMain::Render()
 
 	// 呈现场景对象。
 	// TODO: 将此替换为应用程序内容的渲染函数。
-	m_sceneRenderer->Render();
+	//m_sceneRenderer->Render();
+	m_customSceneRenderer->Render();
 	m_fpsTextRenderer->Render();
 
 	return true;
@@ -87,14 +91,16 @@ bool EngineMain::Render()
 // 通知呈现器，需要释放设备资源。
 void EngineMain::OnDeviceLost()
 {
-	m_sceneRenderer->ReleaseDeviceDependentResources();
+	//m_sceneRenderer->ReleaseDeviceDependentResources();
+	m_customSceneRenderer->Release();
 	m_fpsTextRenderer->ReleaseDeviceDependentResources();
 }
 
 // 通知呈现器，现在可重新创建设备资源。
 void EngineMain::OnDeviceRestored()
 {
-	m_sceneRenderer->CreateDeviceDependentResources();
+	//m_sceneRenderer->CreateDeviceDependentResources();
+	m_customSceneRenderer->Init();
 	m_fpsTextRenderer->CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
 }

@@ -17,10 +17,12 @@ namespace Engine
 		Microsoft::WRL::ComPtr<ID3D11InputLayout>	inputLayout;
 		Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer;
 		Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer;
+		Microsoft::WRL::ComPtr<ID3D11Buffer>		constantBuffer;
+		uint32	indexCount;
 
-		XMFLOAT4X4 model;
-		XMFLOAT4X4 view;        // view matrix
-		XMFLOAT4X4 projection;  // projection matrix
+		//XMFLOAT4X4 model;
+		//XMFLOAT4X4 view;        // view matrix
+		//XMFLOAT4X4 projection;  // projection matrix
 	};
 
 	struct LightData

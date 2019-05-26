@@ -206,7 +206,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 		DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateInputLayout(
 				vertexDesc,
-				ARRAYSIZE(vertexDesc),
+				sizeof(*RtlpNumberOf(vertexDesc)),
 				&fileData[0],
 				fileData.size(),
 				&m_inputLayout

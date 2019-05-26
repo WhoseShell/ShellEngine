@@ -18,7 +18,7 @@ Engine::BaseRenderer::BaseRenderer(const std::shared_ptr<DX::DeviceResources>& d
 
 void Engine::BaseRenderer::sort()
 {
-	if(m_RenderPassList.size() == 0)
+	if(m_RenderPassList.empty())
 	{
 		return;
 	}
@@ -28,7 +28,7 @@ void Engine::BaseRenderer::sort()
 
 void Engine::BaseRenderer::ExecuteSequentially()
 {	
-	if (m_RenderPassList.size() == 0)
+	if (m_RenderPassList.empty())
 	{
 		return;
 	}
@@ -40,7 +40,7 @@ void Engine::BaseRenderer::ExecuteSequentially()
 
 void Engine::BaseRenderer::FrameReleaseSequentially()
 {
-	if (m_RenderPassList.size() == 0)
+	if (m_RenderPassList.empty())
 	{
 		return;
 	}

@@ -77,6 +77,9 @@
     <Filter Include="Game\Controller">
       <UniqueIdentifier>{37017bc9-f0e8-4b53-bf60-671037a4aaa4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{f8357963-3d75-4ec3-bfb1-5f55280ed356}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -115,11 +118,11 @@
     <ClCompile Include="Game\Scene\BaseScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Pass\SampleRenderer.cpp">
-      <Filter>Pass</Filter>
+    <ClCompile Include="Renderer\BaseRenderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Pass\BaseRenderer.cpp">
-      <Filter>Pass</Filter>
+    <ClCompile Include="Renderer\SampleRenderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,10 +165,13 @@
     <ClInclude Include="Game\Scene\BaseScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Pass\SampleRenderer.h">
-      <Filter>Pass</Filter>
+    <ClInclude Include="Renderer\BaseRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Pass\BaseRenderer.h">
+    <ClInclude Include="Renderer\SampleRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Pass\ShaderStruct.h">
       <Filter>Pass</Filter>
     </ClInclude>
   </ItemGroup>
