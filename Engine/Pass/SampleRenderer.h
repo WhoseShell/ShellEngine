@@ -3,7 +3,7 @@
 
 namespace Engine
 {
-	class SampleRenderer:public BaseRenderer
+	class SampleRenderer
 	{
 	public:
 

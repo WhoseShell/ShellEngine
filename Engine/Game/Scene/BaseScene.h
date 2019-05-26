@@ -8,9 +8,7 @@ namespace Engine
 	{
 	public:
 		BaseScene(
-			const std::shared_ptr<DX::DeviceResources>& deviceResources,
-			const std::shared_ptr<DX::MainLoader>& mainLoader,
-			const std::shared_ptr<RenderData>& renderData
+			const std::shared_ptr<DX::DeviceResources>& deviceResources
 		);
 
 	protected:

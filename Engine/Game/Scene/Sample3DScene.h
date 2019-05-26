@@ -3,7 +3,7 @@
 
 namespace Game
 {
-	class Sample3DScene
+	class Sample3DScene 
 	{
 
 	};
