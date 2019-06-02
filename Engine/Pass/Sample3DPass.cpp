@@ -37,7 +37,7 @@ void Engine::Sample3DPass::Execute()
 
 	context->IASetIndexBuffer(
 		m_renderData->perObject.at(0)->indexBuffer.Get(),
-		DXGI_FORMAT_R16_UINT, // 每个索引都是一个 16 位无符号整数(short)。
+		DXGI_FORMAT_R16_UINT, // 每个索引都是一个 16 位无符号整数(short)。``
 		0
 	);
 

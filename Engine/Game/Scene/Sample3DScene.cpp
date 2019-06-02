@@ -49,7 +49,7 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 
 	XMStoreFloat4x4(
 		&m_constantBufferData.projection,
-		XMMatrixTranspose(perspectiveMatrix * orientationMatrix)
+		perspectiveMatrix * orientationMatrix
 	);
 
 	// 眼睛位于(0,0.7,1.5)，并沿着 Y 轴使用向上矢量查找点(0,-0.1,0)。
@@ -57,7 +57,7 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 	static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
 	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
-	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
+	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixLookAtRH(eye, at, up));
 }
 
 void Engine::Sample3DScene::Init()
@@ -201,5 +201,5 @@ void Engine::Sample3DScene::Release()
 void Engine::Sample3DScene::Rotate(float radians)
 {
 	// 准备将更新的模型矩阵传递到着色器
-	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(radians)));
+	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixRotationY(radians));
 }
