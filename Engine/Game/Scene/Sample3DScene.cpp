@@ -81,7 +81,7 @@ void Engine::Sample3DScene::Init()
 	m_renderData->perObject.at(0)->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[shaderConut[2]];
 
 	//创建ConstantBuffer，设置到renderData
-	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(MVPConstantBuffer), D3D11_BIND_CONSTANT_BUFFER);
+	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(MVPConstantBuffer)+12, D3D11_BIND_CONSTANT_BUFFER);
 	DX::ThrowIfFailed(
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
 			&constantBufferDesc,
@@ -169,6 +169,8 @@ void Engine::Sample3DScene::Update(DX::StepTimer const& timer)
 		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
 
 		Rotate(radians);
+		//Rotate(0);
+		m_constantBufferData.time = (float)timer.GetTotalSeconds();
 	}
 }
 

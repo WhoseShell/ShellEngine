@@ -4,6 +4,8 @@ cbuffer ModelViewProjectionConstantBuffer : register(b0)
 	matrix model;
 	matrix view;
 	matrix projection;
+
+	float time;
 };
 
 // 用作顶点着色器输入的每个顶点的数据。
@@ -25,6 +27,14 @@ PixelShaderInput main(VertexShaderInput input)
 {
 	PixelShaderInput output;
 	float4 pos = float4(input.pos, 1.0f);
+
+	//绕y轴旋转
+	//matrix rotationY = matrix(
+	//	float4(cos(time), 0.0f, -sin(time), 0.0f),
+	//	float4(0.0f, 1.0f, 0.0f, 0.0f),
+	//	float4(sin(time), 0.0f, cos(time), 0.0f),
+	//	float4(0.0f, 0.0f, 0.0f, 1.0f));
+	//pos = mul(rotationY, pos);
 
 	// 将顶点位置转换为投影空间。
 	pos = mul(model, pos);
