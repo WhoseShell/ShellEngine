@@ -1,6 +1,7 @@
 #pragma once
 #include "..\Pass\BasePass.h"
 
+
 namespace Engine
 {
 	class BaseRenderer

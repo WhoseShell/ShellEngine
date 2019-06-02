@@ -4,6 +4,7 @@
 #include "BaseScene.h"
 #include "Renderer\SampleRenderer.h"
 #include "Pass\ShaderStruct.h"
+#include "Game\MoveController.h"
 
 using namespace DX;
 
@@ -27,6 +28,7 @@ namespace Engine
 		float	m_degreesPerSecond;
 		bool	m_tracking;
 		MVPConstantBuffer m_constantBufferData;
+		std::unique_ptr<MoveController> m_moveController;
 
 		std::shared_ptr<SampleRenderer> m_sampleRenderer;
 		void Rotate(float radians);

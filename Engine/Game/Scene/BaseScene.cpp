@@ -11,3 +11,8 @@ Engine::BaseScene::BaseScene(const std::shared_ptr<DX::DeviceResources>& deviceR
 	m_renderData = std::shared_ptr<RenderData>(new RenderData);
 }
 
+void Engine::BaseScene::InputUserState(UserState^ ustate)
+{
+	u_state = ustate;
+}
+

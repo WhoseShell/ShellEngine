@@ -5,6 +5,7 @@
 #include "Content\Sample3DSceneRenderer.h"
 #include "Content\SampleFpsTextRenderer.h"
 #include "Game\Scene\Sample3DScene.h"
+#include "Game\UserState.h"
 
 // 在屏幕上呈现 Direct2D 和 3D 内容。
 namespace Engine
@@ -33,5 +34,8 @@ namespace Engine
 
 		// 渲染循环计时器。
 		DX::StepTimer m_timer;
+
+
+		UserState^ m_userState;
 	};
 }

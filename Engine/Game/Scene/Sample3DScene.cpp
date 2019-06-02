@@ -2,6 +2,7 @@
 #include "Sample3DScene.h"
 #include "..\Common\DirectXHelper.h"
 
+
 using namespace std;
 using namespace Windows::Foundation;
 using namespace Engine;
@@ -14,6 +15,7 @@ Engine::Sample3DScene::Sample3DScene(const std::shared_ptr<DX::DeviceResources>&
 	m_sampleRenderer = std::shared_ptr<SampleRenderer>(new SampleRenderer(deviceResources, m_mainLoader, m_renderData)); //¥¥Ω®Renderer
 	m_sampleRenderer->SetPass(); //…Ë÷√renderPass
 	CreateWindowSizeDependentResources();
+	m_moveController = std::unique_ptr<MoveController>(new MoveController());
 }
 
 void Engine::Sample3DScene::CreateWindowSizeDependentResources()
@@ -171,6 +173,10 @@ void Engine::Sample3DScene::Update(DX::StepTimer const& timer)
 		Rotate(radians);
 		//Rotate(0);
 		m_constantBufferData.time = (float)timer.GetTotalSeconds();
+	}
+	if (m_moveController != nullptr)
+	{
+		m_moveController->MoveCamera(m_constantBufferData.view, u_state);
 	}
 }
 

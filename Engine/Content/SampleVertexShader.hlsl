@@ -36,6 +36,10 @@ PixelShaderInput main(VertexShaderInput input)
 	//	float4(0.0f, 0.0f, 0.0f, 1.0f));
 	//pos = mul(rotationY, pos);
 
+	// 靠近相机移动
+	//matrix xxx = view;
+	//xxx._34 += time * 0.1f;
+
 	// 将顶点位置转换为投影空间。
 	pos = mul(model, pos);
 	pos = mul(view, pos);

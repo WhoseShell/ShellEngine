@@ -6,6 +6,7 @@ using namespace Engine;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
 using namespace Concurrency;
+using namespace Windows::UI::Core;
 
 // 加载应用程序时加载并初始化应用程序资产。
 EngineMain::EngineMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
@@ -20,12 +21,20 @@ EngineMain::EngineMain(const std::shared_ptr<DX::DeviceResources>& deviceResourc
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 
+	//添加交互事件监听
+	m_userState = ref new UserState();
+	CoreWindow::GetForCurrentThread()->KeyDown += ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(m_userState, &UserState::OnKeyDown);
+	CoreWindow::GetForCurrentThread()->KeyUp += ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(m_userState, &UserState::OnKeyUp);
+
+	m_customSceneRenderer->InputUserState(m_userState);
+
 	// TODO: 如果需要默认的可变时间步长模式之外的其他模式，请更改计时器设置。
 	// 例如，对于 60 FPS 固定时间步长更新逻辑，请调用:
 	/*
 	m_timer.SetFixedTimeStep(true);
 	m_timer.SetTargetElapsedSeconds(1.0 / 60);
 	*/
+
 }
 
 EngineMain::~EngineMain()

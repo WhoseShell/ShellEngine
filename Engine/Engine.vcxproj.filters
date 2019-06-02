@@ -124,6 +124,12 @@
     <ClCompile Include="Renderer\SampleRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UserState.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MoveController.cpp">
+      <Filter>Game\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -173,6 +179,12 @@
     </ClInclude>
     <ClInclude Include="Pass\ShaderStruct.h">
       <Filter>Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UserState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MoveController.h">
+      <Filter>Game\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
