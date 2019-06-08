@@ -12,6 +12,7 @@ namespace Engine
 		MoveController();
 
 		float moveRate;
+		float rotateRate;
 		void MoveCamera(
 			XMFLOAT4X4 &view, 
 			UserState^ userState, 

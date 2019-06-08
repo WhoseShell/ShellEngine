@@ -16,7 +16,9 @@ UserState::UserState() :
 	m_forward(false), 
 	m_back(false), 
 	m_left(false), 
-	m_right(false)
+	m_right(false),
+	m_up(false),
+	m_down(false)
 {}
 
 void UserState::OnKeyDown(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows::UI::Core::KeyEventArgs^ args)
@@ -33,6 +35,10 @@ void UserState::OnKeyDown(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windo
 		m_left = true;
 	if (Key == VirtualKey::D)
 		m_right = true;
+	if (Key == VirtualKey::Q)
+		m_down = true;
+	if (Key == VirtualKey::E)
+		m_up = true;
 }
 
 void UserState::OnKeyUp(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows::UI::Core::KeyEventArgs^ args)
@@ -49,6 +55,24 @@ void UserState::OnKeyUp(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows
 		m_left = false;
 	if (Key == VirtualKey::D)
 		m_right = false;
+	if (Key == VirtualKey::Q)
+		m_down = false;
+	if (Key == VirtualKey::E)
+		m_up = false;
+}
+
+void Engine::UserState::PointerMoved(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::PointerEventArgs^ args)
+{
+	last_touch = current_touch;
+	current_touch.x = args->CurrentPoint->Position.X;
+	current_touch.y = args->CurrentPoint->Position.Y;
+}
+
+void Engine::UserState::OnMouseMoved(Windows::Devices::Input::MouseDevice ^ mouseDevice, Windows::Devices::Input::MouseEventArgs ^ args)
+{
+	last_touch = current_touch;
+	current_touch.x = args->MouseDelta.X;
+	current_touch.y = args->MouseDelta.Y;
 }
 
 bool UserState::getForward()
@@ -69,4 +93,14 @@ bool UserState::getLeft()
 bool UserState::getRight()
 {
 	return m_right;
+}
+
+bool Engine::UserState::getUp()
+{
+	return m_up;
+}
+
+bool Engine::UserState::getDown()
+{
+	return m_down;
 }

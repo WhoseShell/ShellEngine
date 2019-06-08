@@ -56,8 +56,8 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 	);
 
 	// 眼睛位于(0,0.7,1.5)，并沿着 Y 轴使用向上矢量查找点(0,-0.1,0)。
-	eye = { 0.0f, 0.7f, 1.5f};
-	at = { 0.0f, -0.1f, 0.0f};
+	eye = { 0.0f, 0.0f, -3.0f};
+	at = { 0.0f, 0.0f, 1.0f};
 	up = { 0.0f, 1.0f, 0.0f};
 
 	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixLookAtRH(XMLoadFloat3(&eye), XMLoadFloat3(&at), XMLoadFloat3(&up)));

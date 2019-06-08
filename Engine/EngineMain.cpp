@@ -24,7 +24,11 @@ EngineMain::EngineMain(const std::shared_ptr<DX::DeviceResources>& deviceResourc
 	//添加交互事件监听
 	m_userState = ref new UserState();
 	CoreWindow::GetForCurrentThread()->KeyDown += ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(m_userState, &UserState::OnKeyDown);
-	CoreWindow::GetForCurrentThread()->KeyUp += ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(m_userState, &UserState::OnKeyUp);
+	CoreWindow::GetForCurrentThread()->KeyUp += ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(m_userState, &UserState::OnKeyUp); 
+	//CoreWindow::GetForCurrentThread()->PointerMoved += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(m_userState, &UserState::PointerMoved);
+	Windows::Devices::Input::MouseDevice::GetForCurrentView()->MouseMoved +=
+		ref new TypedEventHandler<Windows::Devices::Input::MouseDevice^, Windows::Devices::Input::MouseEventArgs^>(m_userState, &UserState::OnMouseMoved);
+
 
 	m_customSceneRenderer->InputUserState(m_userState);
 
@@ -48,6 +52,7 @@ void EngineMain::CreateWindowSizeDependentResources()
 {
 	// TODO: 将此替换为应用程序内容的与大小相关的初始化。
 	//m_sceneRenderer->CreateWindowSizeDependentResources();
+	
 	m_customSceneRenderer->CreateWindowSizeDependentResources();
 }
 
