@@ -27,6 +27,11 @@ namespace Engine
 		bool	m_loadingComplete;
 		float	m_degreesPerSecond;
 		bool	m_tracking;
+
+		XMFLOAT3 eye;
+		XMFLOAT3 at;
+		XMFLOAT3 up;
+
 		MVPConstantBuffer m_constantBufferData;
 		std::unique_ptr<MoveController> m_moveController;
 

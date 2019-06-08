@@ -3,12 +3,23 @@
 #include "Pass\ShaderStruct.h"
 #include "Common\DirectXHelper.h"
 
+using namespace DirectX;
 namespace Engine
 {
 	class MoveController
 	{
 	public:
-		void MoveCamera(DirectX::XMFLOAT4X4 &view, UserState^ userState, DirectX::XMVECTORF32 &focus);
-		void MoveCamera(DirectX::XMFLOAT4X4 &view, UserState^ userState);
+		MoveController();
+
+		float moveRate;
+		void MoveCamera(
+			XMFLOAT4X4 &view, 
+			UserState^ userState, 
+			XMFLOAT3 &eyePosition,
+			XMFLOAT3 &lookPosition,
+			XMFLOAT3 &up
+		);
+		void MoveCamera(XMFLOAT4X4 &view, UserState^ userState);
+		
 	};
 }

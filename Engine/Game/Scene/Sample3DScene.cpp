@@ -6,6 +6,7 @@
 using namespace std;
 using namespace Windows::Foundation;
 using namespace Engine;
+using namespace DirectX;
 
 Engine::Sample3DScene::Sample3DScene(const std::shared_ptr<DX::DeviceResources>& deviceResources)
 	:BaseScene(deviceResources),
@@ -55,11 +56,11 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 	);
 
 	// 眼睛位于(0,0.7,1.5)，并沿着 Y 轴使用向上矢量查找点(0,-0.1,0)。
-	static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
-	static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
-	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
+	eye = { 0.0f, 0.7f, 1.5f};
+	at = { 0.0f, -0.1f, 0.0f};
+	up = { 0.0f, 1.0f, 0.0f};
 
-	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixLookAtRH(eye, at, up));
+	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixLookAtRH(XMLoadFloat3(&eye), XMLoadFloat3(&at), XMLoadFloat3(&up)));
 }
 
 void Engine::Sample3DScene::Init()
@@ -176,7 +177,7 @@ void Engine::Sample3DScene::Update(DX::StepTimer const& timer)
 	}
 	if (m_moveController != nullptr)
 	{
-		m_moveController->MoveCamera(m_constantBufferData.view, u_state);
+		m_moveController->MoveCamera(m_constantBufferData.view, u_state, eye, at, up);
 	}
 }
 
