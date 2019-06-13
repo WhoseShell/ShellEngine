@@ -6,7 +6,7 @@ using namespace std;
 using namespace Windows::Foundation;
 using namespace DirectX;
 
-Engine::MoveController::MoveController():moveRate(0.1f), rotateRate(0.01f)
+Engine::MoveController::MoveController():moveRate(0.1f), rotateRate(0.007f)
 {
 }
 
