@@ -13,6 +13,7 @@ struct VertexShaderInput
 {
 	float3 pos : POSITION;
 	float3 color : COLOR0;
+	float2 uv : UV;
 };
 
 // 通过像素着色器传递的每个像素的颜色数据。
@@ -20,6 +21,7 @@ struct PixelShaderInput
 {
 	float4 pos : SV_POSITION;
 	float3 color : COLOR0;
+	float2 uv: UV;
 };
 
 // 用于在 GPU 上执行顶点处理的简单着色器。
@@ -48,6 +50,7 @@ PixelShaderInput main(VertexShaderInput input)
 
 	// 不加修改地传递颜色。
 	output.color = input.color;
+	output.uv = input.uv;
 
 	return output;
 }
