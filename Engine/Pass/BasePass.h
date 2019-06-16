@@ -18,6 +18,10 @@ namespace Engine
 		Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer;
 		Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer;
 		Microsoft::WRL::ComPtr<ID3D11Buffer>		constantBuffer;
+
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>		normal;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>		baseColor;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
 		uint32	indexCount;
 
 		//XMFLOAT4X4 model;

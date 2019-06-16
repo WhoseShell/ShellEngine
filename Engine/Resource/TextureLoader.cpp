@@ -6,7 +6,18 @@
 using namespace DX;
 using namespace Microsoft::WRL;
 
-TextureLoader::TextureLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice) : BaseLoader(d3dDevice){}
+TextureLoader::TextureLoader(
+	const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice) 
+	: BaseLoader(d3dDevice), 
+	SRVLoadCount(0)
+{}
+
+int DX::TextureLoader::LoadToSRV(Platform::String ^ filename, std::wstring matName)
+{
+	allSRV[SRVLoadCount].name = matName;
+	LoadTexture(filename, nullptr, &allSRV[SRVLoadCount].SRV);
+	return SRVLoadCount++;
+}
 
 void TextureLoader::CreateTexture(
 	bool decodeAsDDS, 

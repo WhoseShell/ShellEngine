@@ -4,10 +4,17 @@
 
 namespace DX
 {
+	struct SRVStruct
+	{
+		int id;
+		std::wstring name;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> SRV;
+	};
 	class TextureLoader : public BaseLoader
 	{
 	public:
 		TextureLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice);
+		int LoadToSRV(_In_ Platform::String^ filename, std::wstring matName);
 	protected:
 		void CreateTexture(
 			_In_ bool decodeAsDDS,
@@ -28,9 +35,12 @@ namespace DX
 			_In_ Platform::String^ filename
 		);
 
+		std::vector<SRVStruct> allSRV;
+
+
 	private:
 		Microsoft::WRL::ComPtr<IWICImagingFactory2> m_wicFactory;
-
+		int SRVLoadCount;
 	};
 
 }
