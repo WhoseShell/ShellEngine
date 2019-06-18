@@ -243,6 +243,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Image Include="Assets\floor_section1.dds" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\SplashScreen.scale-200.png" />
     <Image Include="Assets\Square150x150Logo.scale-200.png" />
@@ -271,7 +272,9 @@
     <ClInclude Include="Renderer\BaseRenderer.h" />
     <ClInclude Include="Renderer\SampleRenderer.h" />
     <ClInclude Include="Resource\BaseLoader.h" />
+    <ClInclude Include="Resource\BasicLoader.h" />
     <ClInclude Include="Resource\BasicMath.h" />
+    <ClInclude Include="Resource\BasicReaderWriter.h" />
     <ClInclude Include="Resource\BasicShapes.h" />
     <ClInclude Include="Resource\DDSTextureLoader.h" />
     <ClInclude Include="Resource\MainLoader.h" />
@@ -304,6 +307,8 @@
     <ClCompile Include="Renderer\BaseRenderer.cpp" />
     <ClCompile Include="Renderer\SampleRenderer.cpp" />
     <ClCompile Include="Resource\BaseLoader.cpp" />
+    <ClCompile Include="Resource\BasicLoader.cpp" />
+    <ClCompile Include="Resource\BasicReaderWriter.cpp" />
     <ClCompile Include="Resource\BasicShapes.cpp" />
     <ClCompile Include="Resource\DDSTextureLoader.cpp" />
     <ClCompile Include="Resource\MainLoader.cpp" />

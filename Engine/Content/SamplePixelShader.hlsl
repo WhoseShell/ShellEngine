@@ -1,3 +1,7 @@
+
+Texture2D DiffuseTexture : register(t0);
+SamplerState DiffuseSampler : register(s0);
+
 // 通过像素着色器传递的每个像素的颜色数据。
 struct PixelShaderInput
 {
@@ -9,5 +13,6 @@ struct PixelShaderInput
 // (内插)颜色数据的传递函数。
 float4 main(PixelShaderInput input) : SV_TARGET
 {
-	return float4(input.uv,1.0f, 1.0f);
+	float4 diffuse = DiffuseTexture.Sample(DiffuseSampler, input.uv);
+	return diffuse;
 }

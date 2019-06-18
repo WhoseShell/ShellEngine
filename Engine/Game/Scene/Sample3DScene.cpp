@@ -12,11 +12,12 @@ Engine::Sample3DScene::Sample3DScene(const std::shared_ptr<DX::DeviceResources>&
 	:BaseScene(deviceResources),
 	m_degreesPerSecond(45)
 {
-	Init(); //资源加载
+	
 	m_sampleRenderer = std::shared_ptr<SampleRenderer>(new SampleRenderer(deviceResources, m_mainLoader, m_renderData)); //创建Renderer
 	m_sampleRenderer->SetPass(); //设置renderPass
 	CreateWindowSizeDependentResources();
 	m_moveController = std::unique_ptr<MoveController>(new MoveController());
+	Init(); //资源加载
 }
 
 void Engine::Sample3DScene::CreateWindowSizeDependentResources()
@@ -97,14 +98,14 @@ void Engine::Sample3DScene::Init()
 	//创建mesh
 	static const VertexPosColor cubeVertices[] =
 	{
-		{XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 0.0f)},
-		{XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 0.0f)},
-		{XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 1.0f)},
-		{XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f)},
-		{XMFLOAT3(0.5f, -0.5f, -0.5f),  XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(2.0f, 0.0f)},
-		{XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(1.0f, 0.0f, 1.0f), XMFLOAT2(3.0f, 0.0f)},
-		{XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(2.0f, 1.0f)},
-		{XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(3.0f, 1.0f)},
+		{XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f)},
+		{XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f)},
+		{XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT2(0.0f, 1.0f)},
+		{XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f)},
+		{XMFLOAT3(0.5f, -0.5f, -0.5f),  XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 0.0f)},
+		{XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(1.0f, 0.0f, 1.0f), XMFLOAT2(2.0f, 0.0f)},
+		{XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 1.0f)},
+		{XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(2.0f, 1.0f)},
 	};
 	D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
 	vertexBufferData.pSysMem = cubeVertices;
@@ -135,14 +136,14 @@ void Engine::Sample3DScene::Init()
 		0,1,5, // -y
 		0,5,4,
 
-		2,6,7, // +y
-		2,7,3,
+		6,7,3, // +y
+		3,2,6,
 
-		0,4,6, // -z
-		0,6,2,
+		0,4,2, // -z
+		4,6,2,
 
-		1,3,7, // +z
-		1,7,5,
+		5,1,3, // +z
+		3,7,5,
 	};
 
 	m_renderData->perObject.at(0)->indexCount = ARRAYSIZE(cubeIndices);
@@ -159,8 +160,38 @@ void Engine::Sample3DScene::Init()
 			&(m_renderData->perObject.at(0)->indexBuffer)
 		)
 	);
+	
+	// Reset the viewport to target the whole screen.
+	auto viewport = m_deviceResources->GetScreenViewport();
+	m_deviceResources->GetD3DDeviceContext()->RSSetViewports(1, &viewport);
 
+	// 创建采样描述
+	D3D11_SAMPLER_DESC sampDesc;
+	ZeroMemory(&sampDesc, sizeof(sampDesc));
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
+	//创建SampleState
+	ID3D11SamplerState *   m_sampler;
+	m_deviceResources->GetD3DDevice()->CreateSamplerState(
+		&sampDesc,
+		&m_sampler
+	);
+
+	//绑定SampleSate到PS
+	m_deviceResources->GetD3DDeviceContext()->PSSetSamplers(
+		0,
+		1,
+		&m_sampler
+	);
+
+	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\floor_section1.dds", L"diffuse");
+	m_renderData->perObject.at(0)->baseColor = m_mainLoader->m_textureLoader->allSRV[0].SRV;
 }
 
 void Engine::Sample3DScene::Update(DX::StepTimer const& timer)

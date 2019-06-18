@@ -2,6 +2,7 @@
 #include "..\Common\DeviceResources.h"
 #include "..\Resource\MainLoader.h"
 #include "BasePass.h"
+
 namespace Engine
 {
 	class Sample3DPass : public BasePass

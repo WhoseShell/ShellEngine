@@ -24,7 +24,18 @@ void Engine::Sample3DPass::SetUp()
 void Engine::Sample3DPass::Execute()
 {
 	// 每个顶点都是 VertexPositionColor 结构的一个实例。
-	auto context = m_deviceResources->GetD3DDeviceContext();;
+	auto context = m_deviceResources->GetD3DDeviceContext();
+	auto device = m_deviceResources->GetD3DDevice();
+
+	// Reset render targets to the screen.
+	ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
+	context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
+
+	// Clear the back buffer and depth stencil view.
+	context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::White);
+	context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+
 	UINT stride = sizeof(VertexPosColor);
 	UINT offset = 0;
 	context->IASetVertexBuffers(
@@ -67,6 +78,10 @@ void Engine::Sample3DPass::Execute()
 		nullptr,
 		0
 	);
+
+	// 绑定SRV
+	context->PSSetShaderResources(0, 1, m_renderData->perObject.at(0)->baseColor.GetAddressOf());
+
 
 	// 绘制对象。
 	context->DrawIndexed(

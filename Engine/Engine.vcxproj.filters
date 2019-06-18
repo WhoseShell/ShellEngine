@@ -1,67 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="通用">
-      <UniqueIdentifier>c1d49136-8211-4be9-a4af-8c09472e48e6</UniqueIdentifier>
-    </Filter>
     <ClInclude Include="Common\DirectXHelper.h">
-      <Filter>通用</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\StepTimer.h">
-      <Filter>通用</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\DeviceResources.h">
-      <Filter>通用</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClCompile Include="Common\DeviceResources.cpp">
-      <Filter>通用</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
     <ClInclude Include="Content\Sample3DSceneRenderer.h">
-      <Filter>内容</Filter>
+      <Filter>Content</Filter>
     </ClInclude>
     <ClInclude Include="Content\SampleFpsTextRenderer.h">
-      <Filter>内容</Filter>
+      <Filter>Content</Filter>
     </ClInclude>
     <ClInclude Include="Content\ShaderStructures.h">
-      <Filter>内容</Filter>
+      <Filter>Content</Filter>
     </ClInclude>
     <ClCompile Include="Content\Sample3DSceneRenderer.cpp">
-      <Filter>内容</Filter>
+      <Filter>Content</Filter>
     </ClCompile>
     <ClCompile Include="Content\SampleFpsTextRenderer.cpp">
-      <Filter>内容</Filter>
+      <Filter>Content</Filter>
     </ClCompile>
     <FxCompile Include="Content\SamplePixelShader.hlsl">
-      <Filter>内容</Filter>
+      <Filter>Content</Filter>
     </FxCompile>
     <FxCompile Include="Content\SampleVertexShader.hlsl">
-      <Filter>内容</Filter>
+      <Filter>Content</Filter>
     </FxCompile>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
-      <Filter>资产</Filter>
+      <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\SplashScreen.scale-200.png">
-      <Filter>资产</Filter>
+      <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Square150x150Logo.scale-200.png">
-      <Filter>资产</Filter>
+      <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Square44x44Logo.scale-200.png">
-      <Filter>资产</Filter>
+      <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
-      <Filter>资产</Filter>
+      <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
-      <Filter>资产</Filter>
+      <Filter>Assets</Filter>
     </Image>
-    <Filter Include="资产">
-      <UniqueIdentifier>0317185f-c039-4b9a-b6c3-127e3920944c</UniqueIdentifier>
-      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
-    </Filter>
-    <Filter Include="内容">
-      <UniqueIdentifier>e36da7c9-d6dc-4b31-a4de-d880a93a0993</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{376f025e-06b0-4be7-a4ae-0e0f30c53326}</UniqueIdentifier>
     </Filter>
@@ -80,6 +70,16 @@
     <Filter Include="Renderer">
       <UniqueIdentifier>{f8357963-3d75-4ec3-bfb1-5f55280ed356}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>0317185f-c039-4b9a-b6c3-127e3920944c</UniqueIdentifier>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>c1d49136-8211-4be9-a4af-8c09472e48e6</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="Resource\BaseLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -88,13 +88,7 @@
     <ClCompile Include="Resource\ShaderLoader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\BaseLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Resource\TextureLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\DDSTextureLoader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Resource\MeshLoader.cpp">
@@ -130,6 +124,18 @@
     <ClCompile Include="Game\MoveController.cpp">
       <Filter>Game\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\DDSTextureLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\BasicReaderWriter.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\BasicLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\BaseLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -138,13 +144,7 @@
     <ClInclude Include="Resource\ShaderLoader.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\BaseLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Resource\TextureLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\DDSTextureLoader.h">
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\MeshLoader.h">
@@ -186,10 +186,22 @@
     <ClInclude Include="Game\MoveController.h">
       <Filter>Game\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\DDSTextureLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BasicReaderWriter.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BasicLoader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">
-      <Filter>资产</Filter>
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\floor_section1.dds">
+      <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -197,5 +209,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Content">
+      <UniqueIdentifier>e36da7c9-d6dc-4b31-a4de-d880a93a0993</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
