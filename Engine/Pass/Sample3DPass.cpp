@@ -18,7 +18,7 @@ Engine::Sample3DPass::Sample3DPass(
 
 void Engine::Sample3DPass::SetUp()
 {
-	Filter(L"Sample3DPass");
+	Filter(L"Sample3DPass", 0, 2999);
 }
 
 void Engine::Sample3DPass::Execute()

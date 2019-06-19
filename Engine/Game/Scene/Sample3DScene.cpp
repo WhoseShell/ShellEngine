@@ -12,7 +12,7 @@ Engine::Sample3DScene::Sample3DScene(const std::shared_ptr<DX::DeviceResources>&
 {
 	Init(); //场景资源初始化
 	m_sampleRenderer = std::shared_ptr<SampleRenderer>(new SampleRenderer(deviceResources, m_mainLoader, m_renderData)); //创建Renderer
-	m_sampleRenderer->SetPass(); //设置renderPass
+	m_sampleRenderer->SetPass(); 
 	CreateWindowSizeDependentResources();
 	m_moveController = std::unique_ptr<MoveController>(new MoveController());
 	
@@ -64,11 +64,15 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 
 void Engine::Sample3DScene::Init()
 {
-	m_renderData->perObject.push_back(std::shared_ptr<PerObjectData>(new PerObjectData));//创建一个渲染对象
+	for (size_t i = 0; i < 2; i++)
+	{
+		m_renderData->perObject.push_back(std::shared_ptr<PerObjectData>(new PerObjectData));//创建一个渲染对象
+	}
 
 	//设置该对象name及shaderNama
 	m_renderData->perObject.at(0)->objectName = wstring(L"方块");
 	m_renderData->perObject.at(0)->shaderName = wstring(L"Sample3DPass");
+	m_renderData->perObject.at(0)->renderQueue = 2000;
 
 	//创建VS/PS/IA, 设置到renderData
 	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
@@ -229,7 +233,7 @@ void Engine::Sample3DScene::Render()
 		);
 	}
 
-	m_sampleRenderer->SetPass(); //设置renderPass
+	//m_sampleRenderer->SetPass(); //设置renderPass
 	m_sampleRenderer->ExecuteSequentially();
 }
 

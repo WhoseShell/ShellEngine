@@ -55,6 +55,7 @@ namespace Engine
 		virtual void Execute() = 0;
 		virtual void FrameRelease() = 0;
 		void Filter(std::wstring shaderName);
+		void Filter(std::wstring shaderName, int renderQueueBegin, int renderQueueEnd);
 	protected:
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::shared_ptr<DX::MainLoader> m_mainLoader;
