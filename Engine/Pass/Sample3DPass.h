@@ -15,7 +15,7 @@ namespace Engine
 			int passQueue
 		);
 
-		void SetUp();
+		void SetUp(); // run once
 		void Execute();
 		void FrameRelease();
 	};

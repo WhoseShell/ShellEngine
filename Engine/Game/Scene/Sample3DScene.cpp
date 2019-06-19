@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Sample3DScene.h"
 #include "..\Common\DirectXHelper.h"
-
-
 using namespace std;
 using namespace Windows::Foundation;
 using namespace Engine;
@@ -12,12 +10,12 @@ Engine::Sample3DScene::Sample3DScene(const std::shared_ptr<DX::DeviceResources>&
 	:BaseScene(deviceResources),
 	m_degreesPerSecond(45)
 {
-	
+	Init(); //场景资源初始化
 	m_sampleRenderer = std::shared_ptr<SampleRenderer>(new SampleRenderer(deviceResources, m_mainLoader, m_renderData)); //创建Renderer
 	m_sampleRenderer->SetPass(); //设置renderPass
 	CreateWindowSizeDependentResources();
 	m_moveController = std::unique_ptr<MoveController>(new MoveController());
-	Init(); //资源加载
+	
 }
 
 void Engine::Sample3DScene::CreateWindowSizeDependentResources()
@@ -70,7 +68,7 @@ void Engine::Sample3DScene::Init()
 
 	//设置该对象name及shaderNama
 	m_renderData->perObject.at(0)->objectName = wstring(L"方块");
-	m_renderData->perObject.at(0)->shaderName = wstring(L"testShader");
+	m_renderData->perObject.at(0)->shaderName = wstring(L"Sample3DPass");
 
 	//创建VS/PS/IA, 设置到renderData
 	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
@@ -230,6 +228,8 @@ void Engine::Sample3DScene::Render()
 			0
 		);
 	}
+
+	m_sampleRenderer->SetPass(); //设置renderPass
 	m_sampleRenderer->ExecuteSequentially();
 }
 

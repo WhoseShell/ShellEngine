@@ -34,6 +34,7 @@ void Engine::BaseRenderer::ExecuteSequentially()
 	}
 	for (std::vector<std::shared_ptr<BasePass>>::iterator it = m_RenderPassList.begin(); it != m_RenderPassList.end(); it++)
 	{
+		
 		(*it)->Execute();
 	}
 }
@@ -48,6 +49,11 @@ void Engine::BaseRenderer::FrameReleaseSequentially()
 	{
 		(*it)->FrameRelease();
 	}
+}
+
+void Engine::BaseRenderer::ClearPass()
+{
+	m_RenderPassList.clear();
 }
 
 void Engine::BaseRenderer::AddPass(const std::shared_ptr<BasePass>& pass)

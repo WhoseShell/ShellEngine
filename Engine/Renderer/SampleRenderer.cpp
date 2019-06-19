@@ -9,6 +9,7 @@ Engine::SampleRenderer::SampleRenderer(const std::shared_ptr<DX::DeviceResources
 
 void Engine::SampleRenderer::SetPass()
 {
+	ClearPass();
 	m_Sample3DPass->SetUp();
 	AddPass(m_Sample3DPass);
 }
