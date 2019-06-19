@@ -1,8 +1,10 @@
 #pragma once
 #include "..\Common\DeviceResources.h"
 #include "..\Resource\MainLoader.h"
+#include "ShaderStruct.h"
 
 using namespace DirectX;
+using namespace Microsoft::WRL;
 
 namespace Engine
 {
@@ -12,21 +14,20 @@ namespace Engine
 		std::wstring shaderName;
 		int renderQueue;
 
-		Microsoft::WRL::ComPtr<ID3D11VertexShader>	vertexShader;
-		Microsoft::WRL::ComPtr<ID3D11PixelShader>	pixelShader;
-		Microsoft::WRL::ComPtr<ID3D11InputLayout>	inputLayout;
-		Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer;
-		Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer;
-		Microsoft::WRL::ComPtr<ID3D11Buffer>		constantBuffer;
+		ComPtr<ID3D11Buffer>		vertexBuffer;
+		ComPtr<ID3D11Buffer>		indexBuffer;
+		ComPtr<ID3D11Buffer>		constantBuffer;
 
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>		normal;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>		baseColor;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
+		ComPtr<ID3D11VertexShader>	vertexShader;
+		ComPtr<ID3D11PixelShader>	pixelShader;
+		ComPtr<ID3D11InputLayout>	inputLayout;
 		uint32	indexCount;
 
-		//XMFLOAT4X4 model;
-		//XMFLOAT4X4 view;        // view matrix
-		//XMFLOAT4X4 projection;  // projection matrix
+		ComPtr<ID3D11ShaderResourceView>		normal;
+		ComPtr<ID3D11ShaderResourceView>		baseColor;
+		ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
+		
+		XMFLOAT4X4 transform;
 	};
 
 	struct LightData
@@ -34,6 +35,11 @@ namespace Engine
 		XMFLOAT3 marblePosition;
 		float marbleRadius;
 		float lightStrength;
+	};
+
+	struct ConstantData
+	{
+		std::shared_ptr<MVPConstantBuffer> mvp;
 	};
 
 	struct RenderData
@@ -49,6 +55,7 @@ namespace Engine
 			const std::shared_ptr<DX::DeviceResources>& deviceResources, 
 			const std::shared_ptr<DX::MainLoader>& mainLoader,
 			const std::shared_ptr<RenderData>& renderData,
+			const std::shared_ptr<ConstantData>& constantData,
 			int passQueue
 		);
 		int m_passQueue;
@@ -60,6 +67,7 @@ namespace Engine
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::shared_ptr<DX::MainLoader> m_mainLoader;
 		std::shared_ptr<RenderData> m_renderData;
+		std::shared_ptr<ConstantData> m_ConstantData;
 		std::vector<std::shared_ptr<PerObjectData>> renderObjects;
 
 	private:

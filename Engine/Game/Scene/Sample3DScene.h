@@ -32,7 +32,7 @@ namespace Engine
 		XMFLOAT3 at;
 		XMFLOAT3 up;
 
-		MVPConstantBuffer m_constantBufferData;
+		std::shared_ptr<MVPConstantBuffer> m_constantBufferData;
 		std::unique_ptr<MoveController> m_moveController;
 
 		std::shared_ptr<SampleRenderer> m_sampleRenderer;

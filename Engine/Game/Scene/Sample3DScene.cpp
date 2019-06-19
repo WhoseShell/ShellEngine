@@ -10,12 +10,9 @@ Engine::Sample3DScene::Sample3DScene(const std::shared_ptr<DX::DeviceResources>&
 	:BaseScene(deviceResources),
 	m_degreesPerSecond(45)
 {
-	Init(); //场景资源初始化
-	m_sampleRenderer = std::shared_ptr<SampleRenderer>(new SampleRenderer(deviceResources, m_mainLoader, m_renderData)); //创建Renderer
-	m_sampleRenderer->SetPass(); 
-	CreateWindowSizeDependentResources();
+	m_sampleRenderer = std::shared_ptr<SampleRenderer>(new SampleRenderer(deviceResources, m_mainLoader, m_renderData, m_constantData)); //创建Renderer
+	m_constantBufferData = std::shared_ptr<MVPConstantBuffer>(new MVPConstantBuffer);
 	m_moveController = std::unique_ptr<MoveController>(new MoveController());
-	
 }
 
 void Engine::Sample3DScene::CreateWindowSizeDependentResources()
@@ -47,10 +44,10 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 
 	XMFLOAT4X4 orientation = m_deviceResources->GetOrientationTransform3D();
 
-	XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
+	XMMATRIX orientationMatrix = DirectX::XMLoadFloat4x4(&orientation);
 
-	XMStoreFloat4x4(
-		&m_constantBufferData.projection,
+	DirectX::XMStoreFloat4x4(
+		&(m_constantBufferData->projection),
 		perspectiveMatrix * orientationMatrix
 	);
 
@@ -59,45 +56,13 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 	at = { 0.0f, 0.0f, 1.0f};
 	up = { 0.0f, 1.0f, 0.0f};
 
-	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixLookAtRH(XMLoadFloat3(&eye), XMLoadFloat3(&at), XMLoadFloat3(&up)));
+	DirectX::XMStoreFloat4x4(&(m_constantBufferData->view), XMMatrixLookAtRH(DirectX::XMLoadFloat3(&eye), DirectX::XMLoadFloat3(&at), DirectX::XMLoadFloat3(&up)));
 }
 
 void Engine::Sample3DScene::Init()
 {
-	for (size_t i = 0; i < 2; i++)
-	{
-		m_renderData->perObject.push_back(std::shared_ptr<PerObjectData>(new PerObjectData));//创建一个渲染对象
-	}
-
-	//设置该对象name及shaderNama
-	m_renderData->perObject.at(0)->objectName = wstring(L"方块");
-	m_renderData->perObject.at(0)->shaderName = wstring(L"Sample3DPass");
-	m_renderData->perObject.at(0)->renderQueue = 2000;
-
-	//创建VS/PS/IA, 设置到renderData
-	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	std::vector<int> shaderConut;
-	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", vertexDesc, ARRAYSIZE(vertexDesc), shaderConut);
-	m_renderData->perObject.at(0)->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[shaderConut[0]];
-	m_renderData->perObject.at(0)->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[shaderConut[1]];
-	m_renderData->perObject.at(0)->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[shaderConut[2]];
-
-	//创建ConstantBuffer，设置到renderData
-	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(MVPConstantBuffer)+12, D3D11_BIND_CONSTANT_BUFFER);
-	DX::ThrowIfFailed(
-		m_deviceResources->GetD3DDevice()->CreateBuffer(
-			&constantBufferDesc,
-			nullptr,
-			&(m_renderData->perObject.at(0)->constantBuffer)
-		)
-	);
-
-	//创建mesh
+#pragma region 创建VertexBuffer
+	Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer1;
 	static const VertexPosColor cubeVertices[] =
 	{
 		{XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f)},
@@ -118,15 +83,19 @@ void Engine::Sample3DScene::Init()
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
 			&vertexBufferDesc,
 			&vertexBufferData,
-			&(m_renderData->perObject.at(0)->vertexBuffer)
+			vertexBuffer1.GetAddressOf()
 		)
 	);
+#pragma endregion
+
+#pragma region 创建VertexIndex
+	Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer1;
 
 	// 加载网格索引。每三个索引表示
-	// 要在屏幕上呈现的三角形。
-	// 例如: 0,2,1 表示顶点的索引
-	// 顶点缓冲区中的索引为 0、2 和 1 的顶点构成了
-	// 此网格的第一个三角形。
+// 要在屏幕上呈现的三角形。
+// 例如: 0,2,1 表示顶点的索引
+// 顶点缓冲区中的索引为 0、2 和 1 的顶点构成了
+// 此网格的第一个三角形。
 	static const unsigned short cubeIndices[] =
 	{
 		0,2,1, // -x
@@ -148,7 +117,7 @@ void Engine::Sample3DScene::Init()
 		3,7,5,
 	};
 
-	m_renderData->perObject.at(0)->indexCount = ARRAYSIZE(cubeIndices);
+	int indexCount1 = ARRAYSIZE(cubeIndices);
 
 	D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
 	indexBufferData.pSysMem = cubeIndices;
@@ -159,14 +128,42 @@ void Engine::Sample3DScene::Init()
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
 			&indexBufferDesc,
 			&indexBufferData,
-			&(m_renderData->perObject.at(0)->indexBuffer)
+			indexBuffer1.GetAddressOf()
 		)
 	);
-	
-	// Reset the viewport to target the whole screen.
-	auto viewport = m_deviceResources->GetScreenViewport();
-	m_deviceResources->GetD3DDeviceContext()->RSSetViewports(1, &viewport);
+#pragma endregion
 
+#pragma region 创建VS/PS/IA
+	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+	std::vector<int> shaderConut;
+	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", vertexDesc, ARRAYSIZE(vertexDesc), shaderConut);
+#pragma endregion
+
+#pragma region 创建ConstantBuffer / 更新装配ConstantData
+	Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer1;
+	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(MVPConstantBuffer) + 12, D3D11_BIND_CONSTANT_BUFFER);
+	DX::ThrowIfFailed(
+		m_deviceResources->GetD3DDevice()->CreateBuffer(
+			&constantBufferDesc,
+			nullptr,
+			constantBuffer1.GetAddressOf()
+		)
+	);
+	CreateWindowSizeDependentResources(); // 更新m_constantBufferData;
+	m_constantData->mvp = m_constantBufferData;
+#pragma endregion
+
+#pragma region 创建贴图和SRV
+	int SRVID1 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\floor_section1.dds", L"diffuse");
+	int SRVID2 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\LockScreenLogo.scale-200.png", L"diffuse");
+#pragma endregion
+
+#pragma region 创建采样器
 	// 创建采样描述
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory(&sampDesc, sizeof(sampDesc));
@@ -191,27 +188,62 @@ void Engine::Sample3DScene::Init()
 		1,
 		&m_sampler
 	);
+#pragma endregion
 
-	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\floor_section1.dds", L"diffuse");
-	m_renderData->perObject.at(0)->baseColor = m_mainLoader->m_textureLoader->allSRV[0].SRV;
+#pragma region 装配PerObject
+	for (size_t i = 0; i < 3; i++)
+	{
+		auto currentObj = std::shared_ptr<PerObjectData>(new PerObjectData);//创建一个渲染对象
+
+		//设置该对象name及shaderNama
+		currentObj->objectName = wstring(L"方块") + (i.ToString())->Data();
+		currentObj->shaderName = wstring(L"Sample3DPass");
+		currentObj->renderQueue = 2000;
+
+		//Buffer
+		currentObj->vertexBuffer = vertexBuffer1;
+		currentObj->indexBuffer = indexBuffer1;
+		currentObj->indexCount = indexCount1;
+		currentObj->constantBuffer = constantBuffer1;
+
+		// IA/VS/PS
+		currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[shaderConut[0]];
+		currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[shaderConut[1]];
+		currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[shaderConut[2]];
+		
+		//SRV：Texture/Transform
+		if (i == 0)
+		{
+			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID1].SRV;
+			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
+		}
+		if (i == 1)
+		{
+			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID2].SRV;
+			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(2.0f, 0.0f, 0.0f));
+		}
+		if (i == 2)
+		{
+			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID2].SRV;
+			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(-2.0f, 0.0f, 0.0f));
+		}
+		m_renderData->perObject.push_back(currentObj);//将对象加入对象池
+	}
+#pragma endregion
+
 }
 
 void Engine::Sample3DScene::Update(DX::StepTimer const& timer)
 {
 	if (!m_tracking)
 	{
-		// 将度转换成弧度，然后将秒转换为旋转角度
-		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
-		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
-		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
-
-		Rotate(radians);
+		Rotate(0.01);
 		//Rotate(0);
-		m_constantBufferData.time = (float)timer.GetTotalSeconds();
+		m_constantBufferData->time = (float)timer.GetTotalSeconds();
 	}
 	if (m_moveController != nullptr)
 	{
-		m_moveController->MoveCamera(m_constantBufferData.view, u_state, eye, at, up);
+		m_moveController->MoveCamera(m_constantBufferData->view, u_state, eye, at, up);
 	}
 }
 
@@ -219,21 +251,8 @@ void Engine::Sample3DScene::Render()
 {
 	auto context = m_deviceResources->GetD3DDeviceContext();
 
+	m_sampleRenderer->SetPass(); //设置renderPass
 
-	if (!m_renderData->perObject.empty()) 
-	{
-		context->UpdateSubresource1(
-			m_renderData->perObject.at(0)->constantBuffer.Get(),
-			0,
-			NULL,
-			&m_constantBufferData,
-			0,
-			0,
-			0
-		);
-	}
-
-	//m_sampleRenderer->SetPass(); //设置renderPass
 	m_sampleRenderer->ExecuteSequentially();
 }
 
@@ -246,5 +265,10 @@ void Engine::Sample3DScene::Release()
 void Engine::Sample3DScene::Rotate(float radians)
 {
 	// 准备将更新的模型矩阵传递到着色器
-	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixRotationY(radians));
+	for (vector<shared_ptr<PerObjectData>>::iterator it = m_renderData->perObject.begin();it != m_renderData->perObject.end();it++)
+	{
+		XMStoreFloat4x4(&(*it)->transform, XMMatrixMultiply(XMMatrixRotationY(radians), XMLoadFloat4x4(&(*it)->transform)));
+	}
+
+	//XMStoreFloat4x4(&m_constantBufferData->model, XMMatrixRotationY(radians));
 }

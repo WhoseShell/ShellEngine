@@ -17,7 +17,9 @@ EngineMain::EngineMain(const std::shared_ptr<DX::DeviceResources>& deviceResourc
 
 	// TODO: 将此替换为应用程序内容的初始化。
 	//m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
-	m_customSceneRenderer = std::unique_ptr<Sample3DScene>(new Sample3DScene(m_deviceResources));
+	m_customSceneRenderer = std::unique_ptr<Sample3DScene>(new Sample3DScene(m_deviceResources)); //分配场景内存
+	m_customSceneRenderer->Init(); //场景资源初始化
+	
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 
@@ -80,18 +82,6 @@ bool EngineMain::Render()
 	}
 
 	auto context = m_deviceResources->GetD3DDeviceContext();
-
-	// 将视区重置为针对整个屏幕。
-	auto viewport = m_deviceResources->GetScreenViewport();
-	context->RSSetViewports(1, &viewport);
-
-	// 将呈现目标重置为屏幕。
-	ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
-	context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
-
-	// 清除后台缓冲区和深度模具视图。
-	context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::CornflowerBlue);
-	context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	// 呈现场景对象。
 	// TODO: 将此替换为应用程序内容的渲染函数。

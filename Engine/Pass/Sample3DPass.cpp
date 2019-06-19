@@ -12,9 +12,10 @@ Engine::Sample3DPass::Sample3DPass(
 	const std::shared_ptr<DX::DeviceResources>& deviceResources, 
 	const std::shared_ptr<DX::MainLoader>& mainLoader,
 	const std::shared_ptr<RenderData>& renderData,
+	const std::shared_ptr<ConstantData>& constantData,
 	int passQueue)
 	:
-	BasePass(deviceResources, mainLoader, renderData, passQueue){}
+	BasePass(deviceResources, mainLoader, renderData, constantData, passQueue){}
 
 void Engine::Sample3DPass::SetUp()
 {
@@ -23,22 +24,25 @@ void Engine::Sample3DPass::SetUp()
 
 void Engine::Sample3DPass::Execute()
 {
+	auto context = m_deviceResources->GetD3DDeviceContext();
+	auto device = m_deviceResources->GetD3DDevice();
+
+	// 将视区重置为针对整个屏幕。
+	auto viewport = m_deviceResources->GetScreenViewport();
+	context->RSSetViewports(1, &viewport);
+
+	// 将呈现目标重置为屏幕。
+	ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
+	context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
+
+	// 清除后台缓冲区和深度模具视图。
+	context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::CornflowerBlue);
+	context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+
 	std::vector<std::shared_ptr<PerObjectData>>::iterator it;
 	for (it = renderObjects.begin(); it != renderObjects.end(); it++)
 	{
-		// 每个顶点都是 VertexPositionColor 结构的一个实例。
-		auto context = m_deviceResources->GetD3DDeviceContext();
-		auto device = m_deviceResources->GetD3DDevice();
-
-		// Reset render targets to the screen.
-		ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
-		context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
-
-		// Clear the back buffer and depth stencil view.
-		context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::Blue);
-		context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-
 		UINT stride = sizeof(VertexPosColor);
 		UINT offset = 0;
 		context->IASetVertexBuffers(
@@ -63,6 +67,18 @@ void Engine::Sample3DPass::Execute()
 		context->VSSetShader(
 			(*it)->vertexShader.Get(),
 			nullptr,
+			0
+		);
+
+		//更新常量缓冲区
+		m_ConstantData->mvp->model = (*it)->transform;
+		context->UpdateSubresource1(
+			(*it)->constantBuffer.Get(),
+			0,
+			NULL,
+			&*m_ConstantData->mvp,
+			0,
+			0,
 			0
 		);
 

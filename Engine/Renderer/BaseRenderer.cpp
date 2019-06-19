@@ -13,8 +13,8 @@ namespace Engine
 	};
 }
 
-Engine::BaseRenderer::BaseRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const std::shared_ptr<DX::MainLoader>& mainLoader, const std::shared_ptr<RenderData>& renderData)
-	:m_deviceResources(deviceResources), m_mainLoader(mainLoader), m_renderData(renderData) {}
+Engine::BaseRenderer::BaseRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const std::shared_ptr<DX::MainLoader>& mainLoader, const std::shared_ptr<RenderData>& renderData, const std::shared_ptr<ConstantData>& constantData)
+	:m_deviceResources(deviceResources), m_mainLoader(mainLoader), m_renderData(renderData), m_constantData(constantData) {}
 
 void Engine::BaseRenderer::sort()
 {

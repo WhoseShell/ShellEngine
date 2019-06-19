@@ -1,10 +1,14 @@
 #include "pch.h"
 #include "SampleRenderer.h"
 
-Engine::SampleRenderer::SampleRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources, const std::shared_ptr<DX::MainLoader>& mainLoader, const std::shared_ptr<RenderData>& renderData)
-	:BaseRenderer(deviceResources, mainLoader, renderData)
+Engine::SampleRenderer::SampleRenderer(
+	const std::shared_ptr<DX::DeviceResources>& deviceResources, 
+	const std::shared_ptr<DX::MainLoader>& mainLoader, 
+	const std::shared_ptr<RenderData>& renderData, 
+	const std::shared_ptr<ConstantData>& constantData)
+	:BaseRenderer(deviceResources, mainLoader, renderData, constantData)
 {
-	m_Sample3DPass = std::shared_ptr<Sample3DPass>(new Sample3DPass(deviceResources, mainLoader, renderData, 0)); //创建Pass
+	m_Sample3DPass = std::shared_ptr<Sample3DPass>(new Sample3DPass(deviceResources, mainLoader, renderData, constantData, 0)); //创建Pass
 }
 
 void Engine::SampleRenderer::SetPass()
