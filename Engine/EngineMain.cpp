@@ -17,7 +17,8 @@ EngineMain::EngineMain(const std::shared_ptr<DX::DeviceResources>& deviceResourc
 
 	// TODO: 将此替换为应用程序内容的初始化。
 	//m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
-	m_customSceneRenderer = std::unique_ptr<Sample3DScene>(new Sample3DScene(m_deviceResources)); //分配场景内存
+	//m_customSceneRenderer = std::unique_ptr<Sample3DScene>(new Sample3DScene(m_deviceResources)); //分配场景内存
+	m_customSceneRenderer = std::unique_ptr<CartoonScene>(new CartoonScene(m_deviceResources)); //分配场景内存
 	m_customSceneRenderer->Init(); //场景资源初始化
 	
 
