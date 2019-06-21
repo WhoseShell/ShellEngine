@@ -209,10 +209,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine_TemporaryKey.pfx" />
-    <None Include="Assets\Sphere.bin">
+    <None Include="Assets\SphereIndex.bin">
       <Filter>Assets</Filter>
     </None>
-    <None Include="Assets\SphereIndex.bin">
+    <None Include="Assets\Sphere.bin">
       <Filter>Assets</Filter>
     </None>
   </ItemGroup>

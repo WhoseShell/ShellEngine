@@ -63,7 +63,7 @@ void Engine::Sample3DScene::CreateWindowSizeDependentResources()
 
 void Engine::Sample3DScene::Init()
 {
-#pragma region 创建VertexBuffer
+#pragma region 创建VB/VS（可选）
 	Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer1;
 	uint32 vertexStride1 = sizeof(VertexPosColor);
 
@@ -90,10 +90,7 @@ void Engine::Sample3DScene::Init()
 			vertexBuffer1.GetAddressOf()
 		)
 	);
-#pragma endregion
 
-#pragma region 创建VertexIndex
-	Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer1;
 
 	// 加载网格索引。每三个索引表示
 // 要在屏幕上呈现的三角形。
@@ -121,6 +118,7 @@ void Engine::Sample3DScene::Init()
 		3,7,5,
 	};
 
+	Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer1;
 	int indexCount1 = ARRAYSIZE(cubeIndices);
 
 	D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
@@ -135,14 +133,16 @@ void Engine::Sample3DScene::Init()
 			indexBuffer1.GetAddressOf()
 		)
 	);
+#pragma endregion
 
+#pragma region 加载VB/VS
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer>		marble2Buffer1;
 	Microsoft::WRL::ComPtr<ID3D11Buffer>		marble2IndexBuffer1;
 	uint32 marble2IndexCount;
 	uint32 marble2VertexCount;
 	uint32 marble2VertexStride;
-	//m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\marble2.sdkmesh", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2IndexCount, &marble2VertexCount);
+	
 	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Sphere.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
 
 #pragma endregion
@@ -217,7 +217,7 @@ void Engine::Sample3DScene::Init()
 #pragma endregion
 
 #pragma region 装配PerObject
-	for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < 4; i++)
 	{
 		auto currentObj = std::shared_ptr<PerObjectData>(new PerObjectData);//创建一个渲染对象
 
@@ -239,7 +239,7 @@ void Engine::Sample3DScene::Init()
 		currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[0];
 		
 		//SRV：Texture/Transform
-		if (i == 0)//加载的marble Mesh
+		if (i == 0 || i == 1)//加载的marble Mesh
 		{
 			currentObj->objectName = L"marble";
 			currentObj->vertexBuffer = marble2Buffer1;
@@ -251,13 +251,18 @@ void Engine::Sample3DScene::Init()
 			currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[1];
 			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID1].SRV;
 			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
+			if (i == 1)
+			{
+				currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID2].SRV;
+				XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 2.0f, 0.0f));
+			}
 		}
-		if (i == 1)
+		if (i == 2)
 		{
 			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID2].SRV;
 			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(2.0f, 0.0f, 0.0f));
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID2].SRV;
 			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(-2.0f, 0.0f, 0.0f));
@@ -272,7 +277,7 @@ void Engine::Sample3DScene::Update(DX::StepTimer const& timer)
 {
 	if (!m_tracking)
 	{
-		Rotate(0.01);
+		//Rotate(0.01);
 		//Rotate(0);
 		m_constantBufferData->time = (float)timer.GetTotalSeconds();
 	}
