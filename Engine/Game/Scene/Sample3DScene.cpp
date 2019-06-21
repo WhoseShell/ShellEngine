@@ -146,6 +146,7 @@ void Engine::Sample3DScene::Init()
 	//m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Sphere.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
 	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
 
+
 #pragma endregion
 
 #pragma region 创建VS/PS/IA
@@ -198,6 +199,7 @@ void Engine::Sample3DScene::Init()
 	int SRVID1 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\floor_section1.dds", L"diffuse");
 	int SRVID2 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\LockScreenLogo.scale-200.png", L"diffuse");
 	int SRVID3 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\face_BaseColor.dds", L"diffuse");
+	int SRVID4 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\cloth.dds", L"diffuse");
 #pragma endregion
 
 #pragma region 创建采样器
@@ -264,7 +266,16 @@ void Engine::Sample3DScene::Init()
 			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
 			if (i == 1)
 			{
-				XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 2.0f, 0.0f));
+				m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\cloth.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
+				currentObj->vertexBuffer = marble2Buffer1;
+				currentObj->indexBuffer = marble2IndexBuffer1;
+				currentObj->indexCount = 42108;
+				currentObj->vertexStride = marble2VertexStride;
+				currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[2];
+				currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[2];
+				currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[2];
+				currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID4].SRV;
+				XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
 			}
 		}
 		if (i == 2)

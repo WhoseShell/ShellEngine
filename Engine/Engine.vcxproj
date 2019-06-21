@@ -243,6 +243,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Image Include="Assets\cloth.dds" />
     <Image Include="Assets\face_BaseColor.dds" />
     <Image Include="Assets\floor_section1.dds" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
@@ -321,6 +322,10 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Assets\cloth.bin">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Assets\clothIndex.bin" />
     <None Include="Assets\Face.bin">
       <DeploymentContent>true</DeploymentContent>
     </None>

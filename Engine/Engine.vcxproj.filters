@@ -206,6 +206,9 @@
     <Image Include="Assets\face_BaseColor.dds">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\cloth.dds">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -222,6 +225,12 @@
       <Filter>Assets</Filter>
     </None>
     <None Include="Assets\Face.bin">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\cloth.bin">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\clothIndex.bin">
       <Filter>Assets</Filter>
     </None>
   </ItemGroup>

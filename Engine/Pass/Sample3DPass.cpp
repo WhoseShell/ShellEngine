@@ -15,11 +15,23 @@ Engine::Sample3DPass::Sample3DPass(
 	const std::shared_ptr<ConstantData>& constantData,
 	int passQueue)
 	:
-	BasePass(deviceResources, mainLoader, renderData, constantData, passQueue){}
+	BasePass(deviceResources, mainLoader, renderData, constantData, passQueue)
+{
+	
+	ZeroMemory(&m_rsDesc, sizeof(D3D11_RASTERIZER_DESC));
+	m_rsDesc.FillMode = D3D11_FILL_SOLID;
+	m_rsDesc.CullMode = D3D11_CULL_FRONT;
+	m_rsDesc.FrontCounterClockwise = false;
+	m_rsDesc.DepthClipEnable = true;
+	m_deviceResources->GetD3DDevice()->CreateRasterizerState(&m_rsDesc, &m_rasterState);
+}
 
 void Engine::Sample3DPass::SetUp()
 {
 	Filter(L"Sample3DPass", 0, 2999);
+ 
+	if(m_rasterState!=nullptr)
+		m_deviceResources->GetD3DDeviceContext()->RSSetState(m_rasterState.Get());
 }
 
 void Engine::Sample3DPass::Execute()
@@ -41,7 +53,7 @@ void Engine::Sample3DPass::Execute()
 
 	//ComPtr<ID3D11RasterizerState> rasterStateDec;
 	//D3D11_RASTERIZER_DESC rstate;
-	//rstate.CullMode = D3D11_CULL_FRONT;
+	//rstate.CullMode = D3D11_CULL_BACK;
 	//device->CreateRasterizerState(&rstate, &rasterStateDec);
 	//context->RSSetState(rasterStateDec.Get());
 

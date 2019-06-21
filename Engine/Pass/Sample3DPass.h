@@ -19,5 +19,8 @@ namespace Engine
 		void SetUp(); // run once
 		void Execute();
 		void FrameRelease();
+	private:
+		D3D11_RASTERIZER_DESC m_rsDesc;
+		ComPtr<ID3D11RasterizerState> m_rasterState;
 	};
 }
