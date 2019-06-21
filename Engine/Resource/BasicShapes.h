@@ -26,6 +26,15 @@ struct TangentVertex
     float3 vTan; // texture coordinate v-tangent vector
 };
 
+struct BaseTangentVertex
+{
+	float3 pos;  // position
+	float3 uTan; // texture coordinate u-tangent vector
+	float4 vTan; // texture coordinate v-tangent vector
+	float2 tex1;  // texture coordinate
+	float2 tex2;  // texture coordinate
+};
+
 // A helper class that provides convenient functions for creating common
 // geometrical shapes used by DirectX SDK samples.
 ref class BasicShapes

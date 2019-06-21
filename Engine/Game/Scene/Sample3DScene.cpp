@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Sample3DScene.h"
 #include "..\Common\DirectXHelper.h"
+
+
 using namespace std;
 using namespace Windows::Foundation;
 using namespace Engine;
@@ -63,6 +65,8 @@ void Engine::Sample3DScene::Init()
 {
 #pragma region 创建VertexBuffer
 	Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer1;
+	uint32 vertexStride1 = sizeof(VertexPosColor);
+
 	static const VertexPosColor cubeVertices[] =
 	{
 		{XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f)},
@@ -131,6 +135,16 @@ void Engine::Sample3DScene::Init()
 			indexBuffer1.GetAddressOf()
 		)
 	);
+
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer>		marble2Buffer1;
+	Microsoft::WRL::ComPtr<ID3D11Buffer>		marble2IndexBuffer1;
+	uint32 marble2IndexCount;
+	uint32 marble2VertexCount;
+	uint32 marble2VertexStride;
+	//m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\marble2.sdkmesh", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2IndexCount, &marble2VertexCount);
+	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Sphere.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
+
 #pragma endregion
 
 #pragma region 创建VS/PS/IA
@@ -140,8 +154,20 @@ void Engine::Sample3DScene::Init()
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
+
+	D3D11_INPUT_ELEMENT_DESC marble2Desc[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		//{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+
 	std::vector<int> shaderConut;
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", vertexDesc, ARRAYSIZE(vertexDesc), shaderConut);
+	//m_mainLoader->m_shaderLoader->LoadPSandVS(L"BasicVertexShader.cso", L"BasicPixelShader.cso", marble2Desc, ARRAYSIZE(marble2Desc), shaderConut);
+	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", marble2Desc, ARRAYSIZE(marble2Desc), shaderConut);
+	
 #pragma endregion
 
 #pragma region 创建ConstantBuffer / 更新装配ConstantData
@@ -205,15 +231,24 @@ void Engine::Sample3DScene::Init()
 		currentObj->indexBuffer = indexBuffer1;
 		currentObj->indexCount = indexCount1;
 		currentObj->constantBuffer = constantBuffer1;
+		currentObj->vertexStride = vertexStride1;
 
 		// IA/VS/PS
-		currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[shaderConut[0]];
-		currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[shaderConut[1]];
-		currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[shaderConut[2]];
+		currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
+		currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];
+		currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[0];
 		
 		//SRV：Texture/Transform
-		if (i == 0)
+		if (i == 0)//加载的marble Mesh
 		{
+			currentObj->objectName = L"marble";
+			currentObj->vertexBuffer = marble2Buffer1;
+			currentObj->indexBuffer = marble2IndexBuffer1;
+			currentObj->indexCount = marble2IndexCount;
+			currentObj->vertexStride = marble2VertexStride;
+			currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[1];
+			currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[1];
+			currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[1];
 			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID1].SRV;
 			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
 		}

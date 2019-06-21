@@ -43,7 +43,7 @@ void Engine::Sample3DPass::Execute()
 	std::vector<std::shared_ptr<PerObjectData>>::iterator it;
 	for (it = renderObjects.begin(); it != renderObjects.end(); it++)
 	{
-		UINT stride = sizeof(VertexPosColor);
+		UINT stride = (*it)->vertexStride;
 		UINT offset = 0;
 		context->IASetVertexBuffers(
 			0,

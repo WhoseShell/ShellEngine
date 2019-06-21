@@ -9,10 +9,11 @@ struct MVPConstantBuffer
 	float time;
 };
 
-// 用于向顶点着色器发送每个顶点的数据。
+// 用于设置每个顶点的数据，由mesh的顶点数据结构唯一决定。不一定是VS中得到的数据，还要看InputLyout的定义
 struct VertexPosColor
 {
 	DirectX::XMFLOAT3 pos;
 	DirectX::XMFLOAT3 color;
 	DirectX::XMFLOAT2 uv;
 };
+

@@ -8,13 +8,13 @@ namespace DX
 	{
 	public:
 		MeshLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice);
-	protected:
 		void LoadMesh(
 			_In_ Platform::String^ filename,
 			_Out_ ID3D11Buffer** vertexBuffer,
 			_Out_ ID3D11Buffer** indexBuffer,
 			_Out_opt_ uint32* vertexCount,
-			_Out_opt_ uint32* indexCount
+			_Out_opt_ uint32* indexCount,
+			_Out_opt_ uint32* vertexStride
 		);
 
 		void CreateMesh(
@@ -23,7 +23,10 @@ namespace DX
 			_Out_ ID3D11Buffer** indexBuffer,
 			_Out_opt_ uint32* vertexCount,
 			_Out_opt_ uint32* indexCount,
+			_Out_opt_ uint32* vertexStride,
 			_In_opt_ Platform::String^ debugName
 		);
+	protected:
+		
 	};
 }

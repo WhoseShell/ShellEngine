@@ -13,7 +13,9 @@ void MeshLoader::LoadMesh(
 	ID3D11Buffer ** vertexBuffer, 
 	ID3D11Buffer ** indexBuffer, 
 	uint32 * vertexCount, 
-	uint32 * indexCount)
+	uint32 * indexCount,
+	uint32* vertexStride
+)
 
 {
 	Platform::Array<byte>^ meshData = ReadData(filename);
@@ -24,6 +26,7 @@ void MeshLoader::LoadMesh(
 		indexBuffer,
 		vertexCount,
 		indexCount,
+		vertexStride,
 		filename
 	);
 }
@@ -33,8 +36,12 @@ void MeshLoader::CreateMesh(
 	ID3D11Buffer ** indexBuffer, 
 	uint32 * vertexCount, 
 	uint32 * indexCount, 
+	_Out_opt_ uint32* vertexStride,
 	Platform::String ^ debugName)
 {
+	//顶点数据结构占用bit大小
+	auto stride = sizeof(BaseTangentVertex);
+	
 	// The first 4 bytes of the BasicMesh format define the number of vertices in the mesh.
 	uint32 numVertices = *reinterpret_cast<uint32*>(meshData);
 
@@ -42,10 +49,10 @@ void MeshLoader::CreateMesh(
 	uint32 numIndices = *reinterpret_cast<uint32*>(meshData + sizeof(uint32));
 
 	// The next segment of the BasicMesh format contains the vertices of the mesh.
-	BasicVertex* vertices = reinterpret_cast<BasicVertex*>(meshData + sizeof(uint32) * 2);
+	BaseTangentVertex* vertices = reinterpret_cast<BaseTangentVertex*>(meshData + sizeof(uint32) * 2);
 
 	// The last segment of the BasicMesh format contains the indices of the mesh.
-	uint16* indices = reinterpret_cast<uint16*>(meshData + sizeof(uint32) * 2 + sizeof(BasicVertex) * numVertices);
+	uint16* indices = reinterpret_cast<uint16*>(meshData + sizeof(uint32) * 2 + stride * numVertices);
 
 	// Create the vertex and index buffers with the mesh data.
 
@@ -53,7 +60,7 @@ void MeshLoader::CreateMesh(
 	vertexBufferData.pSysMem = vertices;
 	vertexBufferData.SysMemPitch = 0;
 	vertexBufferData.SysMemSlicePitch = 0;
-	CD3D11_BUFFER_DESC vertexBufferDesc(numVertices * sizeof(BasicVertex), D3D11_BIND_VERTEX_BUFFER);
+	CD3D11_BUFFER_DESC vertexBufferDesc(numVertices * stride, D3D11_BIND_VERTEX_BUFFER);
 	DX::ThrowIfFailed(
 		m_d3dDevice->CreateBuffer(
 			&vertexBufferDesc,
@@ -74,9 +81,9 @@ void MeshLoader::CreateMesh(
 			indexBuffer
 		)
 	);
-
-	//SetDebugName(*vertexBuffer, Platform::String::Concat(debugName, "_VertexBuffer"));
-	//SetDebugName(*indexBuffer, Platform::String::Concat(debugName, "_IndexBuffer"));
+/*
+	SetDebugName(*vertexBuffer, Platform::String::Concat(debugName, "_VertexBuffer"));
+	SetDebugName(*indexBuffer, Platform::String::Concat(debugName, "_IndexBuffer"));*/
 
 	if (vertexCount != nullptr)
 	{
@@ -85,5 +92,9 @@ void MeshLoader::CreateMesh(
 	if (indexCount != nullptr)
 	{
 		*indexCount = numIndices;
+	}
+	if (vertexStride != nullptr)
+	{
+		*vertexStride = stride;
 	}
 }

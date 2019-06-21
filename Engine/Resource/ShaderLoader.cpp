@@ -66,7 +66,7 @@ bool DX::ShaderLoader::LoadPSandVS(
 	}
 	count.push_back(ShaderLoader::LoadVertexShader(VSfilename,  layoutDesc, layoutDescNumElements));
 	count.push_back(ShaderLoader::LoadPiexelShader(PSfilename));
-	count.push_back(count.at(1));
+	count.push_back(count.at(count.size()-2));
 	return true;
 }
 

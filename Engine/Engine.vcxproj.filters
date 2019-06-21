@@ -209,10 +209,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine_TemporaryKey.pfx" />
+    <None Include="Assets\Sphere.bin">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\SphereIndex.bin">
+      <Filter>Assets</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Content">
       <UniqueIdentifier>e36da7c9-d6dc-4b31-a4de-d880a93a0993</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Content\BasicPixelShader.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\BasicVertexShader.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

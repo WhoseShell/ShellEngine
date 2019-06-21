@@ -17,12 +17,13 @@ namespace Engine
 		ComPtr<ID3D11Buffer>		vertexBuffer;
 		ComPtr<ID3D11Buffer>		indexBuffer;
 		ComPtr<ID3D11Buffer>		constantBuffer;
+		uint32	indexCount;
+		uint32 vertexStride;
 
 		ComPtr<ID3D11VertexShader>	vertexShader;
 		ComPtr<ID3D11PixelShader>	pixelShader;
 		ComPtr<ID3D11InputLayout>	inputLayout;
-		uint32	indexCount;
-
+		
 		ComPtr<ID3D11ShaderResourceView>		normal;
 		ComPtr<ID3D11ShaderResourceView>		baseColor;
 		ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
