@@ -143,7 +143,8 @@ void Engine::Sample3DScene::Init()
 	uint32 marble2VertexCount;
 	uint32 marble2VertexStride;
 	
-	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Sphere.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
+	//m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Sphere.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
+	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", marble2Buffer1.GetAddressOf(), marble2IndexBuffer1.GetAddressOf(), &marble2VertexCount, &marble2IndexCount, &marble2VertexStride);
 
 #pragma endregion
 
@@ -163,10 +164,19 @@ void Engine::Sample3DScene::Init()
 		//{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
+	D3D11_INPUT_ELEMENT_DESC SCDesc[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 52, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UV", 0, DXGI_FORMAT_R16G16_UNORM, 0, 56, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		//{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+
 	std::vector<int> shaderConut;
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", vertexDesc, ARRAYSIZE(vertexDesc), shaderConut);
 	//m_mainLoader->m_shaderLoader->LoadPSandVS(L"BasicVertexShader.cso", L"BasicPixelShader.cso", marble2Desc, ARRAYSIZE(marble2Desc), shaderConut);
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", marble2Desc, ARRAYSIZE(marble2Desc), shaderConut);
+	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SCDesc, ARRAYSIZE(SCDesc), shaderConut);
 	
 #pragma endregion
 
@@ -187,6 +197,7 @@ void Engine::Sample3DScene::Init()
 #pragma region 创建贴图和SRV
 	int SRVID1 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\floor_section1.dds", L"diffuse");
 	int SRVID2 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\LockScreenLogo.scale-200.png", L"diffuse");
+	int SRVID3 = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\face_BaseColor.dds", L"diffuse");
 #pragma endregion
 
 #pragma region 创建采样器
@@ -244,22 +255,21 @@ void Engine::Sample3DScene::Init()
 			currentObj->objectName = L"marble";
 			currentObj->vertexBuffer = marble2Buffer1;
 			currentObj->indexBuffer = marble2IndexBuffer1;
-			currentObj->indexCount = marble2IndexCount;
+			currentObj->indexCount = 18576;
 			currentObj->vertexStride = marble2VertexStride;
-			currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[1];
-			currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[1];
-			currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[1];
-			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID1].SRV;
+			currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[2];
+			currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[2];
+			currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[2];
+			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID3].SRV;
 			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
 			if (i == 1)
 			{
-				currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID2].SRV;
 				XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 2.0f, 0.0f));
 			}
 		}
 		if (i == 2)
 		{
-			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID2].SRV;
+			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[SRVID1].SRV;
 			XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(2.0f, 0.0f, 0.0f));
 		}
 		if (i == 3)
@@ -277,7 +287,7 @@ void Engine::Sample3DScene::Update(DX::StepTimer const& timer)
 {
 	if (!m_tracking)
 	{
-		//Rotate(0.01);
+		Rotate(0.01);
 		//Rotate(0);
 		m_constantBufferData->time = (float)timer.GetTotalSeconds();
 	}

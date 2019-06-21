@@ -39,6 +39,11 @@ void Engine::Sample3DPass::Execute()
 	context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::CornflowerBlue);
 	context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
+	//ComPtr<ID3D11RasterizerState> rasterStateDec;
+	//D3D11_RASTERIZER_DESC rstate;
+	//rstate.CullMode = D3D11_CULL_FRONT;
+	//device->CreateRasterizerState(&rstate, &rasterStateDec);
+	//context->RSSetState(rasterStateDec.Get());
 
 	std::vector<std::shared_ptr<PerObjectData>>::iterator it;
 	for (it = renderObjects.begin(); it != renderObjects.end(); it++)

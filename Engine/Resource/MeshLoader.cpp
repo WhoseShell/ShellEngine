@@ -40,7 +40,7 @@ void MeshLoader::CreateMesh(
 	Platform::String ^ debugName)
 {
 	//顶点数据结构占用bit大小
-	auto stride = sizeof(BaseTangentVertex);
+	auto stride = sizeof(Stride60);
 	
 	// The first 4 bytes of the BasicMesh format define the number of vertices in the mesh.
 	uint32 numVertices = *reinterpret_cast<uint32*>(meshData);
@@ -49,7 +49,7 @@ void MeshLoader::CreateMesh(
 	uint32 numIndices = *reinterpret_cast<uint32*>(meshData + sizeof(uint32));
 
 	// The next segment of the BasicMesh format contains the vertices of the mesh.
-	BaseTangentVertex* vertices = reinterpret_cast<BaseTangentVertex*>(meshData + sizeof(uint32) * 2);
+	Stride60* vertices = reinterpret_cast<Stride60*>(meshData + sizeof(uint32) * 2);
 
 	// The last segment of the BasicMesh format contains the indices of the mesh.
 	uint16* indices = reinterpret_cast<uint16*>(meshData + sizeof(uint32) * 2 + stride * numVertices);

@@ -35,6 +35,17 @@ struct BaseTangentVertex
 	float2 tex2;  // texture coordinate
 };
 
+struct Stride60
+{
+	float3 pos;
+	float2 normal;
+	float2 tangent;
+	float4 bw;
+	float2 bi;
+	float color;
+	float tex;
+};
+
 // A helper class that provides convenient functions for creating common
 // geometrical shapes used by DirectX SDK samples.
 ref class BasicShapes

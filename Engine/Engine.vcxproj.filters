@@ -203,6 +203,9 @@
     <Image Include="Assets\floor_section1.dds">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\face_BaseColor.dds">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -213,6 +216,12 @@
       <Filter>Assets</Filter>
     </None>
     <None Include="Assets\Sphere.bin">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\faceIndex.bin">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\Face.bin">
       <Filter>Assets</Filter>
     </None>
   </ItemGroup>
