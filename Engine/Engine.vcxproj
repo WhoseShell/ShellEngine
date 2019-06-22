@@ -266,7 +266,6 @@
     <ClInclude Include="Game\MoveController.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\CartoonScene.h" />
-    <ClInclude Include="Game\Scene\Material.h" />
     <ClInclude Include="Game\UserState.h" />
     <ClInclude Include="Pass\BasePass.h" />
     <ClInclude Include="Pass\OpaquePass.h" />
@@ -294,7 +293,6 @@
     <ClCompile Include="Game\MoveController.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\CartoonScene.cpp" />
-    <ClCompile Include="Game\Scene\Material.cpp" />
     <ClCompile Include="Game\UserState.cpp" />
     <ClCompile Include="Pass\BasePass.cpp" />
     <ClCompile Include="Pass\OpaquePass.cpp" />
