@@ -53,19 +53,14 @@ void Engine::CartoonScene::CreateWindowSizeDependentResources()
 
 void Engine::CartoonScene::Init()
 {
-#pragma region 加载VB/VS
+#pragma region 加载Mesh
 
-	Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer;
-	Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer;
-	uint32 indexCount;
-	uint32 vertexCount;
-	uint32 vertexStride;
-
-	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", vertexBuffer.GetAddressOf(), indexBuffer.GetAddressOf(), &vertexCount, &indexCount, &vertexStride);
+	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", L"face");
+	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\cloth.bin", L"cloth");
 
 #pragma endregion
 
-#pragma region 创建VS/PS/IA
+#pragma region VS/PS/IA
 
 	D3D11_INPUT_ELEMENT_DESC SCDesc[] =
 	{
@@ -75,29 +70,28 @@ void Engine::CartoonScene::Init()
 		//{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	std::vector<int> shaderConut;
-	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SCDesc, ARRAYSIZE(SCDesc), shaderConut);
+	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SCDesc, ARRAYSIZE(SCDesc), L"diffuse");
 
 #pragma endregion
 
 #pragma region 创建ConstantBuffer / 更新装配ConstantData
-	Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer1;
+	
 	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(MVPConstantBuffer) + 12, D3D11_BIND_CONSTANT_BUFFER);
 	DX::ThrowIfFailed(
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
 			&constantBufferDesc,
 			nullptr,
-			constantBuffer1.GetAddressOf()
+			constantBuffer.GetAddressOf()
 		)
 	);
 	CreateWindowSizeDependentResources(); // 更新m_constantBufferData;
 	m_constantData->mvp = m_constantBufferData;
 #pragma endregion
 
-#pragma region 加载贴图/SRV
+#pragma region 加载贴图/shaderResourceView
 
-	int face_baseColorID = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\face_BaseColor.dds", L"diffuse");
-	int cloth_baseColorID = m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\cloth.dds", L"diffuse");
+	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\face_BaseColor.dds", L"face_BaseColor");
+	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\cloth.dds", L"cloth_BaseColor");
 
 #pragma endregion
 
@@ -129,28 +123,14 @@ void Engine::CartoonScene::Init()
 #pragma endregion
 
 #pragma region 创建Material加入材质池
+	auto faceMat  = CreateMaterial(L"diffuse", L"face", L"OpaquePass" ,D3D11_CULL_FRONT, 2000);
+	faceMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"face_BaseColor")->shaderResourceView);
+	materialPool.push_back(faceMat);
 
-	auto material = std::shared_ptr<Material>(new Material);
-	material->id = 0;
-	material->name = L"CartoonMat0";
-	material->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
-	material->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];
-	material->baseColor = m_mainLoader->m_textureLoader->allSRV[face_baseColorID].SRV;
-	material->cullMode = D3D11_CULL_FRONT;
-	m_renderData->materialPool.push_back(material);
-
-	auto material2 = std::shared_ptr<Material>(new Material);
-	material2->id = 1;
-	material2->name = L"CartoonMat1";
-	material2->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
-	material2->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];
-	material2->baseColor = m_mainLoader->m_textureLoader->allSRV[cloth_baseColorID].SRV;
-	material2->cullMode = D3D11_CULL_FRONT;
-
-	m_renderData->materialPool.push_back(material2);
-
+	auto clothMat = CreateMaterial(L"diffuse", L"cloth", L"OpaquePass", D3D11_CULL_FRONT, 2000);
+	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
+	materialPool.push_back(clothMat);
 #pragma endregion
-
 
 #pragma region 装配PerObject
 	for (size_t i = 0; i < 2; i++)
@@ -159,48 +139,13 @@ void Engine::CartoonScene::Init()
 
 		if (i == 0)
 		{
-			currentObj->objectName = L"Face";
-			currentObj->indexCount = 18576;
-			//currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[face_baseColorID].SRV;
+			XMFLOAT4X4 transform = {};
+			AssembObject(currentObj, L"face", L"face", L"face", transform, 18756);
 		}
 		if (i == 1)
 		{
-			m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\cloth.bin", vertexBuffer.GetAddressOf(), indexBuffer.GetAddressOf(), &vertexCount, &indexCount, &vertexStride);
-			currentObj->indexCount = 42108;
-			//currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[cloth_baseColorID].SRV;
-		}
-
-		//设置该对象name及shaderNama
-		currentObj->objectName = wstring(L"卡通") + (i.ToString())->Data();
-		currentObj->shaderName = wstring(L"OpaquePass");
-		currentObj->renderQueue = 2000;
-
-		//Buffer
-		currentObj->vertexBuffer = vertexBuffer;
-		currentObj->indexBuffer = indexBuffer;
-		currentObj->vertexStride = vertexStride;
-		currentObj->constantBuffer = constantBuffer1;
-
-		// IA/VS/PS
-		/*currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
-		currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];*/
-		currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[0];
-
-		//transform
-		XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
-
-		//Material
-		vector<std::shared_ptr<Material>>::iterator it;
-		for (it = m_renderData->materialPool.begin(); it != m_renderData->materialPool.end(); it++) 
-		{
-			if ((*it)->name == L"CartoonMat0" && i == 0)
-			{
-				currentObj->material = (*it);
-			}
-			if ((*it)->name == L"CartoonMat1" && i == 1)
-			{
-				currentObj->material = (*it);
-			}
+			XMFLOAT4X4 transform = {};
+			AssembObject(currentObj, L"cloth", L"cloth", L"cloth", transform, 42108);
 		}
 
 		m_renderData->perObject.push_back(currentObj);//将对象加入对象池

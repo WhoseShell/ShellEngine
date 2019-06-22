@@ -7,6 +7,15 @@ namespace DX
 {
 #define MaxShaderNum 20
 
+	struct Shader
+	{
+		std::wstring name;
+		Microsoft::WRL::ComPtr<ID3D11VertexShader>	vertexShader;
+		Microsoft::WRL::ComPtr<ID3D11PixelShader>	pixelShader;
+		Microsoft::WRL::ComPtr<ID3D11InputLayout>	inputLayout;
+		int IASize;
+	};
+
 	class ShaderLoader : public BaseLoader
 	{
 	public:
@@ -22,11 +31,12 @@ namespace DX
 			_In_ Platform::String^ PSfilename,
 			_In_reads_opt_(layoutDescNumElements) D3D11_INPUT_ELEMENT_DESC layoutDesc[], 
 			_In_ uint32 layoutDescNumElements, 
-			std::vector<int>& count);
+			/*_In_opt_ std::vector<int>& count,*/
+			_In_opt_ std::wstring name);
 
-		std::vector<Microsoft::WRL::ComPtr<ID3D11VertexShader>>		allVertexShader;
-		std::vector<Microsoft::WRL::ComPtr<ID3D11PixelShader>>		allPixelShader;
-		std::vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>>		allInputLayout;
+		std::vector<std::shared_ptr<Shader>>		shaderPool;
+
+		std::shared_ptr<Shader> GetByName(std::wstring name);
 
 	private:
 		void CreateInputLayout(
@@ -35,6 +45,10 @@ namespace DX
 			_In_reads_opt_(layoutDescNumElements) D3D11_INPUT_ELEMENT_DESC* layoutDesc,
 			_In_ uint32 layoutDescNumElements
 		);
+
+		std::vector<Microsoft::WRL::ComPtr<ID3D11VertexShader>>		allVertexShader;
+		std::vector<Microsoft::WRL::ComPtr<ID3D11PixelShader>>		allPixelShader;
+		std::vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>>		allInputLayout;
 
 		int vertexShaderLoadCount;
 		int pixelShaderLoadCount;

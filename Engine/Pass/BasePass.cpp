@@ -20,7 +20,7 @@ BasePass::BasePass(
 	m_ConstantData(constantData)
 {}
 
-void Engine::BasePass::Filter(std::wstring shaderName)
+void Engine::BasePass::Filter(std::wstring passName)
 {
 	renderObjects.clear();
 	//通过ShaderName过滤需要的渲染对象
@@ -34,21 +34,21 @@ void Engine::BasePass::Filter(std::wstring shaderName)
 	std::vector<std::shared_ptr<PerObjectData>>::iterator it;
 	for (it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
 	{
-		if ((*it)->shaderName == shaderName)
+		if ((*it)->material->passName == passName)
 		{
 			renderObjects.push_back((*it));
 		}
 	}
 }
 
-void Engine::BasePass::Filter(std::wstring shaderName, int renderQueueBegin, int renderQueueEnd)
+void Engine::BasePass::Filter(std::wstring passName, int renderQueueBegin, int renderQueueEnd)
 {
 	renderObjects.clear();
 	//通过ShaderName + Filter过滤需要的渲染对象
 	std::vector<std::shared_ptr<PerObjectData>>::iterator it;
 	for (it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
 	{
-		if ((*it)->shaderName == shaderName && (*it)->renderQueue >= renderQueueBegin && (*it)->renderQueue <= renderQueueEnd)
+		if ((*it)->material->passName == passName && (*it)->material->renderQueue >= renderQueueBegin && (*it)->material->renderQueue <= renderQueueEnd)
 		{
 			renderObjects.push_back((*it));
 		}

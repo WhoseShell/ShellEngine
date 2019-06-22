@@ -14,13 +14,37 @@ namespace Engine
 
 		void InputUserState(UserState^ ustate);
 
-
 	protected:
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::shared_ptr<DX::MainLoader> m_mainLoader;
 		std::shared_ptr<RenderData> m_renderData;
 		std::shared_ptr<ConstantData> m_constantData;
-
 		UserState^  u_state;
+
+		//use in ResourceInit
+		//Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer;
+		//Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer;
+		//uint32 indexCount;
+		//uint32 vertexCount;
+		//uint32 vertexStride;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer;
+
+		std::vector<std::shared_ptr<Material>> materialPool;
+		std::shared_ptr<Material> CreateMaterial(
+			std::wstring shaderName,
+			std::wstring matName,
+			std::wstring passName,
+			D3D11_CULL_MODE cullMode,
+			int renderQueue
+		);
+
+		std::shared_ptr<Material> GetMatByName(std::wstring matName);
+		void AssembObject(
+			std::shared_ptr<PerObjectData> &object,
+			std::wstring objectName, 
+			std::wstring meshName, 
+			std::wstring matName,
+			XMFLOAT4X4 &transform,
+			int indexCount);
 	};
 }

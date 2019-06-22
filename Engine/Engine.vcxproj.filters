@@ -89,6 +89,7 @@
     <ClInclude Include="Renderer\CartoonRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Scene\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -109,12 +110,6 @@
     <ClCompile Include="Resource\MainLoader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Pass\Sample3DPass.cpp">
-      <Filter>Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\Sample3DScene.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Pass\BasePass.cpp">
       <Filter>Pass</Filter>
     </ClCompile>
@@ -122,9 +117,6 @@
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\BaseRenderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\SampleRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Game\UserState.cpp">
@@ -154,6 +146,7 @@
     <ClCompile Include="Renderer\CartoonRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Scene\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -177,12 +170,6 @@
     <ClInclude Include="Resource\MainLoader.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Pass\Sample3DPass.h">
-      <Filter>Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\Sample3DScene.h">
-      <Filter>Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Pass\BasePass.h">
       <Filter>Pass</Filter>
     </ClInclude>
@@ -190,9 +177,6 @@
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\BaseRenderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\SampleRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Pass\ShaderStruct.h">

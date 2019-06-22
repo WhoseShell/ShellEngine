@@ -10,37 +10,28 @@ namespace Engine
 {
 	struct Material
 	{
-		int id;
+		int renderQueue;
 		std::wstring name;
+		std::wstring passName;
+
+		D3D11_CULL_MODE cullMode;
+
+		ComPtr<ID3D11InputLayout>	inputLayout;
 		ComPtr<ID3D11VertexShader>	vertexShader;
 		ComPtr<ID3D11PixelShader>	pixelShader;
 
-		ComPtr<ID3D11ShaderResourceView>		normal;
-		ComPtr<ID3D11ShaderResourceView>		baseColor;
-		ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
-
-		D3D11_CULL_MODE cullMode;
+		std::vector<ComPtr<ID3D11ShaderResourceView>> SRVs;
 	};
 
 	struct PerObjectData
 	{
 		std::wstring objectName;
-		std::wstring shaderName;
-		int renderQueue;
 
 		ComPtr<ID3D11Buffer>		vertexBuffer;
 		ComPtr<ID3D11Buffer>		indexBuffer;
 		ComPtr<ID3D11Buffer>		constantBuffer;
 		uint32	indexCount;
 		uint32 vertexStride;
-
-		ComPtr<ID3D11VertexShader>	vertexShader;
-		ComPtr<ID3D11PixelShader>	pixelShader;
-		ComPtr<ID3D11InputLayout>	inputLayout;
-		
-		ComPtr<ID3D11ShaderResourceView>		normal;
-		ComPtr<ID3D11ShaderResourceView>		baseColor;
-		ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
 		
 		XMFLOAT4X4 transform;
 
@@ -62,7 +53,6 @@ namespace Engine
 	struct RenderData
 	{
 		std::vector<std::shared_ptr<PerObjectData>> perObject;
-		std::vector<std::shared_ptr<Material>> materialPool;
 		std::shared_ptr<LightData> lightData;
 	};
 
@@ -79,8 +69,8 @@ namespace Engine
 		int m_passQueue;
 		virtual void Execute() = 0;
 		virtual void FrameRelease() = 0;
-		void Filter(std::wstring shaderName);
-		void Filter(std::wstring shaderName, int renderQueueBegin, int renderQueueEnd);
+		void Filter(std::wstring passName);
+		void Filter(std::wstring passName, int renderQueueBegin, int renderQueueEnd);
 	protected:
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::shared_ptr<DX::MainLoader> m_mainLoader;

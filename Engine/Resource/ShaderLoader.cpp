@@ -58,16 +58,39 @@ bool DX::ShaderLoader::LoadPSandVS(
 	_In_ Platform::String^ PSfilename, 
 	_In_reads_opt_(layoutDescNumElements) D3D11_INPUT_ELEMENT_DESC layoutDesc[], 
 	_In_ uint32 layoutDescNumElements, 
-	std::vector<int>& count)
+	/*_In_opt_ std::vector<int>& count,*/
+	_In_opt_ std::wstring name)
 {
 	if (vertexShaderLoadCount == MaxShaderNum || pixelShaderLoadCount == MaxShaderNum)
 	{
 		return false;
 	}
-	count.push_back(ShaderLoader::LoadVertexShader(VSfilename,  layoutDesc, layoutDescNumElements));
-	count.push_back(ShaderLoader::LoadPiexelShader(PSfilename));
-	count.push_back(count.at(count.size()-2));
+	auto shader = std::shared_ptr<Shader>(new Shader);
+	
+	auto VS_IA_ID = ShaderLoader::LoadVertexShader(VSfilename,  layoutDesc, layoutDescNumElements);
+	auto PS_ID = ShaderLoader::LoadPiexelShader(PSfilename);
+
+	shader->name = name;
+	shader->vertexShader = allVertexShader[VS_IA_ID];
+	shader->inputLayout = allInputLayout[VS_IA_ID];
+	shader->pixelShader = allPixelShader[PS_ID];
+	shader->IASize = layoutDescNumElements;
+	shaderPool.push_back(shader);
+
 	return true;
+}
+
+std::shared_ptr<Shader> DX::ShaderLoader::GetByName(std::wstring name)
+{
+	std::vector<std::shared_ptr<Shader>>::iterator it;
+	for (it = shaderPool.begin(); it != shaderPool.end(); it++)
+	{
+		if ((*it)->name == name)
+		{
+			return (*it);
+		}
+	}
+	return nullptr;
 }
 
 void ShaderLoader::CreateInputLayout(

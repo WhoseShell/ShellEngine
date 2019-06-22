@@ -98,3 +98,24 @@ void MeshLoader::CreateMesh(
 		*vertexStride = stride;
 	}
 }
+
+void DX::MeshLoader::LoadMesh(Platform::String ^ filename, Platform::String ^ meshName)
+{
+	auto mesh = std::shared_ptr<Mesh>(new Mesh);
+	LoadMesh(filename, &mesh->vertexBuffer, &mesh->indexBuffer, &mesh->vertexCount, &mesh->indexCount, &mesh->vertexStride);
+	mesh->name = meshName->Data();
+	meshPool.push_back(mesh);
+}
+
+std::shared_ptr<Mesh> DX::MeshLoader::GetByName(std::wstring name)
+{
+	std::vector<std::shared_ptr<Mesh>>::iterator it;
+	for (it = meshPool.begin(); it != meshPool.end(); it++)
+	{
+		if ((*it)->name == name)
+		{
+			return (*it);
+		}
+	}
+	return nullptr;
+}

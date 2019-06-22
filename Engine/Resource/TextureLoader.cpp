@@ -16,27 +16,26 @@ TextureLoader::TextureLoader(
 	loader = ref new BasicLoader(d3dDevice.Get());
 }
 
-int DX::TextureLoader::LoadToSRV(wchar_t const* filename, std::wstring matName)
+int DX::TextureLoader::LoadToSRV(wchar_t const* filename, std::wstring texName)
 {
-	SRVStruct srv;
-	allSRV.push_back(srv);
-	allSRV[SRVLoadCount].id = SRVLoadCount;
-	allSRV[SRVLoadCount].name = matName;
-	loader->LoadTexture(ref new Platform::String(filename), nullptr, &allSRV[SRVLoadCount].SRV);
-	//LoadTextureOld(filename, allSRV[SRVLoadCount].SRV.Get());
+	auto srv = std::shared_ptr<SRV>(new SRV());
+	srv->name = texName;
+	loader->LoadTexture(ref new Platform::String(filename), nullptr, &srv->shaderResourceView);
+	SRVPool.push_back(srv);
 	return SRVLoadCount++;
 }
 
-
-int DX::TextureLoader::LoadToSRV(wchar_t const* filename, std::wstring matName, _Out_opt_ ID3D11ShaderResourceView** textureView)
+std::shared_ptr<SRV> DX::TextureLoader::GetByName(std::wstring name)
 {
-	SRVStruct srv;
-	allSRV.push_back(srv);
-	allSRV[SRVLoadCount].id = SRVLoadCount;
-	allSRV[SRVLoadCount].name = matName;
-	loader->LoadTexture(ref new Platform::String(filename), nullptr, textureView);
-	//LoadTextureOld(filename, allSRV[SRVLoadCount].SRV.Get());
-	return SRVLoadCount++;
+	std::vector<std::shared_ptr<SRV>>::iterator it;
+	for (it = SRVPool.begin(); it != SRVPool.end(); it++)
+	{
+		if ((*it)->name == name)
+		{
+			return (*it);
+		}
+	}
+	return nullptr;
 }
 
 

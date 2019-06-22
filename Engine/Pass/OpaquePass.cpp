@@ -74,7 +74,7 @@ void Engine::OpaquePass::Execute()
 
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		context->IASetInputLayout((*it)->inputLayout.Get());
+		context->IASetInputLayout((*it)->material->inputLayout.Get());
 
 		// 附加我们的顶点着色器。
 		context->VSSetShader(
@@ -111,8 +111,8 @@ void Engine::OpaquePass::Execute()
 			0
 		);
 
-		// 绑定SRV
-		context->PSSetShaderResources(0, 1, (*it)->material->baseColor.GetAddressOf());
+		// 绑定shaderResourceView
+		context->PSSetShaderResources(0, (*it)->material->SRVs.size(), (*it)->material->SRVs[0].GetAddressOf());
 
 		//光栅化状态是否需要重新设置
 		if ((*it)->material->cullMode != m_rsDesc.CullMode)

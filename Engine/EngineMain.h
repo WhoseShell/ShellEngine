@@ -4,7 +4,6 @@
 #include "Common\DeviceResources.h"
 #include "Content\Sample3DSceneRenderer.h"
 #include "Content\SampleFpsTextRenderer.h"
-#include "Game\Scene\Sample3DScene.h"
 #include"Game\Scene\CartoonScene.h"
 #include "Game\UserState.h"
 

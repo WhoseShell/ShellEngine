@@ -4,6 +4,18 @@
 
 namespace DX
 {
+	struct Mesh
+	{
+		std::wstring name;
+
+		Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer;
+		uint32 vertexCount;
+		uint32 vertexStride;
+
+		Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer;
+		uint32 indexCount;
+	};
+
 	class MeshLoader : public BaseLoader
 	{
 	public:
@@ -26,6 +38,12 @@ namespace DX
 			_Out_opt_ uint32* vertexStride,
 			_In_opt_ Platform::String^ debugName
 		);
+
+		void LoadMesh(_In_ Platform::String^ filename, Platform::String ^ meshName);
+
+		std::vector<std::shared_ptr<Mesh>> meshPool;
+
+		std::shared_ptr<Mesh> GetByName(std::wstring name);
 	protected:
 		
 	};

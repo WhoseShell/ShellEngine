@@ -266,16 +266,14 @@
     <ClInclude Include="Game\MoveController.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\CartoonScene.h" />
-    <ClInclude Include="Game\Scene\Sample3DScene.h" />
+    <ClInclude Include="Game\Scene\Material.h" />
     <ClInclude Include="Game\UserState.h" />
     <ClInclude Include="Pass\BasePass.h" />
     <ClInclude Include="Pass\OpaquePass.h" />
-    <ClInclude Include="Pass\Sample3DPass.h" />
     <ClInclude Include="Pass\ShaderStruct.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Renderer\BaseRenderer.h" />
     <ClInclude Include="Renderer\CartoonRenderer.h" />
-    <ClInclude Include="Renderer\SampleRenderer.h" />
     <ClInclude Include="Resource\BaseLoader.h" />
     <ClInclude Include="Resource\BasicLoader.h" />
     <ClInclude Include="Resource\BasicMath.h" />
@@ -296,11 +294,10 @@
     <ClCompile Include="Game\MoveController.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\CartoonScene.cpp" />
-    <ClCompile Include="Game\Scene\Sample3DScene.cpp" />
+    <ClCompile Include="Game\Scene\Material.cpp" />
     <ClCompile Include="Game\UserState.cpp" />
     <ClCompile Include="Pass\BasePass.cpp" />
     <ClCompile Include="Pass\OpaquePass.cpp" />
-    <ClCompile Include="Pass\Sample3DPass.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -313,7 +310,6 @@
     </ClCompile>
     <ClCompile Include="Renderer\BaseRenderer.cpp" />
     <ClCompile Include="Renderer\CartoonRenderer.cpp" />
-    <ClCompile Include="Renderer\SampleRenderer.cpp" />
     <ClCompile Include="Resource\BaseLoader.cpp" />
     <ClCompile Include="Resource\BasicLoader.cpp" />
     <ClCompile Include="Resource\BasicReaderWriter.cpp" />
