@@ -128,6 +128,30 @@ void Engine::CartoonScene::Init()
 	);
 #pragma endregion
 
+#pragma region 创建Material加入材质池
+
+	auto material = std::shared_ptr<Material>(new Material);
+	material->id = 0;
+	material->name = L"CartoonMat0";
+	material->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
+	material->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];
+	material->baseColor = m_mainLoader->m_textureLoader->allSRV[face_baseColorID].SRV;
+	material->cullMode = D3D11_CULL_FRONT;
+	m_renderData->materialPool.push_back(material);
+
+	auto material2 = std::shared_ptr<Material>(new Material);
+	material2->id = 1;
+	material2->name = L"CartoonMat1";
+	material2->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
+	material2->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];
+	material2->baseColor = m_mainLoader->m_textureLoader->allSRV[cloth_baseColorID].SRV;
+	material2->cullMode = D3D11_CULL_FRONT;
+
+	m_renderData->materialPool.push_back(material2);
+
+#pragma endregion
+
+
 #pragma region 装配PerObject
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -137,13 +161,13 @@ void Engine::CartoonScene::Init()
 		{
 			currentObj->objectName = L"Face";
 			currentObj->indexCount = 18576;
-			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[face_baseColorID].SRV;
+			//currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[face_baseColorID].SRV;
 		}
 		if (i == 1)
 		{
 			m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\cloth.bin", vertexBuffer.GetAddressOf(), indexBuffer.GetAddressOf(), &vertexCount, &indexCount, &vertexStride);
 			currentObj->indexCount = 42108;
-			currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[cloth_baseColorID].SRV;
+			//currentObj->baseColor = m_mainLoader->m_textureLoader->allSRV[cloth_baseColorID].SRV;
 		}
 
 		//设置该对象name及shaderNama
@@ -158,12 +182,26 @@ void Engine::CartoonScene::Init()
 		currentObj->constantBuffer = constantBuffer1;
 
 		// IA/VS/PS
-		currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
-		currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];
+		/*currentObj->vertexShader = m_mainLoader->m_shaderLoader->allVertexShader[0];
+		currentObj->pixelShader = m_mainLoader->m_shaderLoader->allPixelShader[0];*/
 		currentObj->inputLayout = m_mainLoader->m_shaderLoader->allInputLayout[0];
 
 		//transform
 		XMStoreFloat4x4(&currentObj->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
+
+		//Material
+		vector<std::shared_ptr<Material>>::iterator it;
+		for (it = m_renderData->materialPool.begin(); it != m_renderData->materialPool.end(); it++) 
+		{
+			if ((*it)->name == L"CartoonMat0" && i == 0)
+			{
+				currentObj->material = (*it);
+			}
+			if ((*it)->name == L"CartoonMat1" && i == 1)
+			{
+				currentObj->material = (*it);
+			}
+		}
 
 		m_renderData->perObject.push_back(currentObj);//将对象加入对象池
 	}

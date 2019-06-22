@@ -78,7 +78,7 @@ void Engine::OpaquePass::Execute()
 
 		// 附加我们的顶点着色器。
 		context->VSSetShader(
-			(*it)->vertexShader.Get(),
+			(*it)->material->vertexShader.Get(),
 			nullptr,
 			0
 		);
@@ -106,14 +106,20 @@ void Engine::OpaquePass::Execute()
 
 		// 附加我们的像素着色器。
 		context->PSSetShader(
-			(*it)->pixelShader.Get(),
+			(*it)->material->pixelShader.Get(),
 			nullptr,
 			0
 		);
 
 		// 绑定SRV
-		context->PSSetShaderResources(0, 1, (*it)->baseColor.GetAddressOf());
+		context->PSSetShaderResources(0, 1, (*it)->material->baseColor.GetAddressOf());
 
+		//光栅化状态是否需要重新设置
+		if ((*it)->material->cullMode != m_rsDesc.CullMode)
+		{
+			m_rsDesc.CullMode = (*it)->material->cullMode;
+			context->RSSetState(m_rasterState.Get());
+		}
 
 		// 绘制对象。
 		context->DrawIndexed(

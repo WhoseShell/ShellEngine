@@ -8,6 +8,20 @@ using namespace Microsoft::WRL;
 
 namespace Engine
 {
+	struct Material
+	{
+		int id;
+		std::wstring name;
+		ComPtr<ID3D11VertexShader>	vertexShader;
+		ComPtr<ID3D11PixelShader>	pixelShader;
+
+		ComPtr<ID3D11ShaderResourceView>		normal;
+		ComPtr<ID3D11ShaderResourceView>		baseColor;
+		ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
+
+		D3D11_CULL_MODE cullMode;
+	};
+
 	struct PerObjectData
 	{
 		std::wstring objectName;
@@ -29,6 +43,8 @@ namespace Engine
 		ComPtr<ID3D11ShaderResourceView>		metaAndSmothness;
 		
 		XMFLOAT4X4 transform;
+
+		std::shared_ptr<Material> material;
 	};
 
 	struct LightData
@@ -46,6 +62,7 @@ namespace Engine
 	struct RenderData
 	{
 		std::vector<std::shared_ptr<PerObjectData>> perObject;
+		std::vector<std::shared_ptr<Material>> materialPool;
 		std::shared_ptr<LightData> lightData;
 	};
 
