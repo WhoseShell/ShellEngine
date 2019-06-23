@@ -57,6 +57,7 @@ void Engine::CartoonScene::Init()
 
 	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", L"face", 60);
 	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\cloth.bin", L"cloth", 60);
+	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Sphere.bin", L"skyBox", 56);
 
 #pragma endregion
 
@@ -70,7 +71,16 @@ void Engine::CartoonScene::Init()
 		//{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
+	D3D11_INPUT_ELEMENT_DESC SphereDesc[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UV", 0, DXGI_FORMAT_R16G16_UNORM, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		//{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SCDesc, ARRAYSIZE(SCDesc), L"diffuse");
+	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SphereDesc, ARRAYSIZE(SphereDesc), L"sphereDiffuse");
 
 #pragma endregion
 
@@ -132,13 +142,13 @@ void Engine::CartoonScene::Init()
 	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
 	materialPool.push_back(clothMat);
 
-	auto skyBoxMat = CreateMaterial(L"diffuse", L"skyBox", L"OpaquePass", D3D11_CULL_BACK, 2100);
-	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
-	materialPool.push_back(clothMat);
+	auto skyBoxMat = CreateMaterial(L"sphereDiffuse", L"skyBox", L"OpaquePass", D3D11_CULL_FRONT, 2100);
+	skyBoxMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
+	materialPool.push_back(skyBoxMat);
 #pragma endregion
 
 #pragma region 装配PerObject
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < 3; i++)
 	{
 		auto currentObj = std::shared_ptr<PerObjectData>(new PerObjectData);//创建一个渲染对象
 
@@ -151,6 +161,11 @@ void Engine::CartoonScene::Init()
 		{
 			XMFLOAT4X4 transform = {};
 			AssembObject(currentObj, L"cloth", L"cloth", L"cloth", transform, 42108);
+		}
+		if (i == 2)
+		{
+			XMFLOAT4X4 transform = {};
+			AssembObject(currentObj, L"skyBox", L"skyBox", L"skyBox", transform, -1);
 		}
 
 		m_renderData->perObject.push_back(currentObj);//将对象加入对象池
