@@ -10,11 +10,11 @@ MeshLoader::MeshLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice):B
 
 void MeshLoader::LoadMesh(
 	Platform::String ^ filename, 
+	int vertexStride,
 	ID3D11Buffer ** vertexBuffer, 
 	ID3D11Buffer ** indexBuffer, 
 	uint32 * vertexCount, 
-	uint32 * indexCount,
-	uint32* vertexStride
+	uint32 * indexCount
 )
 
 {
@@ -36,12 +36,9 @@ void MeshLoader::CreateMesh(
 	ID3D11Buffer ** indexBuffer, 
 	uint32 * vertexCount, 
 	uint32 * indexCount, 
-	_Out_opt_ uint32* vertexStride,
+	int vertexStride,
 	Platform::String ^ debugName)
-{
-	//顶点数据结构占用bit大小
-	auto stride = sizeof(Stride60);
-	
+{	
 	// The first 4 bytes of the BasicMesh format define the number of vertices in the mesh.
 	uint32 numVertices = *reinterpret_cast<uint32*>(meshData);
 
@@ -49,10 +46,10 @@ void MeshLoader::CreateMesh(
 	uint32 numIndices = *reinterpret_cast<uint32*>(meshData + sizeof(uint32));
 
 	// The next segment of the BasicMesh format contains the vertices of the mesh.
-	Stride60* vertices = reinterpret_cast<Stride60*>(meshData + sizeof(uint32) * 2);
+	uint16* vertices = reinterpret_cast<uint16*>(meshData + sizeof(uint32) * 2);
 
 	// The last segment of the BasicMesh format contains the indices of the mesh.
-	uint16* indices = reinterpret_cast<uint16*>(meshData + sizeof(uint32) * 2 + stride * numVertices);
+	uint16* indices = reinterpret_cast<uint16*>(meshData + sizeof(uint32) * 2 + vertexStride * numVertices);
 
 	// Create the vertex and index buffers with the mesh data.
 
@@ -60,7 +57,7 @@ void MeshLoader::CreateMesh(
 	vertexBufferData.pSysMem = vertices;
 	vertexBufferData.SysMemPitch = 0;
 	vertexBufferData.SysMemSlicePitch = 0;
-	CD3D11_BUFFER_DESC vertexBufferDesc(numVertices * stride, D3D11_BIND_VERTEX_BUFFER);
+	CD3D11_BUFFER_DESC vertexBufferDesc(numVertices * vertexStride, D3D11_BIND_VERTEX_BUFFER);
 	DX::ThrowIfFailed(
 		m_d3dDevice->CreateBuffer(
 			&vertexBufferDesc,
@@ -93,17 +90,14 @@ void MeshLoader::CreateMesh(
 	{
 		*indexCount = numIndices;
 	}
-	if (vertexStride != nullptr)
-	{
-		*vertexStride = stride;
-	}
 }
 
-void DX::MeshLoader::LoadMesh(Platform::String ^ filename, Platform::String ^ meshName)
+void DX::MeshLoader::LoadMesh(Platform::String ^ filename, Platform::String ^ meshName, int vertexStride)
 {
 	auto mesh = std::shared_ptr<Mesh>(new Mesh);
-	LoadMesh(filename, &mesh->vertexBuffer, &mesh->indexBuffer, &mesh->vertexCount, &mesh->indexCount, &mesh->vertexStride);
+	LoadMesh(filename, vertexStride, &mesh->vertexBuffer, &mesh->indexBuffer, &mesh->vertexCount, &mesh->indexCount);
 	mesh->name = meshName->Data();
+	mesh->vertexStride = vertexStride;
 	meshPool.push_back(mesh);
 }
 

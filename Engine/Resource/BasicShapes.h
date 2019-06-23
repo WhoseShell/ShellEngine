@@ -26,7 +26,7 @@ struct TangentVertex
     float3 vTan; // texture coordinate v-tangent vector
 };
 
-struct BaseTangentVertex
+struct Stride56
 {
 	float3 pos;  // position
 	float3 uTan; // texture coordinate u-tangent vector

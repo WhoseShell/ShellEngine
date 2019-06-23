@@ -22,11 +22,11 @@ namespace DX
 		MeshLoader(const Microsoft::WRL::ComPtr<ID3D11Device3>& d3dDevice);
 		void LoadMesh(
 			_In_ Platform::String^ filename,
+			int vertexStride,
 			_Out_ ID3D11Buffer** vertexBuffer,
 			_Out_ ID3D11Buffer** indexBuffer,
 			_Out_opt_ uint32* vertexCount,
-			_Out_opt_ uint32* indexCount,
-			_Out_opt_ uint32* vertexStride
+			_Out_opt_ uint32* indexCount
 		);
 
 		void CreateMesh(
@@ -35,11 +35,11 @@ namespace DX
 			_Out_ ID3D11Buffer** indexBuffer,
 			_Out_opt_ uint32* vertexCount,
 			_Out_opt_ uint32* indexCount,
-			_Out_opt_ uint32* vertexStride,
+			int vertexStride,
 			_In_opt_ Platform::String^ debugName
 		);
 
-		void LoadMesh(_In_ Platform::String^ filename, Platform::String ^ meshName);
+		void LoadMesh(_In_ Platform::String^ filename, Platform::String ^ meshName, int vertexStride);
 
 		std::vector<std::shared_ptr<Mesh>> meshPool;
 

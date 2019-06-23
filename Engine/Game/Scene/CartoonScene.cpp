@@ -55,8 +55,8 @@ void Engine::CartoonScene::Init()
 {
 #pragma region ¼ÓÔØMesh
 
-	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", L"face");
-	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\cloth.bin", L"cloth");
+	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", L"face", 60);
+	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\cloth.bin", L"cloth", 60);
 
 #pragma endregion
 
@@ -92,6 +92,7 @@ void Engine::CartoonScene::Init()
 
 	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\face_BaseColor.dds", L"face_BaseColor");
 	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\cloth.dds", L"cloth_BaseColor");
+	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\floor_section1.dds", L"skyBox_BaseColor");
 
 #pragma endregion
 
@@ -129,6 +130,10 @@ void Engine::CartoonScene::Init()
 
 	auto clothMat = CreateMaterial(L"diffuse", L"cloth", L"OpaquePass", D3D11_CULL_FRONT, 2000);
 	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
+	materialPool.push_back(clothMat);
+
+	auto skyBoxMat = CreateMaterial(L"diffuse", L"skyBox", L"OpaquePass", D3D11_CULL_BACK, 2100);
+	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
 	materialPool.push_back(clothMat);
 #pragma endregion
 
