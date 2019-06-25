@@ -24,7 +24,6 @@ namespace DX
 
 	private:
 		/*Microsoft::WRL::ComPtr<IWICImagingFactory2> m_wicFactory;*/
-		ComPtr<ID3D11ShaderResourceView> a;
 		int SRVLoadCount;
 	};
 

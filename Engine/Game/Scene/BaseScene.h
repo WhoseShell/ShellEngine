@@ -44,7 +44,7 @@ namespace Engine
 			std::wstring objectName, 
 			std::wstring meshName, 
 			std::wstring matName,
-			XMFLOAT4X4 &transform,
+			XMMATRIX &transform,
 			int indexCount);
 	};
 }

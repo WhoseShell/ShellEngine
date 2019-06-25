@@ -154,17 +154,17 @@ void Engine::CartoonScene::Init()
 
 		if (i == 0)
 		{
-			XMFLOAT4X4 transform = {};
+			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 			AssembObject(currentObj, L"face", L"face", L"face", transform, 18756);
 		}
 		if (i == 1)
 		{
-			XMFLOAT4X4 transform = {};
+			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 			AssembObject(currentObj, L"cloth", L"cloth", L"cloth", transform, 42108);
 		}
 		if (i == 2)
 		{
-			XMFLOAT4X4 transform = {};
+			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 			AssembObject(currentObj, L"skyBox", L"skyBox", L"skyBox", transform, -1);
 		}
 

@@ -44,7 +44,7 @@ std::shared_ptr<Material> Engine::BaseScene::CreateMaterial(std::wstring shaderN
 	return material;
 }
 
-void Engine::BaseScene::AssembObject(std::shared_ptr<PerObjectData>& object, std::wstring objectName, std::wstring meshName, std::wstring matName, XMFLOAT4X4 & transform, int indexCount)
+void Engine::BaseScene::AssembObject(std::shared_ptr<PerObjectData>& object, std::wstring objectName, std::wstring meshName, std::wstring matName, XMMATRIX & transform, int indexCount)
 {
 	auto mesh = m_mainLoader->m_meshLoader->GetByName(meshName);
 	auto mat = GetMatByName(matName);
