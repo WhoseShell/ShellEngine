@@ -118,6 +118,7 @@ void Engine::OpaquePass::Execute()
 		if ((*it)->material->cullMode != m_rsDesc.CullMode)
 		{
 			m_rsDesc.CullMode = (*it)->material->cullMode;
+			device->CreateRasterizerState(&m_rsDesc, &m_rasterState);
 			context->RSSetState(m_rasterState.Get());
 		}
 

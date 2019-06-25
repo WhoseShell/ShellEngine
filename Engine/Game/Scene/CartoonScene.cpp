@@ -31,8 +31,8 @@ void Engine::CartoonScene::CreateWindowSizeDependentResources()
 	XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(
 		fovAngleY,
 		aspectRatio,
-		0.01f,
-		100.0f
+		0.05f,
+		5000.0f
 	);
 
 	XMFLOAT4X4 orientation = m_deviceResources->GetOrientationTransform3D();
@@ -142,7 +142,7 @@ void Engine::CartoonScene::Init()
 	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
 	materialPool.push_back(clothMat);
 
-	auto skyBoxMat = CreateMaterial(L"sphereDiffuse", L"skyBox", L"OpaquePass", D3D11_CULL_FRONT, 2100);
+	auto skyBoxMat = CreateMaterial(L"sphereDiffuse", L"skyBox", L"OpaquePass", D3D11_CULL_BACK, 2100);
 	skyBoxMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
 	materialPool.push_back(skyBoxMat);
 #pragma endregion
@@ -164,7 +164,7 @@ void Engine::CartoonScene::Init()
 		}
 		if (i == 2)
 		{
-			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+			XMMATRIX transform = XMMatrixScaling(3000.0f, 3000.0f, 3000.0f);
 			AssembObject(currentObj, L"skyBox", L"skyBox", L"skyBox", transform, -1);
 		}
 
@@ -178,13 +178,22 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 {
 	if (!m_tracking)
 	{
-		Rotate(0.01f);
+		//Rotate(0.01f);
 		//Rotate(0);
 		m_constantBufferData->time = (float)timer.GetTotalSeconds();
 	}
 	if (m_moveController != nullptr)
 	{
 		m_moveController->MoveCamera(m_constantBufferData->view, u_state, eye, at, up);
+	}
+
+	//skyboxÎ»ÖÃ¸úËæÏà»ú
+	auto skybox = GetObjectByNmae(L"skyBox");
+	if (skybox != nullptr)
+	{
+		skybox->transform._41 = eye.x;
+		skybox->transform._42 = eye.y;
+		skybox->transform._43 = eye.z;
 	}
 }
 

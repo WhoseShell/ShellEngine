@@ -39,6 +39,7 @@ namespace Engine
 		);
 
 		std::shared_ptr<Material> GetMatByName(std::wstring matName);
+		std::shared_ptr<PerObjectData> GetObjectByNmae(std::wstring objName);
 		void AssembObject(
 			std::shared_ptr<PerObjectData> &object,
 			std::wstring objectName, 

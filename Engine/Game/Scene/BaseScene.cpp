@@ -30,6 +30,18 @@ std::shared_ptr<Material> Engine::BaseScene::GetMatByName(std::wstring matName)
 	return nullptr;
 }
 
+std::shared_ptr<PerObjectData> Engine::BaseScene::GetObjectByNmae(std::wstring objName)
+{
+	for (std::vector<std::shared_ptr<PerObjectData>>::iterator it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
+	{
+		if ((*it)->objectName == objName)
+		{
+			return(*it);
+		}
+	}
+	return nullptr;
+}
+
 std::shared_ptr<Material> Engine::BaseScene::CreateMaterial(std::wstring shaderName, std::wstring matName, std::wstring passName, D3D11_CULL_MODE cullMode, int renderQueue)
 {
 	auto material = std::shared_ptr<Material>(new Material);
@@ -67,6 +79,6 @@ void Engine::BaseScene::AssembObject(std::shared_ptr<PerObjectData>& object, std
 	object->constantBuffer = constantBuffer;
 
 	//transform
-	XMStoreFloat4x4(&object->transform, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
+	XMStoreFloat4x4(&object->transform, transform);
 }
 
