@@ -150,7 +150,7 @@ void Engine::CartoonScene::Init()
 #pragma region 装配PerObject
 	for (size_t i = 0; i < 3; i++)
 	{
-		auto currentObj = std::shared_ptr<PerObjectData>(new PerObjectData);//创建一个渲染对象
+		auto currentObj = std::shared_ptr<Object>(new Object);//创建一个渲染对象
 
 		if (i == 0)
 		{
@@ -214,7 +214,7 @@ void Engine::CartoonScene::Release()
 
 void Engine::CartoonScene::Rotate(float radians)
 {
-	for (vector<shared_ptr<PerObjectData>>::iterator it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
+	for (vector<shared_ptr<Object>>::iterator it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
 	{
 		XMStoreFloat4x4(&(*it)->transform, XMMatrixMultiply(XMMatrixRotationY(radians), XMLoadFloat4x4(&(*it)->transform)));
 	}

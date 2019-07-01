@@ -30,9 +30,9 @@ std::shared_ptr<Material> Engine::BaseScene::GetMatByName(std::wstring matName)
 	return nullptr;
 }
 
-std::shared_ptr<PerObjectData> Engine::BaseScene::GetObjectByNmae(std::wstring objName)
+std::shared_ptr<Object> Engine::BaseScene::GetObjectByNmae(std::wstring objName)
 {
-	for (std::vector<std::shared_ptr<PerObjectData>>::iterator it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
+	for (std::vector<std::shared_ptr<Object>>::iterator it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
 	{
 		if ((*it)->objectName == objName)
 		{
@@ -56,7 +56,7 @@ std::shared_ptr<Material> Engine::BaseScene::CreateMaterial(std::wstring shaderN
 	return material;
 }
 
-void Engine::BaseScene::AssembObject(std::shared_ptr<PerObjectData>& object, std::wstring objectName, std::wstring meshName, std::wstring matName, XMMATRIX & transform, int indexCount)
+void Engine::BaseScene::AssembObject(std::shared_ptr<Object>& object, std::wstring objectName, std::wstring meshName, std::wstring matName, XMMATRIX & transform, int indexCount)
 {
 	auto mesh = m_mainLoader->m_meshLoader->GetByName(meshName);
 	auto mat = GetMatByName(matName);

@@ -263,7 +263,9 @@
     <ClInclude Include="Content\Sample3DSceneRenderer.h" />
     <ClInclude Include="Content\SampleFpsTextRenderer.h" />
     <ClInclude Include="Content\ShaderStructures.h" />
+    <ClInclude Include="Game\Material.h" />
     <ClInclude Include="Game\MoveController.h" />
+    <ClInclude Include="Game\Object.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\CartoonScene.h" />
     <ClInclude Include="Game\UserState.h" />
@@ -290,7 +292,9 @@
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="Content\SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Content\Sample3DSceneRenderer.cpp" />
+    <ClCompile Include="Game\Material.cpp" />
     <ClCompile Include="Game\MoveController.cpp" />
+    <ClCompile Include="Game\Object.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\CartoonScene.cpp" />
     <ClCompile Include="Game\UserState.cpp" />

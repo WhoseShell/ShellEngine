@@ -53,7 +53,7 @@ void Engine::OpaquePass::Execute()
 		m_deviceResources->GetD3DDeviceContext()->RSSetState(m_rasterState.Get());
 
 	//渲染每个物体
-	std::vector<std::shared_ptr<PerObjectData>>::iterator it;
+	std::vector<std::shared_ptr<Object>>::iterator it;
 	for (it = renderObjects.begin(); it != renderObjects.end(); it++)
 	{
 		UINT stride = (*it)->vertexStride;

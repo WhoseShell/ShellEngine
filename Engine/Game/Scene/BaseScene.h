@@ -2,6 +2,8 @@
 #include "..\Resource\MainLoader.h"
 #include "Pass\BasePass.h"
 #include "Game\UserState.h"
+#include"Game\Material.h"
+#include"Game\Object.h"
 
 namespace Engine
 {
@@ -39,9 +41,9 @@ namespace Engine
 		);
 
 		std::shared_ptr<Material> GetMatByName(std::wstring matName);
-		std::shared_ptr<PerObjectData> GetObjectByNmae(std::wstring objName);
+		std::shared_ptr<Object> GetObjectByNmae(std::wstring objName);
 		void AssembObject(
-			std::shared_ptr<PerObjectData> &object,
+			std::shared_ptr<Object> &object,
 			std::wstring objectName, 
 			std::wstring meshName, 
 			std::wstring matName,
