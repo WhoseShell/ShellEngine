@@ -53,7 +53,7 @@ void Engine::CartoonScene::CreateWindowSizeDependentResources()
 
 void Engine::CartoonScene::Init()
 {
-#pragma region 装配PerObject
+#pragma region 装配Object
 	for (size_t i = 0; i < 3; i++)
 	{
 		auto currentObj = std::shared_ptr<Object>(new Object);//创建一个渲染对象
