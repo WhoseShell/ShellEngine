@@ -84,7 +84,7 @@ void Engine::OpaquePass::Execute()
 		);
 
 		//更新常量缓冲区
-		m_ConstantData->mvp->model = (*it)->transform;
+		m_ConstantData->mvp->model = (*it)->GetTransform4x4();
 		context->UpdateSubresource1(
 			(*it)->constantBuffer.Get(),
 			0,

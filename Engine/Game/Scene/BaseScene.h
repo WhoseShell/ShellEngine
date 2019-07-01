@@ -47,7 +47,7 @@ namespace Engine
 			std::wstring objectName, 
 			std::wstring meshName, 
 			std::wstring matName,
-			XMMATRIX &transform,
+			std::shared_ptr<Transform> transform,
 			int indexCount);
 	};
 }

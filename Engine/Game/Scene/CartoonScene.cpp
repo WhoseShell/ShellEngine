@@ -60,18 +60,19 @@ void Engine::CartoonScene::Init()
 
 		if (i == 0)
 		{
-			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+			shared_ptr<Transform> transform = shared_ptr <Transform>(new Transform);
 			AssembObject(currentObj, L"face", L"face", L"face", transform, 18756);
 		}
 		if (i == 1)
 		{
-			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+			shared_ptr<Transform> transform = shared_ptr <Transform>(new Transform);
 			AssembObject(currentObj, L"cloth", L"cloth", L"cloth", transform, 42108);
 		}
 		if (i == 2)
 		{
-			XMMATRIX transform = XMMatrixScaling(3000.0f, 3000.0f, 3000.0f);
+			shared_ptr<Transform> transform = shared_ptr <Transform>(new Transform);
 			AssembObject(currentObj, L"skyBox", L"skyBox", L"skyBox", transform, -1);
+			currentObj->SetScale(3000.0f, 3000.0f, 3000.0f);
 		}
 
 		m_renderData->perObject.push_back(currentObj);//将对象加入对象池
@@ -96,9 +97,7 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 	auto skybox = GetObjectByNmae(L"skyBox");
 	if (skybox != nullptr)
 	{
-		skybox->transform._41 = eye.x;
-		skybox->transform._42 = eye.y;
-		skybox->transform._43 = eye.z;
+		skybox->SetLocation(eye.x, eye.y, eye.z);
 	}
 }
 
@@ -219,6 +218,6 @@ void Engine::CartoonScene::Rotate(float radians)
 {
 	for (vector<shared_ptr<Object>>::iterator it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
 	{
-		XMStoreFloat4x4(&(*it)->transform, XMMatrixMultiply(XMMatrixRotationY(radians), XMLoadFloat4x4(&(*it)->transform)));
+		XMStoreFloat4x4(&(*it)->GetTransform4x4(), XMMatrixMultiply(XMMatrixRotationY(radians), XMLoadFloat4x4(&(*it)->GetTransform4x4())));
 	}
 }
