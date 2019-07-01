@@ -10,7 +10,7 @@ BasePass::BasePass(
 	const std::shared_ptr<DX::DeviceResources>& deviceResources,
 	const std::shared_ptr<DX::MainLoader>& mainLoader,
 	const std::shared_ptr<RenderData>& renderData,
-	const std::shared_ptr<ConstantData>& constantData,
+	const std::shared_ptr<GlobalConstantData>& constantData,
 	int passQueue)
 	:
 	m_deviceResources(deviceResources),

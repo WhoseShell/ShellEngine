@@ -20,7 +20,7 @@ namespace Engine
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::shared_ptr<DX::MainLoader> m_mainLoader;
 		std::shared_ptr<RenderData> m_renderData;
-		std::shared_ptr<ConstantData> m_constantData;
+		std::shared_ptr<GlobalConstantData> m_constantData;
 		UserState^  u_state;
 
 		//use in ResourceInit

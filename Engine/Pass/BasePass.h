@@ -16,7 +16,7 @@ namespace Engine
 		float lightStrength;
 	};
 
-	struct ConstantData
+	struct GlobalConstantData
 	{
 		std::shared_ptr<MVPConstantBuffer> mvp;
 	};
@@ -34,7 +34,7 @@ namespace Engine
 			const std::shared_ptr<DX::DeviceResources>& deviceResources, 
 			const std::shared_ptr<DX::MainLoader>& mainLoader,
 			const std::shared_ptr<RenderData>& renderData,
-			const std::shared_ptr<ConstantData>& constantData,
+			const std::shared_ptr<GlobalConstantData>& constantData,
 			int passQueue
 		);
 		int m_passQueue;
@@ -46,7 +46,7 @@ namespace Engine
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::shared_ptr<DX::MainLoader> m_mainLoader;
 		std::shared_ptr<RenderData> m_renderData;
-		std::shared_ptr<ConstantData> m_ConstantData;
+		std::shared_ptr<GlobalConstantData> m_ConstantData;
 		std::vector<std::shared_ptr<Object>> renderObjects;
 
 	private:
