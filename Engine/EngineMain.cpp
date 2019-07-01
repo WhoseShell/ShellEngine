@@ -19,7 +19,8 @@ EngineMain::EngineMain(const std::shared_ptr<DX::DeviceResources>& deviceResourc
 	//m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
 	//m_customSceneRenderer = std::unique_ptr<Sample3DScene>(new Sample3DScene(m_deviceResources)); //分配场景内存
 	m_customSceneRenderer = std::unique_ptr<CartoonScene>(new CartoonScene(m_deviceResources)); //分配场景内存
-	m_customSceneRenderer->Init(); //场景资源初始化
+	m_customSceneRenderer->LoadResource(); //加载场景资源
+	m_customSceneRenderer->Init();//场景资源初始化
 	
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
@@ -105,6 +106,7 @@ void EngineMain::OnDeviceLost()
 void EngineMain::OnDeviceRestored()
 {
 	//m_sceneRenderer->CreateDeviceDependentResources();
+	m_customSceneRenderer->LoadResource();
 	m_customSceneRenderer->Init();
 	m_fpsTextRenderer->CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();

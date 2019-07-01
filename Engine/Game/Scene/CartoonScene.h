@@ -19,6 +19,7 @@ namespace Engine
 		void CreateWindowSizeDependentResources();
 		void Update(DX::StepTimer const& timer);
 		void Render();
+		void LoadResource();
 		void Init();
 		void Release();
 

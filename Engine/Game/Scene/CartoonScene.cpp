@@ -53,6 +53,66 @@ void Engine::CartoonScene::CreateWindowSizeDependentResources()
 
 void Engine::CartoonScene::Init()
 {
+#pragma region 装配PerObject
+	for (size_t i = 0; i < 3; i++)
+	{
+		auto currentObj = std::shared_ptr<Object>(new Object);//创建一个渲染对象
+
+		if (i == 0)
+		{
+			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+			AssembObject(currentObj, L"face", L"face", L"face", transform, 18756);
+		}
+		if (i == 1)
+		{
+			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+			AssembObject(currentObj, L"cloth", L"cloth", L"cloth", transform, 42108);
+		}
+		if (i == 2)
+		{
+			XMMATRIX transform = XMMatrixScaling(3000.0f, 3000.0f, 3000.0f);
+			AssembObject(currentObj, L"skyBox", L"skyBox", L"skyBox", transform, -1);
+		}
+
+		m_renderData->perObject.push_back(currentObj);//将对象加入对象池
+	}
+#pragma endregion
+}
+
+void Engine::CartoonScene::Update(DX::StepTimer const& timer)
+{
+	if (!m_tracking)
+	{
+		//Rotate(0.01f);
+		//Rotate(0);
+		m_constantBufferData->time = (float)timer.GetTotalSeconds();
+	}
+	if (m_moveController != nullptr)
+	{
+		m_moveController->MoveCamera(m_constantBufferData->view, u_state, eye, at, up);
+	}
+
+	//skybox位置跟随相机
+	auto skybox = GetObjectByNmae(L"skyBox");
+	if (skybox != nullptr)
+	{
+		skybox->transform._41 = eye.x;
+		skybox->transform._42 = eye.y;
+		skybox->transform._43 = eye.z;
+	}
+}
+
+void Engine::CartoonScene::Render()
+{
+	auto context = m_deviceResources->GetD3DDeviceContext();
+
+	m_cartoonRenderer->SetPass(); //设置renderPass
+
+	m_cartoonRenderer->ExecuteSequentially();
+}
+
+void Engine::CartoonScene::LoadResource()
+{
 #pragma region 加载Mesh
 
 	m_mainLoader->m_meshLoader->LoadMesh(L"Assets\\Face.bin", L"face", 60);
@@ -85,7 +145,7 @@ void Engine::CartoonScene::Init()
 #pragma endregion
 
 #pragma region 创建ConstantBuffer / 更新装配ConstantData
-	
+
 	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(MVPConstantBuffer) + 12, D3D11_BIND_CONSTANT_BUFFER);
 	DX::ThrowIfFailed(
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
@@ -134,7 +194,7 @@ void Engine::CartoonScene::Init()
 #pragma endregion
 
 #pragma region 创建Material加入材质池
-	auto faceMat  = CreateMaterial(L"diffuse", L"face", L"OpaquePass" ,D3D11_CULL_FRONT, 2000);
+	auto faceMat = CreateMaterial(L"diffuse", L"face", L"OpaquePass", D3D11_CULL_FRONT, 2000);
 	faceMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"face_BaseColor")->shaderResourceView);
 	materialPool.push_back(faceMat);
 
@@ -147,63 +207,6 @@ void Engine::CartoonScene::Init()
 	materialPool.push_back(skyBoxMat);
 #pragma endregion
 
-#pragma region 装配PerObject
-	for (size_t i = 0; i < 3; i++)
-	{
-		auto currentObj = std::shared_ptr<Object>(new Object);//创建一个渲染对象
-
-		if (i == 0)
-		{
-			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-			AssembObject(currentObj, L"face", L"face", L"face", transform, 18756);
-		}
-		if (i == 1)
-		{
-			XMMATRIX transform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-			AssembObject(currentObj, L"cloth", L"cloth", L"cloth", transform, 42108);
-		}
-		if (i == 2)
-		{
-			XMMATRIX transform = XMMatrixScaling(3000.0f, 3000.0f, 3000.0f);
-			AssembObject(currentObj, L"skyBox", L"skyBox", L"skyBox", transform, -1);
-		}
-
-		m_renderData->perObject.push_back(currentObj);//将对象加入对象池
-	}
-#pragma endregion
-
-}
-
-void Engine::CartoonScene::Update(DX::StepTimer const& timer)
-{
-	if (!m_tracking)
-	{
-		//Rotate(0.01f);
-		//Rotate(0);
-		m_constantBufferData->time = (float)timer.GetTotalSeconds();
-	}
-	if (m_moveController != nullptr)
-	{
-		m_moveController->MoveCamera(m_constantBufferData->view, u_state, eye, at, up);
-	}
-
-	//skybox位置跟随相机
-	auto skybox = GetObjectByNmae(L"skyBox");
-	if (skybox != nullptr)
-	{
-		skybox->transform._41 = eye.x;
-		skybox->transform._42 = eye.y;
-		skybox->transform._43 = eye.z;
-	}
-}
-
-void Engine::CartoonScene::Render()
-{
-	auto context = m_deviceResources->GetD3DDeviceContext();
-
-	m_cartoonRenderer->SetPass(); //设置renderPass
-
-	m_cartoonRenderer->ExecuteSequentially();
 }
 
 void Engine::CartoonScene::Release()
