@@ -84,7 +84,7 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 {
 	if (!m_tracking)
 	{
-		//Rotate(0.01f);
+		Rotate(0.01f);
 		//Rotate(0);
 		m_constantBufferData->time = (float)timer.GetTotalSeconds();
 	}
@@ -218,6 +218,9 @@ void Engine::CartoonScene::Rotate(float radians)
 {
 	for (vector<shared_ptr<Object>>::iterator it = m_renderData->perObject.begin(); it != m_renderData->perObject.end(); it++)
 	{
-		XMStoreFloat4x4(&(*it)->GetTransform4x4(), XMMatrixMultiply(XMMatrixRotationY(radians), XMLoadFloat4x4(&(*it)->GetTransform4x4())));
+		if ((*it)->objectName == L"cloth" || (*it)->objectName == L"face")
+		{
+			(*it)->SetRotation((*it)->transform->rotation.x, (*it)->transform->rotation.y + radians, (*it)->transform->rotation.z);
+		}
 	}
 }
