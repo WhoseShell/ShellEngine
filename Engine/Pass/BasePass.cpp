@@ -72,6 +72,7 @@ void Engine::BasePass::SetupMatConstantBuffer()
 						(*mat)->constantBuffer.GetAddressOf()
 					)
 				);
+				(*mat)->hasCreated = true;
 			}
 			m_deviceResources->GetD3DDeviceContext()->UpdateSubresource1(
 				(*mat)->constantBuffer.Get(),

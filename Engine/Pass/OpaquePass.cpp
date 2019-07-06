@@ -106,21 +106,25 @@ void Engine::OpaquePass::Execute()
 		);
 		for (std::vector<std::shared_ptr<MateriaCB>>::iterator matCB = (*it)->material->matCBs.begin(); matCB != (*it)->material->matCBs.end(); matCB++)
 		{
-			context->VSSetConstantBuffers1(
-				(*matCB)->startSlot,
-				1,
-				(*matCB)->constantBuffer.GetAddressOf(),
-				nullptr,
-				nullptr
-			);
+			//创建了CB则绑定到vs/ps
+			if ((*matCB)->hasCreated)
+			{
+				context->VSSetConstantBuffers1(
+					(*matCB)->startSlot,
+					1,
+					(*matCB)->constantBuffer.GetAddressOf(),
+					nullptr,
+					nullptr
+				);
 
-			context->PSSetConstantBuffers1(
-				(*matCB)->startSlot,
-				1,
-				(*matCB)->constantBuffer.GetAddressOf(),
-				nullptr,
-				nullptr
-			);
+				context->PSSetConstantBuffers1(
+					(*matCB)->startSlot,
+					1,
+					(*matCB)->constantBuffer.GetAddressOf(),
+					nullptr,
+					nullptr
+				);
+			}
 		}
 
 		// 附加我们的像素着色器。
