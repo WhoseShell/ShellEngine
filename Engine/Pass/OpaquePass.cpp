@@ -29,6 +29,7 @@ Engine::OpaquePass::OpaquePass(
 void Engine::OpaquePass::SetUp()
 {
 	Filter(L"OpaquePass", 0, 2999);
+	SetupMatConstantBuffer();
 }
 
 void Engine::OpaquePass::Execute()
@@ -103,6 +104,24 @@ void Engine::OpaquePass::Execute()
 			nullptr,
 			nullptr
 		);
+		for (std::vector<std::shared_ptr<MateriaCB>>::iterator matCB = (*it)->material->matCBs.begin(); matCB != (*it)->material->matCBs.end(); matCB++)
+		{
+			context->VSSetConstantBuffers1(
+				(*matCB)->startSlot,
+				1,
+				(*matCB)->constantBuffer.GetAddressOf(),
+				nullptr,
+				nullptr
+			);
+
+			context->PSSetConstantBuffers1(
+				(*matCB)->startSlot,
+				1,
+				(*matCB)->constantBuffer.GetAddressOf(),
+				nullptr,
+				nullptr
+			);
+		}
 
 		// 附加我们的像素着色器。
 		context->PSSetShader(

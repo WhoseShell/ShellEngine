@@ -17,3 +17,7 @@ struct VertexPosColor
 	DirectX::XMFLOAT2 uv;
 };
 
+struct TestConstantBuffer
+{
+	DirectX::XMFLOAT4 test;
+};

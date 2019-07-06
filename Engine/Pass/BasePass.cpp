@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "BasePass.h"
 #include "..\Common\DirectXHelper.h"
+#include"Game\Material.h"
 
 using namespace Engine;
 using namespace DX;
@@ -51,6 +52,37 @@ void Engine::BasePass::Filter(std::wstring passName, int renderQueueBegin, int r
 		if ((*it)->material->passName == passName && (*it)->material->renderQueue >= renderQueueBegin && (*it)->material->renderQueue <= renderQueueEnd)
 		{
 			renderObjects.push_back((*it));
+		}
+	}
+}
+
+void Engine::BasePass::SetupMatConstantBuffer()
+{
+	for (std::vector<std::shared_ptr<Object>>::iterator it = renderObjects.begin(); it != renderObjects.end(); it++)
+	{
+		for (std::vector<std::shared_ptr<MateriaCB>>::iterator mat = (*it)->material->matCBs.begin(); mat != (*it)->material->matCBs.end(); mat++)
+		{
+			if (!(*mat)->hasCreated)
+			{
+				CD3D11_BUFFER_DESC constantBufferDesc((*mat)->dataSize, D3D11_BIND_CONSTANT_BUFFER);
+				DX::ThrowIfFailed(
+					m_deviceResources->GetD3DDevice()->CreateBuffer(
+						&constantBufferDesc,
+						NULL,
+						(*mat)->constantBuffer.GetAddressOf()
+					)
+				);
+			}
+			m_deviceResources->GetD3DDeviceContext()->UpdateSubresource1(
+				(*mat)->constantBuffer.Get(),
+				0,
+				NULL,
+				(*mat)->sourceData,
+				0,
+				0,
+				0
+			);
+
 		}
 	}
 }

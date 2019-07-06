@@ -8,6 +8,11 @@ cbuffer ModelViewProjectionConstantBuffer : register(b0)
 	float time;
 };
 
+cbuffer test : register(b1)
+{
+	float4 time2;
+}
+
 // 用作顶点着色器输入的每个顶点的数据。
 struct VertexShaderInput
 {
@@ -29,7 +34,6 @@ PixelShaderInput main(VertexShaderInput input)
 {
 	PixelShaderInput output;
 	float4 pos = float4(input.pos, 1.0f);
-
 	//绕y轴旋转
 	//matrix rotationY = matrix(
 	//	float4(cos(time), 0.0f, -sin(time), 0.0f),

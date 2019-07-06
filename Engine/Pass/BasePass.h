@@ -49,6 +49,8 @@ namespace Engine
 		std::shared_ptr<GlobalConstantData> m_ConstantData;
 		std::vector<std::shared_ptr<Object>> renderObjects;
 
+		void SetupMatConstantBuffer();
+
 	private:
 
 	};

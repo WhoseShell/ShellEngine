@@ -13,7 +13,9 @@ Engine::CartoonScene::CartoonScene(const std::shared_ptr<DX::DeviceResources>& d
 {
 	m_cartoonRenderer = std::shared_ptr<CartoonRenderer>(new CartoonRenderer(deviceResources, m_mainLoader, m_renderData, m_constantData)); //创建Renderer
 	m_constantBufferData = std::shared_ptr<MVPConstantBuffer>(new MVPConstantBuffer);
+	m_testCB = std::shared_ptr<TestConstantBuffer>(new TestConstantBuffer);
 	m_moveController = std::unique_ptr<MoveController>(new MoveController());
+
 }
 
 void Engine::CartoonScene::CreateWindowSizeDependentResources()
@@ -99,6 +101,8 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 	{
 		skybox->SetLocation(eye.x, eye.y, eye.z);
 	}
+
+	m_testCB->test.x = 0.1f;
 }
 
 void Engine::CartoonScene::Render()
@@ -195,14 +199,17 @@ void Engine::CartoonScene::LoadResource()
 #pragma region 创建Material加入材质池
 	auto faceMat = CreateMaterial(L"diffuse", L"face", L"OpaquePass", D3D11_CULL_FRONT, 2000);
 	faceMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"face_BaseColor")->shaderResourceView);
+	faceMat->SetConstantBuffer(L"Test", &*m_testCB, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(faceMat);
 
 	auto clothMat = CreateMaterial(L"diffuse", L"cloth", L"OpaquePass", D3D11_CULL_FRONT, 2000);
 	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
+	clothMat->SetConstantBuffer(L"Test", &*m_testCB, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(clothMat);
 
 	auto skyBoxMat = CreateMaterial(L"sphereDiffuse", L"skyBox", L"OpaquePass", D3D11_CULL_BACK, 2100);
 	skyBoxMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
+	skyBoxMat->SetConstantBuffer(L"Test", &*m_testCB, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(skyBoxMat);
 #pragma endregion
 

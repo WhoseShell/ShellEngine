@@ -34,6 +34,9 @@ namespace Engine
 		XMFLOAT3 up;
 
 		std::shared_ptr<MVPConstantBuffer> m_constantBufferData;
+		std::shared_ptr<TestConstantBuffer> m_testCB;
+
+
 		std::unique_ptr<MoveController> m_moveController;
 
 		std::shared_ptr<CartoonRenderer> m_cartoonRenderer;
