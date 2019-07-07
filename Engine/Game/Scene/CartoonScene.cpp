@@ -106,7 +106,7 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 
 	m_testCB0->test.x = 0.0f;
 	m_testCB1->test.x = 0.0f;
-	m_testCB2->test.x = 0.8f;
+	m_testCB2->test.x = 0.0f;
 }
 
 void Engine::CartoonScene::Render()
@@ -146,8 +146,21 @@ void Engine::CartoonScene::LoadResource()
 		//{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
+	D3D11_INPUT_ELEMENT_DESC CartoonDesc[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R16G16B16A16_SNORM, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TANGENT", 0, DXGI_FORMAT_R16G16B16A16_SNORM, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		//{ "BLENDWEIGHT", 0, DXGI_FORMAT_R16G16B16A16_SNORM, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		//{ "BLENDINDICES", 0, DXGI_FORMAT_R16G16B16A16_SNORM, 0, 44, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		//{ "COLOR", 0, DXGI_FORMAT_R16G16_UNORM, 0, 52, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R16G16_UNORM, 0, 56, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+
+
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SCDesc, ARRAYSIZE(SCDesc), L"diffuse");
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SphereDesc, ARRAYSIZE(SphereDesc), L"sphereDiffuse");
+	m_mainLoader->m_shaderLoader->LoadPSandVS(L"CartoonVS.cso", L"CartoonPS.cso", CartoonDesc, ARRAYSIZE(CartoonDesc), L"cartoon");
 
 #pragma endregion
 
@@ -201,18 +214,18 @@ void Engine::CartoonScene::LoadResource()
 #pragma endregion
 
 #pragma region 创建Material加入材质池
-	auto faceMat = CreateMaterial(L"diffuse", L"face", L"OpaquePass", D3D11_CULL_FRONT, 2000);
-	faceMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"face_BaseColor")->shaderResourceView);
+	auto faceMat = CreateMaterial(L"face", L"cartoon", L"OpaquePass", D3D11_CULL_FRONT, 2000);
+	faceMat->SetTexture(m_mainLoader->m_textureLoader->GetByName(L"face_BaseColor")->shaderResourceView);
 	faceMat->SetConstantBuffer(L"Test", &*m_testCB0, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(faceMat);
 
-	auto clothMat = CreateMaterial(L"diffuse", L"cloth", L"OpaquePass", D3D11_CULL_FRONT, 2000);
-	clothMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
+	auto clothMat = CreateMaterial(L"cloth", L"cartoon", L"OpaquePass", D3D11_CULL_FRONT, 2000);
+	clothMat->SetTexture(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
 	clothMat->SetConstantBuffer(L"Test", &*m_testCB1, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(clothMat);
 
-	auto skyBoxMat = CreateMaterial(L"sphereDiffuse", L"skyBox", L"OpaquePass", D3D11_CULL_BACK, 2100);
-	skyBoxMat->SRVs.push_back(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
+	auto skyBoxMat = CreateMaterial(L"skyBox", L"sphereDiffuse", L"OpaquePass", D3D11_CULL_BACK, 2100);
+	skyBoxMat->SetTexture(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
 	skyBoxMat->SetConstantBuffer(L"Test", &*m_testCB2, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(skyBoxMat);
 #pragma endregion

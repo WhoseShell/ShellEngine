@@ -42,7 +42,7 @@ std::shared_ptr<Object> Engine::BaseScene::GetObjectByNmae(std::wstring objName)
 	return nullptr;
 }
 
-std::shared_ptr<Material> Engine::BaseScene::CreateMaterial(std::wstring shaderName, std::wstring matName, std::wstring passName, D3D11_CULL_MODE cullMode, int renderQueue)
+std::shared_ptr<Material> Engine::BaseScene::CreateMaterial(std::wstring matName, std::wstring shaderName, std::wstring passName, D3D11_CULL_MODE cullMode, int renderQueue)
 {
 	auto material = std::shared_ptr<Material>(new Material);
 	auto shader = m_mainLoader->m_shaderLoader->GetByName(shaderName);

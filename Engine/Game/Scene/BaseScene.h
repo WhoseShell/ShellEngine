@@ -33,8 +33,8 @@ namespace Engine
 
 		std::vector<std::shared_ptr<Material>> materialPool;
 		std::shared_ptr<Material> CreateMaterial(
-			std::wstring shaderName,
 			std::wstring matName,
+			std::wstring shaderName,
 			std::wstring passName,
 			D3D11_CULL_MODE cullMode,
 			int renderQueue
