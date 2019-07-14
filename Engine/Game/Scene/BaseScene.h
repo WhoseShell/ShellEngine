@@ -1,9 +1,9 @@
 #pragma once
-#include "..\Resource\MainLoader.h"
-#include "Pass\BasePass.h"
-#include "Game\UserState.h"
-#include"Game\Material.h"
-#include"Game\Object.h"
+#include "ResourceLoad\MainLoader.h"
+#include "RenderPipeline\Pass\BasePass.h"
+#include "Game\State\UserState.h"
+#include"Common\Type\Material.h"
+#include"Common\Type\Object.h"
 
 namespace Engine
 {

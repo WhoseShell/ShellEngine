@@ -1,8 +1,8 @@
 #pragma once
 #include "..\Common\DeviceResources.h"
-#include "..\Resource\MainLoader.h"
+#include "..\ResourceLoad\MainLoader.h"
 #include "ShaderStruct.h"
-#include"Game\Object.h"
+#include"Common\Type\Object.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

@@ -1,6 +1,6 @@
 #pragma once
 #include "..\Common\DeviceResources.h"
-#include "..\Resource\MainLoader.h"
+#include "ResourceLoad\MainLoader.h"
 #include "BasePass.h"
 
 namespace Engine

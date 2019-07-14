@@ -1,10 +1,10 @@
 #pragma once
-#include "..\Resource\MainLoader.h"
+#include "..\ResourceLoad\MainLoader.h"
 #include "..\Common\StepTimer.h"
 #include "BaseScene.h"
-#include "Renderer\CartoonRenderer.h"
-#include "Pass\ShaderStruct.h"
-#include "Game\MoveController.h"
+#include "RenderPipeline\Renderer\CartoonRenderer.h"
+#include "RenderPipeline\Pass\ShaderStruct.h"
+#include "Game\Controller\MoveController.h"
 
 using namespace DX;
 

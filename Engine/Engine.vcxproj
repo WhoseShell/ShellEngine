@@ -243,63 +243,46 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Image Include="Assets\cloth.dds" />
-    <Image Include="Assets\face_BaseColor.dds" />
-    <Image Include="Assets\floor_section1.dds" />
-    <Image Include="Assets\LockScreenLogo.scale-200.png" />
-    <Image Include="Assets\SplashScreen.scale-200.png" />
-    <Image Include="Assets\Square150x150Logo.scale-200.png" />
-    <Image Include="Assets\Square44x44Logo.scale-200.png" />
-    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Image Include="Assets\StoreLogo.png" />
-    <Image Include="Assets\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="App.h" />
     <ClInclude Include="Common\DeviceResources.h" />
-    <ClInclude Include="EngineMain.h" />
     <ClInclude Include="Common\DirectXHelper.h" />
+    <ClInclude Include="Common\ShaderStructures.h" />
     <ClInclude Include="Common\StepTimer.h" />
-    <ClInclude Include="Content\Sample3DSceneRenderer.h" />
-    <ClInclude Include="Content\SampleFpsTextRenderer.h" />
-    <ClInclude Include="Content\ShaderStructures.h" />
-    <ClInclude Include="Game\Material.h" />
-    <ClInclude Include="Game\MoveController.h" />
-    <ClInclude Include="Game\Object.h" />
+    <ClInclude Include="Common\Type\Material.h" />
+    <ClInclude Include="Common\Type\Object.h" />
+    <ClInclude Include="Game\Controller\MoveController.h" />
+    <ClInclude Include="Game\Main\App.h" />
+    <ClInclude Include="Game\Main\EngineMain.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\CartoonScene.h" />
-    <ClInclude Include="Game\UserState.h" />
-    <ClInclude Include="Pass\BasePass.h" />
-    <ClInclude Include="Pass\OpaquePass.h" />
-    <ClInclude Include="Pass\ShaderStruct.h" />
+    <ClInclude Include="Game\State\UserState.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Renderer\BaseRenderer.h" />
-    <ClInclude Include="Renderer\CartoonRenderer.h" />
-    <ClInclude Include="Resource\BaseLoader.h" />
-    <ClInclude Include="Resource\BasicLoader.h" />
-    <ClInclude Include="Resource\BasicMath.h" />
-    <ClInclude Include="Resource\BasicReaderWriter.h" />
-    <ClInclude Include="Resource\BasicShapes.h" />
-    <ClInclude Include="Resource\DDSTextureLoader.h" />
-    <ClInclude Include="Resource\MainLoader.h" />
-    <ClInclude Include="Resource\MeshLoader.h" />
-    <ClInclude Include="Resource\ShaderLoader.h" />
-    <ClInclude Include="Resource\TextureLoader.h" />
+    <ClInclude Include="RenderPipeline\Pass\BasePass.h" />
+    <ClInclude Include="RenderPipeline\Pass\OpaquePass.h" />
+    <ClInclude Include="RenderPipeline\Pass\ShaderStruct.h" />
+    <ClInclude Include="RenderPipeline\Renderer\BaseRenderer.h" />
+    <ClInclude Include="RenderPipeline\Renderer\CartoonRenderer.h" />
+    <ClInclude Include="RenderPipeline\Renderer\SampleFpsTextRenderer.h" />
+    <ClInclude Include="ResourceLoad\BaseLoader.h" />
+    <ClInclude Include="ResourceLoad\BasicLoader.h" />
+    <ClInclude Include="ResourceLoad\BasicMath.h" />
+    <ClInclude Include="ResourceLoad\BasicReaderWriter.h" />
+    <ClInclude Include="ResourceLoad\BasicShapes.h" />
+    <ClInclude Include="ResourceLoad\DDSTextureLoader.h" />
+    <ClInclude Include="ResourceLoad\MainLoader.h" />
+    <ClInclude Include="ResourceLoad\MeshLoader.h" />
+    <ClInclude Include="ResourceLoad\ShaderLoader.h" />
+    <ClInclude Include="ResourceLoad\TextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
     <ClCompile Include="Common\DeviceResources.cpp" />
-    <ClCompile Include="EngineMain.cpp" />
-    <ClCompile Include="Content\SampleFpsTextRenderer.cpp" />
-    <ClCompile Include="Content\Sample3DSceneRenderer.cpp" />
-    <ClCompile Include="Game\Material.cpp" />
-    <ClCompile Include="Game\MoveController.cpp" />
-    <ClCompile Include="Game\Object.cpp" />
+    <ClCompile Include="Common\Type\Material.cpp" />
+    <ClCompile Include="Common\Type\Object.cpp" />
+    <ClCompile Include="Game\Controller\MoveController.cpp" />
+    <ClCompile Include="Game\Main\App.cpp" />
+    <ClCompile Include="Game\Main\EngineMain.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\CartoonScene.cpp" />
-    <ClCompile Include="Game\UserState.cpp" />
-    <ClCompile Include="Pass\BasePass.cpp" />
-    <ClCompile Include="Pass\OpaquePass.cpp" />
+    <ClCompile Include="Game\State\UserState.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -310,55 +293,76 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Renderer\BaseRenderer.cpp" />
-    <ClCompile Include="Renderer\CartoonRenderer.cpp" />
-    <ClCompile Include="Resource\BaseLoader.cpp" />
-    <ClCompile Include="Resource\BasicLoader.cpp" />
-    <ClCompile Include="Resource\BasicReaderWriter.cpp" />
-    <ClCompile Include="Resource\BasicShapes.cpp" />
-    <ClCompile Include="Resource\DDSTextureLoader.cpp" />
-    <ClCompile Include="Resource\MainLoader.cpp" />
-    <ClCompile Include="Resource\MeshLoader.cpp" />
-    <ClCompile Include="Resource\ShaderLoader.cpp" />
-    <ClCompile Include="Resource\TextureLoader.cpp" />
+    <ClCompile Include="RenderPipeline\Pass\BasePass.cpp" />
+    <ClCompile Include="RenderPipeline\Pass\OpaquePass.cpp" />
+    <ClCompile Include="RenderPipeline\Renderer\BaseRenderer.cpp" />
+    <ClCompile Include="RenderPipeline\Renderer\CartoonRenderer.cpp" />
+    <ClCompile Include="RenderPipeline\Renderer\SampleFpsTextRenderer.cpp" />
+    <ClCompile Include="ResourceLoad\BaseLoader.cpp" />
+    <ClCompile Include="ResourceLoad\BasicLoader.cpp" />
+    <ClCompile Include="ResourceLoad\BasicReaderWriter.cpp" />
+    <ClCompile Include="ResourceLoad\BasicShapes.cpp" />
+    <ClCompile Include="ResourceLoad\DDSTextureLoader.cpp" />
+    <ClCompile Include="ResourceLoad\MainLoader.cpp" />
+    <ClCompile Include="ResourceLoad\MeshLoader.cpp" />
+    <ClCompile Include="ResourceLoad\ShaderLoader.cpp" />
+    <ClCompile Include="ResourceLoad\TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Assets\cloth.bin">
-      <DeploymentContent>true</DeploymentContent>
+    <None Include="Assets\Mesh\cloth.bin">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </None>
-    <None Include="Assets\clothIndex.bin" />
-    <None Include="Assets\Face.bin">
-      <DeploymentContent>true</DeploymentContent>
+    <None Include="Assets\Mesh\clothIndex.bin">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </None>
-    <None Include="Assets\faceIndex.bin" />
-    <None Include="Assets\Sphere.bin">
-      <DeploymentContent>true</DeploymentContent>
+    <None Include="Assets\Mesh\Face.bin">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </None>
-    <None Include="Assets\SphereIndex.bin" />
+    <None Include="Assets\Mesh\faceIndex.bin">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Assets\Mesh\Sphere.bin">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Assets\Mesh\SphereIndex.bin">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
     <None Include="Engine_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Content\BasicPixelShader.hlsl">
+    <FxCompile Include="Assets\Shader\BasicPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Content\BasicVertexShader.hlsl">
+    <FxCompile Include="Assets\Shader\BasicVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Content\CartoonPS.hlsl">
+    <FxCompile Include="Assets\Shader\CartoonPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Content\CartoonVS.hlsl">
+    <FxCompile Include="Assets\Shader\CartoonVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Content\SamplePixelShader.hlsl">
-      <ShaderType>Pixel</ShaderType>
+    <FxCompile Include="Assets\Shader\SamplePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Content\SampleVertexShader.hlsl">
-      <ShaderType>Vertex</ShaderType>
+    <FxCompile Include="Assets\Shader\SampleVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Texture\cloth.dds" />
+    <Image Include="Assets\Texture\face_BaseColor.dds" />
+    <Image Include="Assets\Texture\floor_section1.dds" />
+    <Image Include="Assets\Texture\LockScreenLogo.scale-200.png" />
+    <Image Include="Assets\Texture\SplashScreen.scale-200.png" />
+    <Image Include="Assets\Texture\Square150x150Logo.scale-200.png" />
+    <Image Include="Assets\Texture\Square44x44Logo.scale-200.png" />
+    <Image Include="Assets\Texture\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Image Include="Assets\Texture\StoreLogo.png" />
+    <Image Include="Assets\Texture\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 #pragma once
-#include "UserState.h"
-#include "Pass\ShaderStruct.h"
+#include "Game\State\UserState.h"
+#include "RenderPipeline\Pass\ShaderStruct.h"
 #include "Common\DirectXHelper.h"
 
 using namespace DirectX;

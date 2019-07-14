@@ -2,10 +2,10 @@
 
 #include "Common\StepTimer.h"
 #include "Common\DeviceResources.h"
-#include "Content\Sample3DSceneRenderer.h"
-#include "Content\SampleFpsTextRenderer.h"
+//#include "Content\Sample3DSceneRenderer.h"
+#include "RenderPipeline\Renderer\SampleFpsTextRenderer.h"
 #include"Game\Scene\CartoonScene.h"
-#include "Game\UserState.h"
+#include "Game\State\UserState.h"
 
 // 在屏幕上呈现 Direct2D 和 3D 内容。
 namespace Engine
@@ -28,7 +28,7 @@ namespace Engine
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
 		// TODO: 替换为你自己的内容呈现器。
-		std::unique_ptr<Sample3DSceneRenderer> m_sceneRenderer;
+		//std::unique_ptr<Sample3DSceneRenderer> m_sceneRenderer;
 		std::unique_ptr<CartoonScene> m_customSceneRenderer;
 		std::unique_ptr<SampleFpsTextRenderer> m_fpsTextRenderer;
 

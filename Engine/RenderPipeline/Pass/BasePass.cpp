@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "BasePass.h"
 #include "..\Common\DirectXHelper.h"
-#include"Game\Material.h"
+#include"Common\Type\Material.h"
 
 using namespace Engine;
 using namespace DX;

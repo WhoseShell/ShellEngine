@@ -13,51 +13,6 @@
     <ClCompile Include="Common\DeviceResources.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClInclude Include="Content\Sample3DSceneRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\SampleFpsTextRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\ShaderStructures.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClCompile Include="Content\Sample3DSceneRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <ClCompile Include="Content\SampleFpsTextRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <FxCompile Include="Content\SamplePixelShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
-    <FxCompile Include="Content\SampleVertexShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
-    <Image Include="Assets\LockScreenLogo.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\SplashScreen.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Square150x150Logo.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Square44x44Logo.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Wide310x150Logo.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Filter Include="Resource">
-      <UniqueIdentifier>{376f025e-06b0-4be7-a4ae-0e0f30c53326}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pass">
-      <UniqueIdentifier>{350cf596-1adb-4710-b676-6001dbd03cef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{623a36db-2384-4961-98ac-7c1c2e2a22c3}</UniqueIdentifier>
     </Filter>
@@ -67,9 +22,6 @@
     <Filter Include="Game\Controller">
       <UniqueIdentifier>{37017bc9-f0e8-4b53-bf60-671037a4aaa4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer">
-      <UniqueIdentifier>{f8357963-3d75-4ec3-bfb1-5f55280ed356}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>0317185f-c039-4b9a-b6c3-127e3920944c</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
@@ -77,192 +29,260 @@
     <Filter Include="Common">
       <UniqueIdentifier>c1d49136-8211-4be9-a4af-8c09472e48e6</UniqueIdentifier>
     </Filter>
-    <ClInclude Include="Resource\BaseLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Scene\CartoonScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Pass\OpaquePass.h">
-      <Filter>Pass</Filter>
+    <ClInclude Include="ResourceLoad\BaseLoader.h">
+      <Filter>ResourceLoad</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\CartoonRenderer.h">
-      <Filter>Renderer</Filter>
+    <ClInclude Include="ResourceLoad\BasicLoader.h">
+      <Filter>ResourceLoad</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Material.h">
-      <Filter>Game</Filter>
+    <ClInclude Include="ResourceLoad\BasicMath.h">
+      <Filter>ResourceLoad</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Object.h">
-      <Filter>Game</Filter>
+    <ClInclude Include="ResourceLoad\BasicReaderWriter.h">
+      <Filter>ResourceLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoad\BasicShapes.h">
+      <Filter>ResourceLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoad\DDSTextureLoader.h">
+      <Filter>ResourceLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoad\MainLoader.h">
+      <Filter>ResourceLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoad\MeshLoader.h">
+      <Filter>ResourceLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoad\ShaderLoader.h">
+      <Filter>ResourceLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoad\TextureLoader.h">
+      <Filter>ResourceLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Controller\MoveController.h">
+      <Filter>Game\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\State\UserState.h">
+      <Filter>Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Main\App.h">
+      <Filter>Game\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Main\EngineMain.h">
+      <Filter>Game\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Type\Material.h">
+      <Filter>Common\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Type\Object.h">
+      <Filter>Common\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\Renderer\BaseRenderer.h">
+      <Filter>RenderPipeline\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\Renderer\CartoonRenderer.h">
+      <Filter>RenderPipeline\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\Renderer\SampleFpsTextRenderer.h">
+      <Filter>RenderPipeline\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\Pass\BasePass.h">
+      <Filter>RenderPipeline\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\Pass\OpaquePass.h">
+      <Filter>RenderPipeline\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\Pass\ShaderStruct.h">
+      <Filter>RenderPipeline\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ShaderStructures.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Resource\ShaderLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\TextureLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\MeshLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\BasicShapes.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\MainLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Pass\BasePass.cpp">
-      <Filter>Pass</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Scene\BaseScene.cpp">
       <Filter>Game\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\BaseRenderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UserState.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\MoveController.cpp">
-      <Filter>Game\Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\DDSTextureLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\BasicReaderWriter.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\BasicLoader.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource\BaseLoader.cpp">
-      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\CartoonScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Pass\OpaquePass.cpp">
-      <Filter>Pass</Filter>
+    <ClCompile Include="ResourceLoad\BaseLoader.cpp">
+      <Filter>ResourceLoad</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\CartoonRenderer.cpp">
-      <Filter>Renderer</Filter>
+    <ClCompile Include="ResourceLoad\BasicLoader.cpp">
+      <Filter>ResourceLoad</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Material.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="ResourceLoad\BasicReaderWriter.cpp">
+      <Filter>ResourceLoad</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Object.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="ResourceLoad\BasicShapes.cpp">
+      <Filter>ResourceLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoad\DDSTextureLoader.cpp">
+      <Filter>ResourceLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoad\MainLoader.cpp">
+      <Filter>ResourceLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoad\MeshLoader.cpp">
+      <Filter>ResourceLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoad\ShaderLoader.cpp">
+      <Filter>ResourceLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoad\TextureLoader.cpp">
+      <Filter>ResourceLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Controller\MoveController.cpp">
+      <Filter>Game\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\State\UserState.cpp">
+      <Filter>Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Main\App.cpp">
+      <Filter>Game\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Main\EngineMain.cpp">
+      <Filter>Game\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Type\Material.cpp">
+      <Filter>Common\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Type\Object.cpp">
+      <Filter>Common\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\Renderer\BaseRenderer.cpp">
+      <Filter>RenderPipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\Renderer\CartoonRenderer.cpp">
+      <Filter>RenderPipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\Renderer\SampleFpsTextRenderer.cpp">
+      <Filter>RenderPipeline\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\Pass\BasePass.cpp">
+      <Filter>RenderPipeline\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\Pass\OpaquePass.cpp">
+      <Filter>RenderPipeline\Pass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h" />
-    <ClInclude Include="EngineMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Resource\ShaderLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\TextureLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\MeshLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\BasicMath.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\BasicShapes.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\MainLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Pass\BasePass.h">
-      <Filter>Pass</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Scene\BaseScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\BaseRenderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Pass\ShaderStruct.h">
-      <Filter>Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UserState.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\MoveController.h">
-      <Filter>Game\Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\DDSTextureLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\BasicReaderWriter.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\BasicLoader.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\StoreLogo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\floor_section1.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\face_BaseColor.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\cloth.dds">
-      <Filter>Assets</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine_TemporaryKey.pfx" />
-    <None Include="Assets\SphereIndex.bin">
-      <Filter>Assets</Filter>
+    <None Include="Assets\Mesh\cloth.bin">
+      <Filter>Assets\Mesh</Filter>
     </None>
-    <None Include="Assets\Sphere.bin">
-      <Filter>Assets</Filter>
+    <None Include="Assets\Mesh\clothIndex.bin">
+      <Filter>Assets\Mesh</Filter>
     </None>
-    <None Include="Assets\faceIndex.bin">
-      <Filter>Assets</Filter>
+    <None Include="Assets\Mesh\Face.bin">
+      <Filter>Assets\Mesh</Filter>
     </None>
-    <None Include="Assets\Face.bin">
-      <Filter>Assets</Filter>
+    <None Include="Assets\Mesh\faceIndex.bin">
+      <Filter>Assets\Mesh</Filter>
     </None>
-    <None Include="Assets\cloth.bin">
-      <Filter>Assets</Filter>
+    <None Include="Assets\Mesh\Sphere.bin">
+      <Filter>Assets\Mesh</Filter>
     </None>
-    <None Include="Assets\clothIndex.bin">
-      <Filter>Assets</Filter>
+    <None Include="Assets\Mesh\SphereIndex.bin">
+      <Filter>Assets\Mesh</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Content">
-      <UniqueIdentifier>e36da7c9-d6dc-4b31-a4de-d880a93a0993</UniqueIdentifier>
+    <Filter Include="ResourceLoad">
+      <UniqueIdentifier>{376f025e-06b0-4be7-a4ae-0e0f30c53326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\State">
+      <UniqueIdentifier>{eb7401fb-e0cc-4d78-816e-30e0fac3fd3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Main">
+      <UniqueIdentifier>{0d537b9c-1f10-4102-96ca-aa9f4ba6dba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Type">
+      <UniqueIdentifier>{26710a27-6001-40c7-afd3-edf0d0a44e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPipeline">
+      <UniqueIdentifier>{542ece6b-50b0-4867-bb6a-b957ea9d3c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPipeline\Pass">
+      <UniqueIdentifier>{3fccc9c3-4c69-43bd-8147-125cb9c64fb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPipeline\Renderer">
+      <UniqueIdentifier>{cd526ddb-bffd-4e91-8fb9-fc7ccfbd8601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shader">
+      <UniqueIdentifier>{cdd6c6ab-6cba-4ec8-a500-90c33762fa70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Mesh">
+      <UniqueIdentifier>{f6202666-75b2-4a2d-852b-1adec691112c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Texture">
+      <UniqueIdentifier>{99e65847-93ef-4042-8c89-aafe28d3437c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Content\BasicPixelShader.hlsl">
-      <Filter>Content</Filter>
+    <FxCompile Include="Assets\Shader\BasicPixelShader.hlsl">
+      <Filter>Assets\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Content\BasicVertexShader.hlsl">
-      <Filter>Content</Filter>
+    <FxCompile Include="Assets\Shader\BasicVertexShader.hlsl">
+      <Filter>Assets\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Content\CartoonPS.hlsl">
-      <Filter>Content</Filter>
+    <FxCompile Include="Assets\Shader\CartoonPS.hlsl">
+      <Filter>Assets\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Content\CartoonVS.hlsl">
-      <Filter>Content</Filter>
+    <FxCompile Include="Assets\Shader\CartoonVS.hlsl">
+      <Filter>Assets\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Assets\Shader\SamplePixelShader.hlsl">
+      <Filter>Assets\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\SampleVertexShader.hlsl">
+      <Filter>Assets\Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Texture\cloth.dds">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\face_BaseColor.dds">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\floor_section1.dds">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\LockScreenLogo.scale-200.png">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\SplashScreen.scale-200.png">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\Square44x44Logo.scale-200.png">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\Square150x150Logo.scale-200.png">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\StoreLogo.png">
+      <Filter>Assets\Texture</Filter>
+    </Image>
+    <Image Include="Assets\Texture\Wide310x150Logo.scale-200.png">
+      <Filter>Assets\Texture</Filter>
+    </Image>
   </ItemGroup>
 </Project>

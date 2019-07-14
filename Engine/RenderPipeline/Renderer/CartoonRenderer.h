@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseRenderer.h"
-#include "Pass\OpaquePass.h"
+#include "RenderPipeline\Pass\OpaquePass.h"
 
 namespace Engine
 {
