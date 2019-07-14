@@ -15,6 +15,7 @@ struct PSInput
 	float3 normalWS:NORMAL;
 	float2 uv:TEXCOORD0;
 	float3 normalVS:TEXCOORD1;
+	float3 posWS:TEXCOORD2;
 };
 
 PSInput main(VSInput input)
@@ -39,6 +40,7 @@ PSInput main(VSInput input)
 
 	/**********************************************************************/
 	output.uv = input.uv;
+	output.posWS = posWS.xyz;
 
 	return output;
 }

@@ -1,3 +1,5 @@
+#define IS_RENDERING_SKY 1
+
 #include"../../RenderPipeline/ShaderLibrary/Core.hlsli"
 
 struct PixelShaderInput
@@ -12,6 +14,8 @@ float4 main(PixelShaderInput input):SV_Target
 	float4 color = 0.0f;
 
 	color.xyz = MixFog(color, input.posWS);
+
+	color.xyz = input.posWS;
 
 	return color;
 };

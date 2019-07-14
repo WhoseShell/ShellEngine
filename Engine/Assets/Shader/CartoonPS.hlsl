@@ -9,6 +9,7 @@ struct PSInput
 	float3 normalWS:NORMAL;
 	float2 uv:TEXCOORD0;
 	float3 normalVS:TEXCOORD1;
+	float3 posWS:TEXCOORD2;
 };
 
 float4 main(PSInput input):SV_Target
