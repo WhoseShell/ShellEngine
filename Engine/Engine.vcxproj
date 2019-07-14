@@ -331,6 +331,10 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </None>
     <None Include="Engine_TemporaryKey.pfx" />
+    <None Include="RenderPipeline\ShaderLibrary\AtmosphereScattering.hlsli" />
+    <None Include="RenderPipeline\ShaderLibrary\Core.hlsli">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BasicPixelShader.hlsl">

@@ -200,6 +200,12 @@
     <None Include="Assets\Mesh\SphereIndex.bin">
       <Filter>Assets\Mesh</Filter>
     </None>
+    <None Include="RenderPipeline\ShaderLibrary\Core.hlsli">
+      <Filter>RenderPipeline\ShaderLibrary</Filter>
+    </None>
+    <None Include="RenderPipeline\ShaderLibrary\AtmosphereScattering.hlsli">
+      <Filter>RenderPipeline\ShaderLibrary</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ResourceLoad">
@@ -231,6 +237,9 @@
     </Filter>
     <Filter Include="Assets\Texture">
       <UniqueIdentifier>{99e65847-93ef-4042-8c89-aafe28d3437c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPipeline\ShaderLibrary">
+      <UniqueIdentifier>{5262eca0-6af9-4dfd-96e2-f39a01b3b9d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
