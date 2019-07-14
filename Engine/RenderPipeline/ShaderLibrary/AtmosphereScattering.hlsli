@@ -16,6 +16,7 @@ cbuffer AtmosCB : register(b0)
 	float		u_WorldNearScatterPush;
 	float		u_WorldRayleighDensity;
 	float		u_WorldMieDensity;
+	float		u_WorldNormalDistanceRcp;
 	float		raylieHeightDensity;
 
 	float3		u_RayleighColorM20;
@@ -40,6 +41,14 @@ cbuffer AtmosCB : register(b0)
 	//float2		u_RayleighInScatterPct;
 
 };
+
+// Convert rgb to luminance
+// with rgb in linear space with sRGB primaries and D65 white point
+half Luminance(half3 linearRgb)
+{
+	return dot(linearRgb, half3(0.2126729, 0.7151522, 0.0721750));
+}
+
 
 float henyeyGreenstein(float g, float cosTheta) {
 	float gSqr = g * g;
@@ -76,16 +85,18 @@ void ScatterSky(float3 _worldPos, out half4 coords1, out half4 coords2, out half
 	coords2 = c2;
 	coords3 = c3;
 
-
-
 	const float3 worldPos = WorldScale(_worldPos);
 	const float3 worldCamPos = WorldScale(u_CameraPosition.xyz);
 
-	const float3 worldVec = worldPos;
+	const float c_MieScaleHeight = 1200.f;
+	const float worldRayleighDensity = 1.f;
+	const float worldMieDensity = heightDensity(worldPos.y, c_MieScaleHeight);
+
+	const float3 worldVec = worldPos.xyz - worldCamPos.xyz;
 	const float worldVecLen = length(worldVec);
 	const float3 worldDir = worldVec / worldVecLen;
 
-	const float3 worldDirUnscaled = normalize(_worldPos);
+	const float3 worldDirUnscaled = normalize(_worldPos - u_CameraPosition.xyz);
 
 	const float viewSunCos = dot(worldDirUnscaled, u_SunDirection);
 	const float rayleighPh = min(1.f, rayleighPhase(viewSunCos) * 12.f);
@@ -107,23 +118,17 @@ void ScatterSky(float3 _worldPos, out half4 coords1, out half4 coords2, out half
 
 	const float pushedDistance = max(0.f, worldVecLen + u_WorldNearScatterPush);//一段距离内没有雾效
 	const float pushedDensity = /*heightDensity **/ pushedDistance * exp(-worldPos.y / (raylieHeightDensity * 1000.0f));//雾气衰减路径的积分，此处用的简单模型
-
-
-
-	/***********************************************************************************************/
-	float atmosThickness = raylieHeightDensity * 1000.0f;
-	float Tcp = pushedDistance + (atmosThickness / worldPos.y) * exp(-u_WorldRayleighDensity * ((0.5 * worldPos.y + worldCamPos.y) / atmosThickness)) - atmosThickness / worldCamPos.y;
-
-	const float rayleighScatter = Tcp * rayleighPh;
-
-
-	/***********************************************************************************************/
-
+	const float rayleighScatter = (1.f - exp(u_WorldRayleighDensity * pushedDensity)) * rayleighPh;
 #ifdef IS_RENDERING_SKY
 	const float mieScatter = (1.f - exp(u_WorldMieDensity * pushedDistance));
 #else
 	const float mieScatter = (1.f - exp(u_WorldMieDensity * pushedDistance)) * miePh;
 #endif
+
+
+
+	rayleighColor = lerp(Luminance(rayleighColor).rrr, rayleighColor, saturate(pushedDistance * u_WorldNormalDistanceRcp));
+	
 
 	coords1.rgb = rayleighScatter * rayleighColor;
 	coords1.a = rayleighScatter;

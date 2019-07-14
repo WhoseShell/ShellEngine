@@ -18,6 +18,7 @@ struct ScatterConstantBuffer
 	float		u_WorldNearScatterPush;
 	float		u_WorldRayleighDensity;
 	float		u_WorldMieDensity;
+	float		u_WorldNormalDistanceRcp;
 	float		raylieHeightDensity;
 
 	DirectX::XMFLOAT3		u_RayleighColorM20;

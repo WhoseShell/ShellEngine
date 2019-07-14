@@ -95,6 +95,8 @@ void Engine::BaseScene::ResetScatterProperty()
 	m_scatterConstantData->u_WorldNearScatterPush = 20.0f;
 	m_scatterConstantData->u_WorldRayleighDensity = 1.0f;
 	m_scatterConstantData->u_WorldScaleExponent = 1.0f;
+
+	m_scatterConstantData->u_WorldNormalDistanceRcp = 1.0f;
 	
 	m_scatterConstantData->u_MieColorM20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 	m_scatterConstantData->u_MieColorO00 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
