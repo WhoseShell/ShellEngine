@@ -9,5 +9,8 @@ struct PixelShaderInput
 
 float4 main(PixelShaderInput input):SV_Target
 {
-	return 0.5f;
+	float4 color = 0.0f;
+
+	color.xyz = MixFog(color, input.posWS);
+	return color;
 };

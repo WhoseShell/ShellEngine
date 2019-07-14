@@ -70,7 +70,7 @@ float3 WorldScale(float3 p) {
 
 void ScatterSky(float3 _worldPos, out half4 coords1, out half4 coords2, out half4 coords3)
 {
-	half4 c1, c2, c3;
+	half4 c1, c2, c3 = 0;
 	coords1 = c1;
 	coords2 = c2;
 	coords3 = c3;
