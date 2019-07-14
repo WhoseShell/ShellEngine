@@ -12,5 +12,6 @@ float4 main(PixelShaderInput input):SV_Target
 	float4 color = 0.0f;
 
 	color.xyz = MixFog(color, input.posWS);
+
 	return color;
 };

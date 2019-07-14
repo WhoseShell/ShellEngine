@@ -9,18 +9,21 @@ Engine::BaseScene::BaseScene(const std::shared_ptr<DX::DeviceResources>& deviceR
 {
 	m_mainLoader = std::shared_ptr<MainLoader>(new MainLoader(deviceResources->GetD3DDevice()));
 	m_renderData = std::shared_ptr<RenderData>(new RenderData);
-	m_constantData = std::shared_ptr<GlobalConstantData>(new GlobalConstantData);
+	m_globalConstantData = std::shared_ptr<GlobalConstantBuffer>(new GlobalConstantBuffer);
+	m_MVPConstantData = std::shared_ptr<MVPConstantBuffer>(&m_globalConstantData->mvp);
+	m_scatterConstantData = std::shared_ptr<ScatterConstantBuffer>(&m_globalConstantData->scatter);
+	CreateGlobalConstantBuffer();
 }
 
 void Engine::BaseScene::InputUserState(UserState^ ustate)
 {
-	u_state = ustate;
+	m_userState = ustate;
 }
 
 std::shared_ptr<Material> Engine::BaseScene::GetMatByName(std::wstring matName)
 {
 	std::vector<std::shared_ptr<Material>>::iterator it;
-	for (it = materialPool.begin(); it != materialPool.end(); it++)
+	for (it = m_materialPool.begin(); it != m_materialPool.end(); it++)
 	{
 		if ((*it)->name == matName)
 		{
@@ -76,9 +79,58 @@ void Engine::BaseScene::AssembObject(std::shared_ptr<Object>& object, std::wstri
 	}
 	object->material = mat;
 
-	object->constantBuffer = constantBuffer;
+	object->constantBuffer = m_constantBuffer;
 
 	//transform
 	object->transform = transform;
 }
+
+void Engine::BaseScene::ResetScatterProperty()
+{
+	m_scatterConstantData->u_CameraPosition = eye;
+	m_scatterConstantData->raylieHeightDensity = 1.0f;
+	m_scatterConstantData->u_MieColorIntensity = 1.0f;
+
+	m_scatterConstantData->u_WorldMieDensity = 1.0f;
+	m_scatterConstantData->u_WorldNearScatterPush = 20.0f;
+	m_scatterConstantData->u_WorldRayleighDensity = 1.0f;
+	m_scatterConstantData->u_WorldScaleExponent = 1.0f;
+	
+	m_scatterConstantData->u_MieColorM20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_MieColorO00 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_MieColorP20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_MieColorP45 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+
+	m_scatterConstantData->u_RayleighColorM10 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_RayleighColorM20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_RayleighColorO00 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_RayleighColorP10 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_RayleighColorP20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+	m_scatterConstantData->u_RayleighColorP45 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+
+	m_scatterConstantData->u_MiePhaseAnisotropy = 0.5f;
+	m_scatterConstantData->u_SunDirection = DirectX::XMFLOAT3(-0.2f, 0.0f, -0.5f);
+}
+
+void Engine::BaseScene::CreateGlobalConstantBuffer()
+{
+	int bufferSize = 0;
+	for (int i = 0; i < 1000; i++)
+	{
+		if (i * 16 >= sizeof(GlobalConstantBuffer))
+		{
+			bufferSize = i * 16;
+			break;
+		}
+	}
+	CD3D11_BUFFER_DESC constantBufferDesc(bufferSize, D3D11_BIND_CONSTANT_BUFFER);
+	DX::ThrowIfFailed(
+		m_deviceResources->GetD3DDevice()->CreateBuffer(
+			&constantBufferDesc,
+			nullptr,
+			m_constantBuffer.GetAddressOf()
+		)
+	);
+}
+
 

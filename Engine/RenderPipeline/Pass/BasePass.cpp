@@ -11,7 +11,7 @@ BasePass::BasePass(
 	const std::shared_ptr<DX::DeviceResources>& deviceResources,
 	const std::shared_ptr<DX::MainLoader>& mainLoader,
 	const std::shared_ptr<RenderData>& renderData,
-	const std::shared_ptr<GlobalConstantData>& constantData,
+	const std::shared_ptr<GlobalConstantBuffer>& constantData,
 	int passQueue)
 	:
 	m_deviceResources(deviceResources),
@@ -86,4 +86,60 @@ void Engine::BasePass::SetupMatConstantBuffer()
 
 		}
 	}
+}
+
+void Engine::BasePass::SetGlobalConstantBuffer( std::shared_ptr<Object>&  obj)
+{
+	auto context = m_deviceResources->GetD3DDeviceContext();
+	//更新常量缓冲区
+	m_ConstantData->mvp.model = obj->GetTransform4x4();
+	context->UpdateSubresource1(
+		obj->constantBuffer.Get(),
+		0,
+		NULL,
+		&*m_ConstantData,
+		0,
+		0,
+		0
+	);
+
+	// 将常量缓冲区发送到图形设备。
+	context->VSSetConstantBuffers1(
+		0,
+		1,
+		obj->constantBuffer.GetAddressOf(),
+		nullptr,
+		nullptr
+	);
+	context->PSSetConstantBuffers1(
+		0,
+		1,
+		obj->constantBuffer.GetAddressOf(),
+		nullptr,
+		nullptr
+	);
+
+	for (std::vector<std::shared_ptr<MateriaCB>>::iterator matCB = obj->material->matCBs.begin(); matCB != obj->material->matCBs.end(); matCB++)
+	{
+		//创建了CB则绑定到vs/ps
+		if ((*matCB)->hasCreated)
+		{
+			context->VSSetConstantBuffers1(
+				(*matCB)->startSlot,
+				1,
+				(*matCB)->constantBuffer.GetAddressOf(),
+				nullptr,
+				nullptr
+			);
+
+			context->PSSetConstantBuffers1(
+				(*matCB)->startSlot,
+				1,
+				(*matCB)->constantBuffer.GetAddressOf(),
+				nullptr,
+				nullptr
+			);
+		}
+	}
+
 }

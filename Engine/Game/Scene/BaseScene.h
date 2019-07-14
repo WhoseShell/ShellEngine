@@ -17,21 +17,38 @@ namespace Engine
 		void InputUserState(UserState^ ustate);
 
 	protected:
+		///////////////////////////////////////////////////////////////////////////
+		// RenderResource
+
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::shared_ptr<DX::MainLoader> m_mainLoader;
 		std::shared_ptr<RenderData> m_renderData;
-		std::shared_ptr<GlobalConstantData> m_constantData;
-		UserState^  u_state;
 
-		//use in ResourceInit
-		//Microsoft::WRL::ComPtr<ID3D11Buffer>		vertexBuffer;
-		//Microsoft::WRL::ComPtr<ID3D11Buffer>		indexBuffer;
-		//uint32 indexCount;
-		//uint32 vertexCount;
-		//uint32 vertexStride;
-		Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer;
+		///////////////////////////////////////////////////////////////////////////
+		// ConstantBuffer
 
-		std::vector<std::shared_ptr<Material>> materialPool;
+	protected:
+
+		XMFLOAT3 eye;
+		XMFLOAT3 at;
+		XMFLOAT3 up;
+
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
+		std::shared_ptr<GlobalConstantBuffer> m_globalConstantData;
+		std::shared_ptr<MVPConstantBuffer> m_MVPConstantData;
+		std::shared_ptr<ScatterConstantBuffer> m_scatterConstantData;
+
+		void ResetScatterProperty();
+
+	private:
+
+		void CreateGlobalConstantBuffer();
+
+		/////////////////////////////////////////////////////////////////////////////
+		// Mat & Object
+
+	protected:
+		std::vector<std::shared_ptr<Material>> m_materialPool;
 		std::shared_ptr<Material> CreateMaterial(
 			std::wstring matName,
 			std::wstring shaderName,
@@ -49,5 +66,13 @@ namespace Engine
 			std::wstring matName,
 			std::shared_ptr<Transform> transform,
 			int indexCount);
+
+		/////////////////////////////////////////////////////////////////////////////
+		// state
+
+	protected:
+		UserState^  m_userState;
+
+		/////////////////////////////////////////////////////////////////////////////
 	};
 }

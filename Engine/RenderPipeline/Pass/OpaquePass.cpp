@@ -12,7 +12,7 @@ Engine::OpaquePass::OpaquePass(
 	const std::shared_ptr<DX::DeviceResources>& deviceResources,
 	const std::shared_ptr<DX::MainLoader>& mainLoader,
 	const std::shared_ptr<RenderData>& renderData,
-	const std::shared_ptr<GlobalConstantData>& constantData,
+	const std::shared_ptr<GlobalConstantBuffer>& constantData,
 	int passQueue)
 	:
 	BasePass(deviceResources, mainLoader, renderData, constantData, passQueue)
@@ -84,48 +84,7 @@ void Engine::OpaquePass::Execute()
 			0
 		);
 
-		//更新常量缓冲区
-		m_ConstantData->mvp->model = (*it)->GetTransform4x4();
-		context->UpdateSubresource1(
-			(*it)->constantBuffer.Get(),
-			0,
-			NULL,
-			&*m_ConstantData->mvp,
-			0,
-			0,
-			0
-		);
-
-		// 将常量缓冲区发送到图形设备。
-		context->VSSetConstantBuffers1(
-			0,
-			1,
-			(*it)->constantBuffer.GetAddressOf(),
-			nullptr,
-			nullptr
-		);
-		for (std::vector<std::shared_ptr<MateriaCB>>::iterator matCB = (*it)->material->matCBs.begin(); matCB != (*it)->material->matCBs.end(); matCB++)
-		{
-			//创建了CB则绑定到vs/ps
-			if ((*matCB)->hasCreated)
-			{
-				context->VSSetConstantBuffers1(
-					(*matCB)->startSlot,
-					1,
-					(*matCB)->constantBuffer.GetAddressOf(),
-					nullptr,
-					nullptr
-				);
-
-				context->PSSetConstantBuffers1(
-					(*matCB)->startSlot,
-					1,
-					(*matCB)->constantBuffer.GetAddressOf(),
-					nullptr,
-					nullptr
-				);
-			}
-		}
+		SetGlobalConstantBuffer((*it));
 
 		// 附加我们的像素着色器。
 		context->PSSetShader(

@@ -29,11 +29,6 @@ namespace Engine
 		float	m_degreesPerSecond;
 		bool	m_tracking;
 
-		XMFLOAT3 eye;
-		XMFLOAT3 at;
-		XMFLOAT3 up;
-
-		std::shared_ptr<MVPConstantBuffer> m_constantBufferData;
 		std::shared_ptr<TestConstantBuffer> m_testCB0;
 		std::shared_ptr<TestConstantBuffer> m_testCB1;
 		std::shared_ptr<TestConstantBuffer> m_testCB2;

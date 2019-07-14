@@ -3,10 +3,11 @@
 
 cbuffer AtmosCB : register(b0)
 {
-	matrix null1;
-	matrix null2;
-	matrix null3;
-	float null4;
+	matrix model;
+	matrix view;
+	matrix projection;
+
+	float time;
 
 	float3		u_CameraPosition;//相机世界坐标位置
 	float3		u_SunDirection;

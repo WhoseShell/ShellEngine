@@ -11,8 +11,7 @@ Engine::CartoonScene::CartoonScene(const std::shared_ptr<DX::DeviceResources>& d
 	:BaseScene(deviceResources),
 	m_degreesPerSecond(45)
 {
-	m_cartoonRenderer = std::shared_ptr<CartoonRenderer>(new CartoonRenderer(deviceResources, m_mainLoader, m_renderData, m_constantData)); //创建Renderer
-	m_constantBufferData = std::shared_ptr<MVPConstantBuffer>(new MVPConstantBuffer);
+	m_cartoonRenderer = std::shared_ptr<CartoonRenderer>(new CartoonRenderer(deviceResources, m_mainLoader, m_renderData, m_globalConstantData)); //创建Renderer
 	m_testCB0 = std::shared_ptr<TestConstantBuffer>(new TestConstantBuffer);
 	m_testCB1 = std::shared_ptr<TestConstantBuffer>(new TestConstantBuffer);
 	m_testCB2 = std::shared_ptr<TestConstantBuffer>(new TestConstantBuffer);
@@ -44,7 +43,7 @@ void Engine::CartoonScene::CreateWindowSizeDependentResources()
 	XMMATRIX orientationMatrix = DirectX::XMLoadFloat4x4(&orientation);
 
 	DirectX::XMStoreFloat4x4(
-		&(m_constantBufferData->projection),
+		&(m_MVPConstantData->projection),
 		perspectiveMatrix * orientationMatrix
 	);
 
@@ -52,11 +51,13 @@ void Engine::CartoonScene::CreateWindowSizeDependentResources()
 	at = { 0.0f, 0.0f, 1.0f };
 	up = { 0.0f, 1.0f, 0.0f };
 
-	DirectX::XMStoreFloat4x4(&(m_constantBufferData->view), XMMatrixLookAtRH(DirectX::XMLoadFloat3(&eye), DirectX::XMLoadFloat3(&at), DirectX::XMLoadFloat3(&up)));
+	DirectX::XMStoreFloat4x4(&(m_MVPConstantData->view), XMMatrixLookAtRH(DirectX::XMLoadFloat3(&eye), DirectX::XMLoadFloat3(&at), DirectX::XMLoadFloat3(&up)));
 }
 
 void Engine::CartoonScene::Init()
 {
+	CreateWindowSizeDependentResources(); // 更新m_constantBufferData;
+
 #pragma region 装配Object
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -90,11 +91,11 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 	{
 		Rotate(0.01f);
 		//Rotate(0);
-		m_constantBufferData->time = (float)timer.GetTotalSeconds();
+		m_MVPConstantData->time = (float)timer.GetTotalSeconds();
 	}
 	if (m_moveController != nullptr)
 	{
-		m_moveController->MoveCamera(m_constantBufferData->view, u_state, eye, at, up);
+		m_moveController->MoveCamera(m_MVPConstantData->view, m_userState, eye, at, up);
 	}
 
 	//skybox位置跟随相机
@@ -107,6 +108,8 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 	m_testCB0->test.x = 0.0f;
 	m_testCB1->test.x = 0.0f;
 	m_testCB2->test.x = 0.0f;
+
+	ResetScatterProperty();
 }
 
 void Engine::CartoonScene::Render()
@@ -164,20 +167,6 @@ void Engine::CartoonScene::LoadResource()
 
 #pragma endregion
 
-#pragma region 创建ConstantBuffer / 更新装配ConstantData
-
-	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(MVPConstantBuffer) + 12, D3D11_BIND_CONSTANT_BUFFER);
-	DX::ThrowIfFailed(
-		m_deviceResources->GetD3DDevice()->CreateBuffer(
-			&constantBufferDesc,
-			nullptr,
-			constantBuffer.GetAddressOf()
-		)
-	);
-	CreateWindowSizeDependentResources(); // 更新m_constantBufferData;
-	m_constantData->mvp = m_constantBufferData;
-#pragma endregion
-
 #pragma region 加载贴图/shaderResourceView
 
 	m_mainLoader->m_textureLoader->LoadToSRV(L"Assets\\Texture\\face_BaseColor.dds", L"face_BaseColor");
@@ -217,17 +206,17 @@ void Engine::CartoonScene::LoadResource()
 	auto faceMat = CreateMaterial(L"face", L"cartoon", L"OpaquePass", D3D11_CULL_FRONT, 2000);
 	faceMat->SetTexture(m_mainLoader->m_textureLoader->GetByName(L"face_BaseColor")->shaderResourceView);
 	faceMat->SetConstantBuffer(L"Test", &*m_testCB0, sizeof(TestConstantBuffer), 1);
-	materialPool.push_back(faceMat);
+	m_materialPool.push_back(faceMat);
 
 	auto clothMat = CreateMaterial(L"cloth", L"cartoon", L"OpaquePass", D3D11_CULL_FRONT, 2000);
 	clothMat->SetTexture(m_mainLoader->m_textureLoader->GetByName(L"cloth_BaseColor")->shaderResourceView);
 	clothMat->SetConstantBuffer(L"Test", &*m_testCB1, sizeof(TestConstantBuffer), 1);
-	materialPool.push_back(clothMat);
+	m_materialPool.push_back(clothMat);
 
 	auto skyBoxMat = CreateMaterial(L"skyBox", L"skyBox", L"OpaquePass", D3D11_CULL_BACK, 2100);
 	skyBoxMat->SetTexture(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
 	skyBoxMat->SetConstantBuffer(L"Test", &*m_testCB2, sizeof(TestConstantBuffer), 1);
-	materialPool.push_back(skyBoxMat);
+	m_materialPool.push_back(skyBoxMat);
 #pragma endregion
 
 }
