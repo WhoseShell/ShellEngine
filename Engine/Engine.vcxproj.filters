@@ -243,12 +243,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Assets\Shader\BasicPixelShader.hlsl">
-      <Filter>Assets\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Assets\Shader\BasicVertexShader.hlsl">
-      <Filter>Assets\Shader</Filter>
-    </FxCompile>
     <FxCompile Include="Assets\Shader\CartoonPS.hlsl">
       <Filter>Assets\Shader</Filter>
     </FxCompile>

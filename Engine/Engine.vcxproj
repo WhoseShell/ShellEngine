@@ -333,16 +333,11 @@
     <None Include="Engine_TemporaryKey.pfx" />
     <None Include="RenderPipeline\ShaderLibrary\AtmosphereScattering.hlsli" />
     <None Include="RenderPipeline\ShaderLibrary\Core.hlsli">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </DeploymentContent>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Assets\Shader\BasicPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Assets\Shader\BasicVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
     <FxCompile Include="Assets\Shader\CartoonPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>

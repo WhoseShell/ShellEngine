@@ -1,3 +1,4 @@
+#include"../../RenderPipeline/ShaderLibrary/Core.hlsli"
 
 cbuffer ModelViewProjectionConstantBuffer : register(b0)
 {

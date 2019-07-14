@@ -1,3 +1,4 @@
+#include"../../RenderPipeline/ShaderLibrary/Core.hlsli"
 
 Texture2D DiffuseTexture : register(t0);
 SamplerState DiffuseSampler : register(s0);
