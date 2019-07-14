@@ -1,13 +1,5 @@
 #include"../../RenderPipeline/ShaderLibrary/Core.hlsli"
 
-cbuffer ModelViewProjectionConstantBuffer : register(b0)
-{
-	matrix model;
-	matrix view;
-	matrix projection;
-
-	float time;
-};
 
 struct VSInput
 {
