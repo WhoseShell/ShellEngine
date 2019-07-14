@@ -8,3 +8,8 @@ cbuffer ModelViewProjectionConstantBuffer : register(b0)
 
 	float time;
 };
+
+half3 MixFog(half3 fragColor, float3 wsPos)
+{
+	return fragColor;
+};

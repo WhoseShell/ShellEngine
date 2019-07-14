@@ -255,6 +255,12 @@
     <FxCompile Include="Assets\Shader\SampleVertexShader.hlsl">
       <Filter>Assets\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Assets\Shader\ScatterSkyPS.hlsl">
+      <Filter>Assets\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\ScatterSkyVS.hlsl">
+      <Filter>Assets\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Texture\cloth.dds">

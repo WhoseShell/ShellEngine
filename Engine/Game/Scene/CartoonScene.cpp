@@ -159,7 +159,7 @@ void Engine::CartoonScene::LoadResource()
 
 
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SCDesc, ARRAYSIZE(SCDesc), L"diffuse");
-	m_mainLoader->m_shaderLoader->LoadPSandVS(L"SampleVertexShader.cso", L"SamplePixelShader.cso", SphereDesc, ARRAYSIZE(SphereDesc), L"sphereDiffuse");
+	m_mainLoader->m_shaderLoader->LoadPSandVS(L"ScatterSkyVS.cso", L"ScatterSkyPS.cso", SphereDesc, ARRAYSIZE(SphereDesc), L"skyBox");
 	m_mainLoader->m_shaderLoader->LoadPSandVS(L"CartoonVS.cso", L"CartoonPS.cso", CartoonDesc, ARRAYSIZE(CartoonDesc), L"cartoon");
 
 #pragma endregion
@@ -224,7 +224,7 @@ void Engine::CartoonScene::LoadResource()
 	clothMat->SetConstantBuffer(L"Test", &*m_testCB1, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(clothMat);
 
-	auto skyBoxMat = CreateMaterial(L"skyBox", L"sphereDiffuse", L"OpaquePass", D3D11_CULL_BACK, 2100);
+	auto skyBoxMat = CreateMaterial(L"skyBox", L"skyBox", L"OpaquePass", D3D11_CULL_BACK, 2100);
 	skyBoxMat->SetTexture(m_mainLoader->m_textureLoader->GetByName(L"skyBox_BaseColor")->shaderResourceView);
 	skyBoxMat->SetConstantBuffer(L"Test", &*m_testCB2, sizeof(TestConstantBuffer), 1);
 	materialPool.push_back(skyBoxMat);
