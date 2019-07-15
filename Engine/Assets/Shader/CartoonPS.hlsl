@@ -20,5 +20,7 @@ float4 main(PSInput input):SV_Target
 		color = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
+	color.xyz = MixFog(color.xyz, input.posWS.xyz);
+
 	return color;
 }

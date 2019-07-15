@@ -19,27 +19,48 @@ cbuffer AtmosCB : register(b0)
 	float		u_WorldNormalDistanceRcp;
 	float		raylieHeightDensity;
 
-	float3		u_RayleighColorM20;
-	float3		u_RayleighColorM10;
-	float3		u_RayleighColorO00;
-	float3		u_RayleighColorP10;
-	float3		u_RayleighColorP20;
-	float3		u_RayleighColorP45;
+};
 
-	float3		u_MieColorM20;
-	float3		u_MieColorO00;
-	float3		u_MieColorP20;
-	float3		u_MieColorP45;
+float3		u_RayleighColorM20 = 0;
+float3		u_RayleighColorM10 = 0;
+float3		u_RayleighColorMP0 = 0;
+float3		u_RayleighColorP10 = 0;
+float3		u_RayleighColorP20 = 0;
+float3		u_RayleighColorP45 = 0;
 
-	float u_MieColorIntensity;
-	float		u_MiePhaseAnisotropy;
-	//float		u_MieCoeffScale;
-	//float3		u_MieSunTintIntensity;
+float3		u_MieColorM20 = 0;
+float3		u_MieColorMP0 = 0;
+float3		u_MieColorP20 = 0;
+float3		u_MieColorP45 = 0;
 
-	//float		u_RayleighCoeffScale;
-	//float3		u_RayleighSunTintIntensity;
-	//float2		u_RayleighInScatterPct;
+float		u_HeightNormalDistanceRcp = 0;
+float		u_HeightNearScatterPush = 0;
+float		u_HeightRayleighDensity = 0;
+float		u_HeightMieDensity = 0;
+float		u_HeightSeaLevel = 0;
+float3		u_HeightPlaneShift = 0;
+float		u_HeightDistanceRcp = 0;
 
+float		u_RayleighCoeffScale = 0;
+float3		u_RayleighSunTintIntensity = 0;
+float2		u_RayleighInScatterPct = 0;
+
+float		u_MieCoeffScale = 0;
+float3		u_MieSunTintIntensity = 0;
+float		u_MiePhaseAnisotropy = 0;
+float		u_MieColorIntensity = 0;
+
+float		u_HeightExtinctionFactor = 0;
+float		u_RayleighExtinctionFactor = 0;
+float		u_MieExtinctionFactor = 0;
+
+float4		u_HeightRayleighColor = 0;
+
+
+struct ScatterInput {
+	float2 pos;
+	half4 scatterCoords1;
+	half3 scatterCoords2;
 };
 
 // Convert rgb to luminance
@@ -78,12 +99,7 @@ float3 WorldScale(float3 p) {
 	return p;
 };
 
-void ScatterSky(float3 _worldPos, out half4 coords1, out half4 coords2, out half4 coords3)
-{
-	half4 c1, c2, c3 = 0;
-	coords1 = c1;
-	coords2 = c2;
-	coords3 = c3;
+void _VolundTransferScatter(float3 _worldPos, out half4 coords1, out half4 coords2, out half4 coords3) {
 
 	const float3 worldPos = WorldScale(_worldPos);
 	const float3 worldCamPos = WorldScale(u_CameraPosition.xyz);
@@ -108,13 +124,13 @@ void ScatterSky(float3 _worldPos, out half4 coords1, out half4 coords2, out half
 
 	float3 rayleighColor;
 	if (angleY >= angle10) rayleighColor = lerp(u_RayleighColorP10, u_RayleighColorP20, saturate((angleY - angle10) / (angle20 - angle10)));
-	else if (angleY >= 0.f) rayleighColor = lerp(u_RayleighColorO00, u_RayleighColorP10, angleY / angle10);
-	else if (angleY >= -angle10) rayleighColor = lerp(u_RayleighColorM10, u_RayleighColorO00, (angleY + angle10) / angle10);
+	else if (angleY >= 0.f) rayleighColor = lerp(u_RayleighColorMP0, u_RayleighColorP10, angleY / angle10);
+	else if (angleY >= -angle10) rayleighColor = lerp(u_RayleighColorM10, u_RayleighColorMP0, (angleY + angle10) / angle10);
 	else rayleighColor = lerp(u_RayleighColorM20, u_RayleighColorM10, saturate((angleY + angle20) / (angle20 - angle10)));
 
 	float3 mieColor;
-	if (angleY >= 0.f) mieColor = lerp(u_MieColorO00, u_MieColorP20, saturate(angleY / angle20));
-	else mieColor = lerp(u_MieColorM20, u_MieColorO00, saturate((angleY + angle20) / angle20));
+	if (angleY >= 0.f) mieColor = lerp(u_MieColorMP0, u_MieColorP20, saturate(angleY / angle20));
+	else mieColor = lerp(u_MieColorM20, u_MieColorMP0, saturate((angleY + angle20) / angle20));
 
 	const float pushedDistance = max(0.f, worldVecLen + u_WorldNearScatterPush);//一段距离内没有雾效
 	const float pushedDensity = /*heightDensity **/ pushedDistance * exp(-worldPos.y / (raylieHeightDensity * 1000.0f));//雾气衰减路径的积分，此处用的简单模型
@@ -125,77 +141,51 @@ void ScatterSky(float3 _worldPos, out half4 coords1, out half4 coords2, out half
 	const float mieScatter = (1.f - exp(u_WorldMieDensity * pushedDistance)) * miePh;
 #endif
 
-
-
-	rayleighColor = lerp(Luminance(rayleighColor).rrr, rayleighColor, saturate(pushedDistance * u_WorldNormalDistanceRcp));
-	
-
-	coords1.rgb = rayleighScatter * rayleighColor;
-	coords1.a = rayleighScatter;
-
-	coords2.rgb = mieScatter * mieColor * u_MieColorIntensity;
-	coords2.a = mieScatter;
-};
-
-void Scatter(float3 _worldPos, out half4 coords1, out half4 coords2, out half4 coords3)
-{
-	half4 c1, c2, c3 = 0;
-	coords1 = c1;
-	coords2 = c2;
-	coords3 = c3;
-
-
-
-	const float3 worldPos = WorldScale(_worldPos);
-	const float3 worldCamPos = WorldScale(u_CameraPosition.xyz);
-
-	const float3 worldVec = worldPos.xyz - worldCamPos.xyz;
-	const float worldVecLen = length(worldVec);
-	const float3 worldDir = worldVec / worldVecLen;
-
-	const float3 worldDirUnscaled = normalize(_worldPos - u_CameraPosition.xyz);
-
-	const float viewSunCos = dot(worldDirUnscaled, u_SunDirection);
-	const float rayleighPh = min(1.f, rayleighPhase(viewSunCos) * 12.f);
-	const float miePh = miePhase(viewSunCos, u_MiePhaseAnisotropy);
-
-	const float angle20 = 0.324f / 1.5f;
-	const float angle10 = 0.174f / 1.5f;
-	const float angleY = worldDir.y * saturate(worldVecLen / 250.0);
-
-	float3 rayleighColor;
-	if (angleY >= angle10) rayleighColor = lerp(u_RayleighColorP10, u_RayleighColorP20, saturate((angleY - angle10) / (angle20 - angle10)));
-	else if (angleY >= 0.f) rayleighColor = lerp(u_RayleighColorO00, u_RayleighColorP10, angleY / angle10);
-	else if (angleY >= -angle10) rayleighColor = lerp(u_RayleighColorM10, u_RayleighColorO00, (angleY + angle10) / angle10);
-	else rayleighColor = lerp(u_RayleighColorM20, u_RayleighColorM10, saturate((angleY + angle20) / (angle20 - angle10)));
-
-	float3 mieColor;
-	if (angleY >= 0.f) mieColor = lerp(u_MieColorO00, u_MieColorP20, saturate(angleY / angle20));
-	else mieColor = lerp(u_MieColorM20, u_MieColorO00, saturate((angleY + angle20) / angle20));
-
-	const float pushedDistance = max(0.f, worldVecLen + u_WorldNearScatterPush);//一段距离内没有雾效
-	const float pushedDensity = /*heightDensity **/ pushedDistance * exp(-worldPos.y / (raylieHeightDensity * 1000.0f));//雾气衰减路径的积分，此处用的简单模型
-
-
-
-	/***********************************************************************************************/
-	float atmosThickness = raylieHeightDensity * 1000.0f;
-	float Tcp = pushedDistance + (atmosThickness / worldPos.y) * exp(-u_WorldRayleighDensity * ((0.5 * worldPos.y + worldCamPos.y) / atmosThickness)) - atmosThickness / worldCamPos.y;
-
-	const float rayleighScatter = Tcp * rayleighPh;
-
-
-	/***********************************************************************************************/
-
+	const float heightShift = dot(worldVec, u_HeightPlaneShift);
+	const float heightScaledOffset = (worldPos.y - heightShift - /*u_HeightSeaLevel*/0) * u_HeightDistanceRcp;
+	const float heightDensity = exp(-heightScaledOffset);
+	const float pushedHeightDistance = max(0.f, worldVecLen + u_HeightNearScatterPush);
+	const float heightScatter = (1.f - exp(u_HeightRayleighDensity * pushedHeightDistance)) * heightDensity;
 #ifdef IS_RENDERING_SKY
-	const float mieScatter = (1.f - exp(u_WorldMieDensity * pushedDistance));
+	const float heightMieScatter = (1.f - exp(u_HeightMieDensity * pushedHeightDistance)) * heightDensity;
 #else
-	const float mieScatter = (1.f - exp(u_WorldMieDensity * pushedDistance)) * miePh;
+	const float heightMieScatter = (1.f - exp(u_HeightMieDensity * pushedHeightDistance)) * heightDensity * miePh;
 #endif
 
+	rayleighColor = lerp(Luminance(rayleighColor).rrr, rayleighColor, saturate(pushedDistance * u_WorldNormalDistanceRcp));
+	float3 heightRayleighColor = lerp(Luminance(u_HeightRayleighColor.xyz).rrr, u_HeightRayleighColor.xyz, saturate(pushedHeightDistance * u_HeightNormalDistanceRcp));
+
 	coords1.rgb = rayleighScatter * rayleighColor;
 	coords1.a = rayleighScatter;
 
-	coords2.rgb = mieScatter * mieColor * u_MieColorIntensity;
+	coords3.rgb = saturate(heightScatter) * heightRayleighColor;
+	coords3.a = heightScatter;
+
+	coords2.rgb = mieScatter * u_MieColorIntensity + saturate(heightMieScatter) * u_MieColorIntensity;
 	coords2.a = mieScatter;
-};
+}
+
+void VolundTransferScatter(float3 worldPos, out half4 coords1) {
+	half4 c1, c2, c3;
+	_VolundTransferScatter(worldPos, c1, c2, c3);
+
+#ifdef IS_RENDERING_SKY
+	coords1.rgb = c3.rgb;
+	coords1.a = max(0.f, 1.f - c3.a * u_HeightExtinctionFactor);
+#else
+	coords1.rgb = c1.rgb;
+	coords1.rgb += c3.rgb;
+	coords1.a = max(0.f, 1.f - c1.a * u_RayleighExtinctionFactor - c3.a * u_HeightExtinctionFactor);
+#endif
+
+	coords1.rgb += c2.rgb;
+	coords1.a *= max(0.f, 1.f - c2.a * u_MieExtinctionFactor);
+}
+
+half3 VolundApplyScatter(half4 coords1, half2 pos, half3 color) 
+{
+	return color * coords1.a + coords1.rgb;
+}
+
+#define VOLUND_TRANSFER_SCATTER(pos, o) o.scatterCoords1 = pos.xyzz;
+#define VOLUND_APPLY_SCATTER(i, color) VolundTransferScatter(i.scatterCoords1.xyz, i.scatterCoords1); color.xyz = VolundApplyScatter(i.scatterCoords1, i.pos.xy, color.xyz);
