@@ -13,29 +13,6 @@ struct ScatterConstantBuffer
 {
 	DirectX::XMFLOAT3		u_CameraPosition;//相机世界坐标位置
 	DirectX::XMFLOAT3		u_SunDirection;
-
-	float		u_WorldScaleExponent; //世界坐标缩放
-	float		u_WorldNearScatterPush;
-	float		u_WorldRayleighDensity;
-	float		u_WorldMieDensity;
-	float		u_WorldNormalDistanceRcp;
-	float		raylieHeightDensity;
-
-	//DirectX::XMFLOAT3		u_RayleighColorM20;
-	//DirectX::XMFLOAT3		u_RayleighColorM10;
-	//DirectX::XMFLOAT3		u_RayleighColorO00;
-	//DirectX::XMFLOAT3		u_RayleighColorP10;
-	//DirectX::XMFLOAT3		u_RayleighColorP20;
-	//DirectX::XMFLOAT3		u_RayleighColorP45;
-
-	//DirectX::XMFLOAT3		u_MieColorM20;
-	//DirectX::XMFLOAT3		u_MieColorO00;
-	//DirectX::XMFLOAT3		u_MieColorP20;
-	//DirectX::XMFLOAT3		u_MieColorP45;
-
-	//float		u_MieColorIntensity;
-	//float		u_MiePhaseAnisotropy;
-	//float		null;
 };
 
 struct GlobalConstantBuffer

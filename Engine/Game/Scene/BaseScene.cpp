@@ -88,29 +88,6 @@ void Engine::BaseScene::AssembObject(std::shared_ptr<Object>& object, std::wstri
 void Engine::BaseScene::ResetScatterProperty()
 {
 	m_scatterConstantData->u_CameraPosition = eye;
-	m_scatterConstantData->raylieHeightDensity = 1.0f;
-	//m_scatterConstantData->u_MieColorIntensity = 1.0f;
-
-	m_scatterConstantData->u_WorldMieDensity = 1.0f;
-	m_scatterConstantData->u_WorldNearScatterPush = 20.0f;
-	m_scatterConstantData->u_WorldRayleighDensity = 1.0f;
-	m_scatterConstantData->u_WorldScaleExponent = 1.0f;
-
-	m_scatterConstantData->u_WorldNormalDistanceRcp = 1.0f;
-	
-	//m_scatterConstantData->u_MieColorM20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_MieColorO00 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_MieColorP20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_MieColorP45 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-
-	//m_scatterConstantData->u_RayleighColorM10 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_RayleighColorM20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_RayleighColorO00 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_RayleighColorP10 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_RayleighColorP20 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-	//m_scatterConstantData->u_RayleighColorP45 = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-
-	//m_scatterConstantData->u_MiePhaseAnisotropy = 0.5f;
 	m_scatterConstantData->u_SunDirection = DirectX::XMFLOAT3(-0.2f, 0.0f, -0.5f);
 }
 

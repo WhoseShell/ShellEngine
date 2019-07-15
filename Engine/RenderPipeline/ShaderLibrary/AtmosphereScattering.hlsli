@@ -12,49 +12,9 @@ cbuffer AtmosCB : register(b0)
 	float3		u_CameraPosition;//相机世界坐标位置
 	float3		u_SunDirection;
 
-	float		u_WorldScaleExponent; //世界坐标缩放
-	float		u_WorldNearScatterPush;
-	float		u_WorldRayleighDensity;
-	float		u_WorldMieDensity;
-	float		u_WorldNormalDistanceRcp;
-	float		raylieHeightDensity;
-
 };
 
-float3		u_RayleighColorM20 = 0;
-float3		u_RayleighColorM10 = 0;
-float3		u_RayleighColorMP0 = 0;
-float3		u_RayleighColorP10 = 0;
-float3		u_RayleighColorP20 = 0;
-float3		u_RayleighColorP45 = 0;
 
-float3		u_MieColorM20 = 0;
-float3		u_MieColorMP0 = 0;
-float3		u_MieColorP20 = 0;
-float3		u_MieColorP45 = 0;
-
-float		u_HeightNormalDistanceRcp = 0;
-float		u_HeightNearScatterPush = 0;
-float		u_HeightRayleighDensity = 0;
-float		u_HeightMieDensity = 0;
-float		u_HeightSeaLevel = 0;
-float3		u_HeightPlaneShift = 0;
-float		u_HeightDistanceRcp = 0;
-
-float		u_RayleighCoeffScale = 0;
-float3		u_RayleighSunTintIntensity = 0;
-float2		u_RayleighInScatterPct = 0;
-
-float		u_MieCoeffScale = 0;
-float3		u_MieSunTintIntensity = 0;
-float		u_MiePhaseAnisotropy = 0;
-float		u_MieColorIntensity = 0;
-
-float		u_HeightExtinctionFactor = 0;
-float		u_RayleighExtinctionFactor = 0;
-float		u_MieExtinctionFactor = 0;
-
-float4		u_HeightRayleighColor = 0;
 
 
 struct ScatterInput {
@@ -95,11 +55,44 @@ float heightDensity(float h, float H) {
 };
 
 float3 WorldScale(float3 p) {
-	p.xz = sign(p.xz) * pow(abs(p.xz), u_WorldScaleExponent);
+	p.xz = sign(p.xz) * pow(abs(p.xz), 1.0f);
 	return p;
 };
 
 void _VolundTransferScatter(float3 _worldPos, out half4 coords1, out half4 coords2, out half4 coords3) {
+
+	float3		u_RayleighColorM20 = float3(0.758f, 0.612f, 0.377f) * 1.06f;
+	float3		u_RayleighColorM10 = float3(0.758f, 0.612f, 0.377f)* 1.0f;
+	float3		u_RayleighColorMP0 = float3(0.758f, 0.612f, 0.377f)* 1.0f;
+	float3		u_RayleighColorP10 = float3(1.0f, 0.63f, 0.17f)* 1.0f;
+	float3		u_RayleighColorP20 = float3(0.758f, 0.612f, 0.377f)* 1.0f;
+
+	float3		u_MieColorM20 = float3(1.0f, 0.612f, 0.13f);
+	float3		u_MieColorMP0 = float3(1.0f, 0.64f, 0.13f);
+	float3		u_MieColorP20 = float3(1.0f, 0.612f, 0.12f);
+
+	float		u_HeightNormalDistanceRcp = 1.0f / 1000.0f;;
+	float		u_HeightNearScatterPush = 0;
+	float		u_HeightRayleighDensity = -0 / 100000.0f;
+	float		u_HeightMieDensity = 0;
+	float		u_HeightSeaLevel = 0;
+	float3		u_HeightPlaneShift = 0;
+	float		u_HeightDistanceRcp = 1.0f / 50.0f;
+
+	float		u_WorldScaleExponent = 1.0f;
+	float		u_WorldNearScatterPush = 0.0f;
+	float		u_WorldRayleighDensity = -2000.0f / 100000.0f;
+	float		u_WorldMieDensity = -200.9f / 100000.0f;
+	float		u_WorldNormalDistanceRcp = 1.0f / 1000.0f;
+	float		raylieHeightDensity = 1.23f;
+
+	float2		u_RayleighInScatterPct = float2(0.4f, 0.6f);
+
+	float		u_MiePhaseAnisotropy = 0.8f;
+	float		u_MieColorIntensity = 2.0f;
+	float4		u_HeightRayleighColor = float4(0.97f, 0.97f, 0.97f, 1.0f);
+
+
 
 	const float3 worldPos = WorldScale(_worldPos);
 	const float3 worldCamPos = WorldScale(u_CameraPosition.xyz);
@@ -161,13 +154,18 @@ void _VolundTransferScatter(float3 _worldPos, out half4 coords1, out half4 coord
 	coords3.rgb = saturate(heightScatter) * heightRayleighColor;
 	coords3.a = heightScatter;
 
-	coords2.rgb = mieScatter * u_MieColorIntensity + saturate(heightMieScatter) * u_MieColorIntensity;
+	coords2.rgb = (mieScatter+0.05f) * u_MieColorIntensity * mieColor;
 	coords2.a = mieScatter;
 }
 
 void VolundTransferScatter(float3 worldPos, out half4 coords1) {
 	half4 c1, c2, c3;
 	_VolundTransferScatter(worldPos, c1, c2, c3);
+
+
+	float		u_RayleighExtinctionFactor = 1.0f;
+	float		u_HeightExtinctionFactor = 0;
+	float		u_MieExtinctionFactor = 1.0f;
 
 #ifdef IS_RENDERING_SKY
 	coords1.rgb = c3.rgb;
