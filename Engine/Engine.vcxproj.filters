@@ -98,9 +98,6 @@
     <ClInclude Include="RenderPipeline\Pass\ShaderStruct.h">
       <Filter>RenderPipeline\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="Common\ShaderStructures.h">
-      <Filter>Common</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

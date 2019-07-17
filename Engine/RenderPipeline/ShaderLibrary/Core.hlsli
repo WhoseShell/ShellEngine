@@ -1,13 +1,13 @@
 #include"AtmosphereScattering.hlsli"
 
-//cbuffer ModelViewProjectionConstantBuffer : register(b0)
-//{
-//	matrix model;
-//	matrix view;
-//	matrix projection;
-//
-//	float time;
-//};
+cbuffer ModelViewProjectionConstantBuffer : register(b0)
+{
+	matrix model;
+	matrix view;
+	matrix projection;
+
+	float4 time;
+};
 
 
 half3 MixFog(half3 fragColor, float3 wsPos)

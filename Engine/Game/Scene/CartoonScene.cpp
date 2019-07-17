@@ -91,7 +91,7 @@ void Engine::CartoonScene::Update(DX::StepTimer const& timer)
 	{
 		Rotate(0.01f);
 		//Rotate(0);
-		m_MVPConstantData->time = (float)timer.GetTotalSeconds();
+		m_MVPConstantData->time.x = (float)timer.GetTotalSeconds();
 	}
 	if (m_moveController != nullptr)
 	{

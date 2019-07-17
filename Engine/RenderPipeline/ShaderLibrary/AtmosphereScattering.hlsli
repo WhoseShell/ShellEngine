@@ -3,14 +3,46 @@
 
 cbuffer AtmosCB : register(b0)
 {
-	matrix model;
-	matrix view;
-	matrix projection;
+	matrix null0;
+	matrix null1;
+	matrix null2;
 
-	float time;
+	float4 null3;
 
 	float3		u_CameraPosition;//相机世界坐标位置
 	float3		u_SunDirection;
+	float3		u_RayleighColorM20;
+	float3		u_RayleighColorM10;
+	float3		u_RayleighColorMP0;
+	float3		u_RayleighColorP10;
+	float3		u_RayleighColorP20;
+
+	float3		u_MieColorM20;
+	float3		u_MieColorMP0;
+	float3		u_MieColorP20;
+
+	float		u_HeightNormalDistanceRcp;
+	float		u_HeightNearScatterPush;
+	float		u_HeightRayleighDensity;
+	float		u_HeightMieDensity;
+
+	float		u_HeightSeaLevel;
+	float3		u_HeightPlaneShift;
+
+	float		u_HeightDistanceRcp;
+	float		u_WorldScaleExponent;
+	float		u_WorldNearScatterPush;
+	float		u_WorldRayleighDensity;
+
+	float		u_WorldMieDensity;
+	float		u_WorldNormalDistanceRcp;
+	float2		u_RayleighInScatterPct;
+
+	float3		u_HeightRayleighColor;
+
+	float		raylieHeightDensity;
+	float		u_MiePhaseAnisotropy;
+	float		u_MieColorIntensity;
 
 };
 
@@ -61,11 +93,11 @@ float3 WorldScale(float3 p) {
 
 void _VolundTransferScatter(float3 _worldPos, out half4 coords1, out half4 coords2, out half4 coords3) {
 
-	float3		u_RayleighColorM20 = float3(0.758f, 0.612f, 0.377f) * 1.06f;
-	float3		u_RayleighColorM10 = float3(0.758f, 0.612f, 0.377f)* 1.0f;
-	float3		u_RayleighColorMP0 = float3(0.758f, 0.612f, 0.377f)* 1.0f;
-	float3		u_RayleighColorP10 = float3(1.0f, 0.63f, 0.17f)* 1.0f;
-	float3		u_RayleighColorP20 = float3(0.758f, 0.612f, 0.377f)* 1.0f;
+	/*float3		u_RayleighColorM20 = float3(0.758f, 0.612f, 0.377f);
+	float3		u_RayleighColorM10 = float3(0.758f, 0.612f, 0.377f);
+	float3		u_RayleighColorMP0 = float3(0.758f, 0.612f, 0.377f);
+	float3		u_RayleighColorP10 = float3(1.0f, 0.63f, 0.17f);
+	float3		u_RayleighColorP20 = float3(0.758f, 0.612f, 0.377f);*/
 
 	float3		u_MieColorM20 = float3(1.0f, 0.612f, 0.13f);
 	float3		u_MieColorMP0 = float3(1.0f, 0.64f, 0.13f);

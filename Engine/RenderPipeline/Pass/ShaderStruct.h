@@ -6,13 +6,46 @@ struct MVPConstantBuffer
 	DirectX::XMFLOAT4X4 view;
 	DirectX::XMFLOAT4X4 projection;
 
-	float time;
+	DirectX::XMFLOAT4 time;
+
 };
 
 struct ScatterConstantBuffer
 {
-	DirectX::XMFLOAT3		u_CameraPosition;//相机世界坐标位置
-	DirectX::XMFLOAT3		u_SunDirection;
+	DirectX::XMFLOAT4		u_CameraPosition;//相机世界坐标位置
+	DirectX::XMFLOAT4		u_SunDirection;
+	DirectX::XMFLOAT4		u_RayleighColorM20;
+	DirectX::XMFLOAT4		u_RayleighColorM10;
+	DirectX::XMFLOAT4		u_RayleighColorMP0;
+	DirectX::XMFLOAT4		u_RayleighColorP10;
+	DirectX::XMFLOAT4		u_RayleighColorP20;
+
+	DirectX::XMFLOAT4		u_MieColorM20;
+	DirectX::XMFLOAT4		u_MieColorMP0;
+	DirectX::XMFLOAT4		u_MieColorP20;
+
+	float		u_HeightNormalDistanceRcp;
+	float		u_HeightNearScatterPush;
+	float		u_HeightRayleighDensity ;
+	float		u_HeightMieDensity;
+	
+	float		u_HeightSeaLevel ;
+	DirectX::XMFLOAT3		u_HeightPlaneShift;
+	
+	float		u_HeightDistanceRcp;
+	float		u_WorldScaleExponent;
+	float		u_WorldNearScatterPush ;
+	float		u_WorldRayleighDensity;
+	
+	float		u_WorldMieDensity ;
+	float		u_WorldNormalDistanceRcp;
+	DirectX::XMFLOAT2		u_RayleighInScatterPct;
+	
+	DirectX::XMFLOAT4		u_HeightRayleighColor;
+
+	float		raylieHeightDensity;
+	float		u_MiePhaseAnisotropy;
+	float		u_MieColorIntensity;
 };
 
 struct GlobalConstantBuffer

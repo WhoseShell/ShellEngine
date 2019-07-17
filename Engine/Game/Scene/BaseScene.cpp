@@ -87,8 +87,39 @@ void Engine::BaseScene::AssembObject(std::shared_ptr<Object>& object, std::wstri
 
 void Engine::BaseScene::ResetScatterProperty()
 {
-	m_scatterConstantData->u_CameraPosition = eye;
-	m_scatterConstantData->u_SunDirection = DirectX::XMFLOAT3(-0.2f, 0.0f, -0.5f);
+	m_scatterConstantData->u_CameraPosition = DirectX::XMFLOAT4(eye.x, eye.y, eye.z, 1.0f);
+	m_scatterConstantData->u_SunDirection = DirectX::XMFLOAT4(-0.2f, 0.0f, -0.5f, 1.0f);
+	m_scatterConstantData->u_RayleighColorM20 = DirectX::XMFLOAT4(0.758f, 0.612f, 0.377f, 1.0f);
+	m_scatterConstantData->u_RayleighColorM20 = DirectX::XMFLOAT4(0.758f, 0.612f, 0.377f, 1.0f);
+	m_scatterConstantData->u_RayleighColorM10 = DirectX::XMFLOAT4(0.758f, 0.612f, 0.377f, 1.0f);
+	m_scatterConstantData->u_RayleighColorMP0 = DirectX::XMFLOAT4(0.758f, 0.612f, 0.377f, 1.0f);
+	m_scatterConstantData->u_RayleighColorP10 = DirectX::XMFLOAT4(1.0f, 0.63f, 0.17f, 1.0f);
+	m_scatterConstantData->u_RayleighColorP20 = DirectX::XMFLOAT4(0.758f, 0.612f, 0.377f, 1.0f);
+
+	m_scatterConstantData->u_MieColorM20 = DirectX::XMFLOAT4(1.0f, 0.612f, 0.13f, 1.0f);
+	m_scatterConstantData->u_MieColorMP0 = DirectX::XMFLOAT4(1.0f, 0.64f, 0.13f, 1.0f);
+	m_scatterConstantData->u_MieColorP20 = DirectX::XMFLOAT4(1.0f, 0.612f, 0.12f, 1.0f);
+
+	m_scatterConstantData->u_HeightNormalDistanceRcp = 1.0f / 1000.0f;;
+	m_scatterConstantData->u_HeightNearScatterPush = 0;
+	m_scatterConstantData->u_HeightRayleighDensity = -0 / 100000.0f;
+	m_scatterConstantData->u_HeightMieDensity = 0;
+	m_scatterConstantData->u_HeightSeaLevel = 0;
+	m_scatterConstantData->u_HeightPlaneShift = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_scatterConstantData->u_HeightDistanceRcp = 1.0f / 50.0f;
+
+	m_scatterConstantData->u_WorldScaleExponent = 1.0f;
+	m_scatterConstantData->u_WorldNearScatterPush = 0.0f;
+	m_scatterConstantData->u_WorldRayleighDensity = -2000.0f / 100000.0f;
+	m_scatterConstantData->u_WorldMieDensity = -200.9f / 100000.0f;
+	m_scatterConstantData->u_WorldNormalDistanceRcp = 1.0f / 1000.0f;
+	m_scatterConstantData->raylieHeightDensity = 1.23f;
+
+	m_scatterConstantData->u_RayleighInScatterPct = DirectX::XMFLOAT2(0.4f, 0.6f);
+
+	m_scatterConstantData->u_MiePhaseAnisotropy = 0.8f;
+	m_scatterConstantData->u_MieColorIntensity = 2.0f;
+	m_scatterConstantData->u_HeightRayleighColor = DirectX::XMFLOAT4(0.97f, 0.97f, 0.97f, 1.0f);
 }
 
 void Engine::BaseScene::CreateGlobalConstantBuffer()
